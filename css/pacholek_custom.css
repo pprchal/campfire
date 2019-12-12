@@ -1,0 +1,48 @@
+/* metadata */
+* {
+  box-sizing: border-box;
+}
+
+.box {
+  float: right;
+
+  padding-left: 20px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* chord lines */
+.chordLine
+{
+    color: dodgerblue;
+}
+
+.songHeader
+{
+    border-bottom: dotted;
+}
+
+.section
+{
+  padding-bottom: 17px;
+}
+
+.box {
+    float: right;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+.firstLetter:first-letter {
+  font-weight: bold;
+}
+
