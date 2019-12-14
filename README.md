@@ -1,4 +1,4 @@
-# Pacholek - chordpro python reloaded
+# Campfire - chordpro python reloaded
 
 Simple `.cho` typesetting system. Gets file and renders `.html` output.
 This sw should be used only for simple campfire songbook.
@@ -9,7 +9,7 @@ Please, use advanced software if you want to use more features.
 * why not, but some coordinates:
 * `lilypond` doesn't work well with guitar only song and is complicated - and why export to `.mid`?
 * `chordpro` format is the most advanced tool to do this stuff
-* `musescore` - typesetting is perfect, MIDI support is perfect, ... use this
+* `musescore` - typesetting is perfect, MIDI support is perfect, ... use this if you want more features
 
 ## Running
 ### Windows
