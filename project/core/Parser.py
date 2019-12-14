@@ -4,66 +4,41 @@ from project.core.SectionLine import SectionLine
 from project.core.Measure import Measure
 import re
 
-#https://www.chordpro.org/chordpro/ChordPro-Directives.html
-# METADATA
-    # title (short: t)
-    # subtitle (short: st)
-    # artist
-    # composer
-    # lyricist
-    # copyright
-    # album
-    # year
-    # key
-    # time
-    # tempo
-    # duration
-    # capo
-    # meta
+metadata_keys = {
+    'title', 't',
+    'subtitle', 'st'
+    'artist',
+    'composer',
+    'lyricist',
+    'copyright',
+    'album',
+    'year',
+    'key',
+    'time',
+    'tempo',
+    'duration',
+    'capo',
+    'meta',
+}
 
-# Formatting directives
-#     comment (short: c)
-#     comment_italic (short: ci)
-#     comment_box (short: cb)
-#     image
+ignore_keys = {
+    'end_of_verse',
+    'new_song', 'ns'
+}
 
-
-# Environment directives
-# Environment directives always come in pairs, one to start the environment and one to end the environment.
-#     start_of_chorus (short: soc)
-#     end_of_chorus (short: eoc)
-#     chorus
-#     start_of_verse
-#     end_of_verse
-#     start_of_tab (short: sot)
-#     end_of_tab (short: eot)
-#     start_of_grid
-#     end_of_grid
-
-
-# x = re.compile('(\\[([A-Za-z0-9]+)\\])')
-# y = ''
-# for m in x.finditer(ins):
-#     chName = m.groups()[1]
-#     if not chName in chds:
-#         chds.add(chName)
-
-#     s = m.start()
-#     e = m.end()
-#     y = ins[:e]
-#     # print('String match "%s" at %d:%d' % (s1[s:e], s, e))
-
+translate_keys = {
+    'st': 'subtitle',
+    'soc': 'start_of_chorus',
+    't': 'title'
+}
 
 class Parser:
     def __init__(self, choStream):
         self.choStream = choStream
-        self.metaRE = re.compile(r'\{(\w+):\s*([^\}]*)\}', re.UNICODE)
-        self.sectionRE = re.compile('\{(.+)\}', re.UNICODE)
-        self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\s#]+\\])', re.UNICODE)
-        # self.start_of_verse = False
-        # self.start_of_section = False
+        self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/]+)?}', re.UNICODE)
+        self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\\s#]+\\])', re.UNICODE)
 
-    def parseSectionLine(self, line):
+    def parseSectionLine(self, line: str):
         sectionLine = SectionLine()
         n = -1
         for token in self.chordRE.split(line):
@@ -83,38 +58,71 @@ class Parser:
 
         return sectionLine
 
-    def parseSectionOpening(self, line):
-        if line.strip() == '':
-            return ''
 
-        res = self.sectionRE.match(line)
-        if res is not None:
-            return res.group(1)
+    def ignoreLine(self, line: str):
+        return line.startswith("#") or line.strip() == ''
 
-        return None
+
+    def processLine(self, line: str, song: Song, i: int):
+        """
+        main tokenizer
+        """
+        # skip comments and empty lines
+        if self.ignoreLine(line):
+            return
+
+        # handle {key: value} lines
+        matches = self.sectionRE.finditer(line)
+        atLeastOne = False
+        for x, match in enumerate(matches, start=1):
+            atLeastOne = True
+            self.processMatch(match, song, i)
+ 
+        # line within section
+        if not atLeastOne:
+            song.addLineToCurrentSection(self.parseSectionLine(line))
+
+
+    def processMatch(self, match, song: Song, i):
+        key = match.groups()[0]
         
-
-    def processLine(self, line, song):
-        # skip comments
-        if line.startswith("#"):
+        if key in ignore_keys:
+            print('Unsupported block: {' + key + '} at line: ' + str(i))
             return
 
-        # metadata
-        match = self.metaRE.match(line)
-        if match != None:
-            song.addMeta(match.group(1), match.group(2))
-            return
+        if key in translate_keys:
+            key = translate_keys[key]
 
-        sectionName = self.parseSectionOpening(line)
-        if sectionName is not None:
-            song.openNewSection(sectionName)
-            return
+        if len(match.groups()) == 2 and not match.groups()[1] == None:
+            # {key:value}
+            value = match.groups()[1]
+            value = value[1:len(value)].lstrip()
 
-        song.addLineToCurrentSection(self.parseSectionLine(line))
+            isStartBlock, sectionType = self.parseStartBlock(key)
+            if isStartBlock:
+                song.openNewSection(sectionType, value)
+            else:
+                song.addMeta(key, value)
+        else:
+            # {key}
+            if not self.isEndingBlock(key):
+                song.openNewSection(key, key)
+
+    def isEndingBlock(self, strBlock : str):
+        return strBlock.startswith('end_of_')
+
+    def parseStartBlock(self, strBlock : str):
+        if strBlock.startswith('start_of_'):
+            return (True, strBlock[9 : len(strBlock)])
+        return (False, None)
+
 
     def parse(self):
         song = Song()
+        i = 1
         for line in self.choStream:
-            self.processLine(line, song)
+            self.processLine(line, song, i)
+            i = i + 1
         return song
+
 

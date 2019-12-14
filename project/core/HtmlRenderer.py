@@ -1,4 +1,6 @@
 from project.core.Measure import Measure
+from project.core.Section import Section
+from project.core.SectionLine import SectionLine
 
 class HtmlRenderer:
     def __init__(self, song):
@@ -28,7 +30,7 @@ class HtmlRenderer:
         return htmlMetadata + '\t</div>\n\n'
 
 
-    def renderSection(self, section):
+    def renderSection(self, section : Section):
         htmlSection = '<div class="section">\n'
 
         nSectionLine = 0
@@ -45,7 +47,7 @@ class HtmlRenderer:
         return htmlSection + "</div>\n"
 
 
-    def renderLine(self, line, nSectionLine):
+    def renderLine(self, line : SectionLine, nSectionLine):
         """
         render song line (chords + lyrics)
         """
@@ -65,7 +67,7 @@ class HtmlRenderer:
         return (htmlChLine, htmlLyLine, hasChord)
 
 
-    def renderChord(self, chord):
+    def renderChord(self, chord : str):
         """
         render chord - with respect to music notation
         """
@@ -82,7 +84,7 @@ class HtmlRenderer:
         return htmlChord
 
 
-    def renderLyrics(self, lyrics):
+    def renderLyrics(self, lyrics : str):
         """
         render lyrics
         """
@@ -98,7 +100,7 @@ class HtmlRenderer:
         htmlHead = '<head><meta charset=\"utf-8\" /></head>\n'
         htmlHead += '<link rel="stylesheet" href="css/gutenberg.css" >'
         htmlHead += '<link rel="stylesheet" href="css/themes/oldstyle.css">'
-        htmlHead += '<link rel="stylesheet" href="css/pacholek_custom.css" >'
+        htmlHead += '<link rel="stylesheet" href="css/custom.css" >'
         return htmlHead
 
 

@@ -2,6 +2,7 @@ print('__file__={0:<35} | __name__={1:<20} | __package__={2:<20}'.format(__file_
 
 import unittest
 from project.core.Parser import Parser
+from project.core.Song import Song
 from project.core.Measure import Measure
 from project.core.SectionLine import SectionLine
 
@@ -35,34 +36,52 @@ class ParserTests(unittest.TestCase):
         self.assertListEqual(
             [ Measure('Každej tu', 'Ab'), Measure('černou káru', 'G#'), Measure('svou', 'Db')],
             Parser('').parseSectionLine('[Ab]Každej tu[G#]černou káru[Db]svou').measures
-        )        
+        )      
 
-    def test_b(self):
-        doc = Parser('project/test/testFiles/černá kára.cho').parse()
+
+    def test_processLine1(self):
+        s = Song()
+        Parser(None).processLine('{start_of_chorus: Chorus 2} {soc: Chorus 2}', s, 0)
+        self.assertEqual('Chorus 2', s.sections[0].name)
+
+
+    def test_processLine2(self):
+        s = Song()
+        Parser(None).processLine('{start_of_chorus}', s, 0)
+        self.assertEqual('start_of_chorus', s.sections[0].name)
+
+
+    def test_kara(self):
+        fin = open('project/test/testFiles/černá kára.cho', "r", encoding="UTF-8")
+        song = Parser(fin).parse()
+        fin.close()
         self.assertEqual(True, self.compare_dict({
             "title" : "Černá kára",
             "artist" :"Josef Kainar",
             "time": "4/4",
             "tempo": "120"
-        }, doc.metadata))
-        self.assertEqual(3, len(doc.sections))
+        }, song.metadata))
+        self.assertEqual('Refrén', song.sections[1].name)
+        self.assertEqual(4, len(song.sections))
 
-    def test_full_spec(self):
-        n = Parser('project/test/testFiles/full_spec.cho').parse()
-        self.assertEqual(True, self.compare_dict({
-            "title" : "Swing Low Sweet Chariot",
-            "subtitle" :"2nd Movement",
-            "artist": "Leonard Cohen",
-            "composer": "Leonard Cohen",
-            "lyricist": "Leonard Nijgh",
-            "copyright": "year owner",
-            "year": "2016",
-            "key": "C",
-            "time": "4/4",
-            "duration": "268",
-            "capo": "2",
-            "tempo": "120"
-        }, n.metadata))        
+    # def test_full_spec(self):
+    #     fin = open('project/test/testFiles/full_spec.cho', "r", encoding="UTF-8")
+    #     n = Parser(fin).parse()
+    #     fin.close
+    #     self.assertEqual(True, self.compare_dict({
+    #         "title" : "Swing Low Sweet Chariot",
+    #         "subtitle" :"2nd Movement",
+    #         "artist": "Leonard Cohen",
+    #         "composer": "Leonard Cohen",
+    #         "lyricist": "Leonard Nijgh",
+    #         "copyright": "year owner",
+    #         "year": "2016",
+    #         "key": "C",
+    #         "time": "4/4",
+    #         "duration": "268",
+    #         "capo": "2",
+    #         "tempo": "120"
+    #     }, n.metadata))        
 
     def compare_dict(self, dict1, dict2):
         allSame = True

@@ -1,28 +1,22 @@
 from project.core.Section import Section
 
-metadata_shortcuts = {
-    't' : 'title',
-    'st': 'subtitle'
-}
-
 class Song:
     def __init__(self):
         self.metadata = {}
         self.sections = list()
 
     
-    def getMeta(self, name):
+    def getMeta(self, name: str):
         if name in self.metadata:
             return self.metadata.get(name)
         return None
 
-    def addMeta(self, key, value):
-        if key in metadata_shortcuts:
-            key = metadata_shortcuts[key]
+
+    def addMeta(self, key : str, value : str):
         self.metadata[key] = value
 
 
-    def openNewSection(self, name):
+    def openNewSection(self, sectionType : str, name : str):
         if self.isOpenSection():
             previousSection = self.sections[len(self.sections) - 1]
             # fun young cannibals ;) - reuse previous section
@@ -30,16 +24,19 @@ class Song:
                 previousSection.name = name
                 return
 
-        self.sections.append(Section(name))
+        self.sections.append(Section(sectionType, name))
 
-    def addLineToCurrentSection(self, line):
+
+    def addLineToCurrentSection(self, line : str):
         if not self.isOpenSection():
-            self.openNewSection('default')
+            self.openNewSection('verse', '')
 
         self.sections[len(self.sections) - 1].lines.append(line)
 
+
     def isOpenSection(self):
         return len(self.sections) > 0
+
 
     def print(self):
         for x in self.metadata:
