@@ -21,21 +21,27 @@ metadata_keys = {
     'meta',
 }
 
-ignore_keys = {
-    'end_of_verse',
-    'new_song', 'ns'
+unsupported_keys = {
+    'new_song', 'ns',
+    'new_physical_page', 'np',
+    'new_page', 'np'
 }
 
 translate_keys = {
     'st': 'subtitle',
     'soc': 'start_of_chorus',
-    't': 'title'
+    't': 'title',
+
+    'col': 'columns',
+    'g': 'grid',
+    'ng': 'no_grid',
+    'cb': 'column_break'
 }
 
 class Parser:
     def __init__(self, choStream):
         self.choStream = choStream
-        self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/]+)?}', re.UNICODE)
+        self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/%,]+)?}', re.UNICODE)
         self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\\s#]+\\])', re.UNICODE)
 
     def parseSectionLine(self, line: str):
@@ -72,44 +78,38 @@ class Parser:
             return
 
         # handle {key: value} lines
-        matches = self.sectionRE.finditer(line)
-        atLeastOne = False
-        for x, match in enumerate(matches, start=1):
-            atLeastOne = True
+        x = 0
+        for x, match in enumerate(self.sectionRE.finditer(line), start=1):
             self.processMatch(match, song, i)
- 
-        # line within section
-        if not atLeastOne:
+
+        if x == 0: 
+            # line within section
             song.addLineToCurrentSection(self.parseSectionLine(line))
 
 
     def processMatch(self, match, song: Song, i):
         key = match.groups()[0]
         
-        if key in ignore_keys:
-            print('Unsupported block: {' + key + '} at line: ' + str(i))
+        if key in unsupported_keys:
+            print('Unsupported directive: {' + key + '} at line: ' + str(i))
             return
 
         if key in translate_keys:
             key = translate_keys[key]
 
+        value = None
         if len(match.groups()) == 2 and not match.groups()[1] == None:
             # {key:value}
             value = match.groups()[1]
             value = value[1:len(value)].lstrip()
 
-            isStartBlock, sectionType = self.parseStartBlock(key)
-            if isStartBlock:
-                song.openNewSection(sectionType, value)
-            else:
-                song.addMeta(key, value)
+        # value can be None
+        isStartBlock, sectionType = self.parseStartBlock(key)
+        if isStartBlock:
+            song.openNewSection(sectionType, value)
         else:
-            # {key}
-            if not self.isEndingBlock(key):
-                song.openNewSection(key, key)
+            song.addMeta(key, value)
 
-    def isEndingBlock(self, strBlock : str):
-        return strBlock.startswith('end_of_')
 
     def parseStartBlock(self, strBlock : str):
         if strBlock.startswith('start_of_'):

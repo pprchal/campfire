@@ -5,9 +5,9 @@
 
 .box {
   float: right;
-
   padding-left: 20px;
 }
+
 
 .clearfix::after {
   content: "";
@@ -15,20 +15,38 @@
   display: table;
 }
 
+
+.numberBox
+{
+  background-color: lightgray;
+}
+
+.rowPair
+{
+  padding-top: 15px;
+}
+
+/* .rowPair tr {
+  margin: 0;
+  -webkit-column-break-inside: avoid; 
+  page-break-inside: avoid;          
+  break-inside: avoid-column;       
+  display:table;    
+} */
+
+
+
+
 /* chord lines */
 .chordLine
 {
     color: dodgerblue;
+    font-weight: bold;
 }
 
 .songHeader
 {
     border-bottom: dotted;
-}
-
-.section
-{
-  padding-bottom: 17px;
 }
 
 .box {

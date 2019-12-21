@@ -1,15 +1,21 @@
 from project.core.Measure import Measure
+from project.core.BaseRenderer import BaseRenderer
+from project.core.Style import Style
+from project.core.Song import Song
 from project.core.Section import Section
 from project.core.SectionLine import SectionLine
 
-class HtmlRenderer:
-    def __init__(self, song):
-        self.song = song
-        self.chordSymbols = {
-            'b': '&#9837;',
-            '#': '&#9839;'
-        }
-        self.renderMetadataKeys = ('time', 'tempo', 'capo')
+class HtmlRenderer(BaseRenderer):
+    def __init__(self, song: Song, style: Style):
+        super().__init__(song, style)
+
+
+    def renderFraction(self, fraction):
+        """
+        render time fraction (2/3)
+        """
+        split = fraction.split('/')
+        return '<sup>{}</sup>&frasl;<sub>{}</sub>'.format(split[0], split[1])
 
 
     def renderMetadata(self):
@@ -18,36 +24,35 @@ class HtmlRenderer:
         """
         htmlMetadata = '\t<div class="clearfix">\n'
         
-        for key in self.renderMetadataKeys:
+        for key in self.style.renderMetadataKeys:
             value = self.song.getMeta(key)
             if not value == None:
                 if key == 'time':
-                    htmlMetadata += '\t\t<div class="box">{}: {}</div>\n'.format(key, value)
+                    htmlMetadata += '\t\t<div class="box">{} {}</div>\n'.format('takt', self.renderFraction(value))
                 else:
                     htmlMetadata += '\t\t<div class="box">{}</div>\n'.format(value)
-
-
         return htmlMetadata + '\t</div>\n\n'
 
 
     def renderSection(self, section : Section):
-        htmlSection = '<div class="section">\n'
-
+        htmlSection = '<div>\n'
+        htmlSection += '<div class="numberBox">{}</div>'.format(str(section.n + 1))
         nSectionLine = 0
+
         for line in section.lines:
-            htmlSection += '<table>\n'
-            tupl = self.renderLine(line, nSectionLine)
+            htmlSection += '<table class="rowPair">\n'
+            htmlChLine, htmlLyLine, hasChord = self.renderSectionLine(line, nSectionLine, section)
             nSectionLine = nSectionLine + 1
 
-            if tupl[2]:
-                htmlSection += '<tr class="chordLine">{}</tr>\n'.format(tupl[0])
-            htmlSection += '<tr>{}</tr>\n'.format(tupl[1])
+            if hasChord:
+                htmlSection += '<tr class="chordLine">{}</tr>\n'.format(htmlChLine)
+            htmlSection += '<tr>{}</tr>\n'.format(htmlLyLine)
             htmlSection += '</table>\n'
 
-        return htmlSection + "</div>\n"
+        return htmlSection + '</div>\n'
 
 
-    def renderLine(self, line : SectionLine, nSectionLine):
+    def renderSectionLine(self, sectionLine : SectionLine, nSectionLine : int, section : Section):
         """
         render song line (chords + lyrics)
         """
@@ -55,8 +60,9 @@ class HtmlRenderer:
         htmlLyLine = ''
         hasChord = False
         nMeasure = 0
-        for measure in line.measures:
-            isFirst = nMeasure == 0 and nSectionLine == 0
+
+        for measure in sectionLine.measures:
+            isFirst = (nMeasure == 0 and nSectionLine == 0)
             htmlChLine += '<td>{}</td>'.format(self.renderChord(measure.chord))
             htmlLyLine += '<td{}>{}</td>'.format(("", ' class="firstLetter"')[isFirst], self.renderLyrics(measure.lyrics))
 
@@ -106,7 +112,8 @@ class HtmlRenderer:
 
     def renderSongHeader(self):
         htmlSongHeader = '<div class="songHeader">\n'
-        htmlSongHeader += '<h3>{}, {}</h3>\n'.format(self.song.getMeta('title'), self.song.getMeta('artist'))
+        htmlSongHeader += '<h3>{}</h3>\n'.format(self.song.getMeta('title'))
+        htmlSongHeader += '<h4>{}</h4>\n'.format(self.song.getMeta('artist'))
         htmlSongHeader += self.renderMetadata()
 
         htmlSongHeader += '</div>\n'
@@ -122,8 +129,10 @@ class HtmlRenderer:
         if not htmlSongHeader == None:
             htmlSongBlock += htmlSongHeader
 
+        htmlSongBlock += '<div style="column-count: {}; column-width: {}; column-fill: auto;">'.format(self.style.columns, self.style.columnWidth)
         for section in self.song.sections:
             htmlSongBlock += self.renderSection(section)
+        htmlSongBlock += '</div>'
 
         htmlSongBlock += '</div>\n\n'
         return htmlSongBlock

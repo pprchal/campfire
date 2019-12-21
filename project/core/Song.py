@@ -24,7 +24,7 @@ class Song:
                 previousSection.name = name
                 return
 
-        self.sections.append(Section(sectionType, name))
+        self.sections.append(Section(sectionType, name, len(self.sections)))
 
 
     def addLineToCurrentSection(self, line : str):

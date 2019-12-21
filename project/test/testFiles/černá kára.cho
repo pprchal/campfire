@@ -14,10 +14,6 @@ si [H9+]táhne[Em/G]sám
 [C9]žal,[C9]cizíma[Em]ústy
 [Em/G]ještě[C9]nikdo [H9+]nezpí[Em/G]val
 
-{start_of_chorus: Refrén}
-A B A
-{end_of_chorus}
-
 {start_of_verse}
 Tu černou káru tu mám
 stále na patách
@@ -39,3 +35,11 @@ co na tý cestě mám
 Ať jako blues
 tě na svých ústech vyzpívám
 {end_of_verse}
+
+
+{columns: 3}
+{columnWidth: 100px}
+
+## my extensions
+{render_metadata_keys: time,tempo,capo}
+{render_section_numbers}

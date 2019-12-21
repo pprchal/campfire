@@ -7,12 +7,12 @@ from project.core.SectionLine import SectionLine
 
 class HtmlRendererTests(unittest.TestCase):
     def test_simple(self):
-        self.assertEqual('C', HtmlRenderer(None).renderChord('C'))
-        self.assertEqual('Dm', HtmlRenderer(None).renderChord('Dm'))
+        self.assertEqual('C', HtmlRenderer(None, None).renderChord('C'))
+        self.assertEqual('Dm', HtmlRenderer(None, None).renderChord('Dm'))
 
     def test_flat(self):
-        self.assertEqual('D&#9837;', HtmlRenderer(None).renderChord('Db'))
-        self.assertEqual('Fm7&#9839;', HtmlRenderer(None).renderChord('Fm7#'))
+        self.assertEqual('D&#9837;', HtmlRenderer(None, None).renderChord('Db'))
+        self.assertEqual('Fm7&#9839;', HtmlRenderer(None, None).renderChord('Fm7#'))
 
 if __name__ == '__main__':
     unittest.main()
