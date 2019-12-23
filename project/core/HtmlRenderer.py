@@ -62,9 +62,8 @@ class HtmlRenderer(BaseRenderer):
         nMeasure = 0
 
         for measure in sectionLine.measures:
-            isFirst = (nMeasure == 0 and nSectionLine == 0)
             htmlChLine += '<td>{}</td>'.format(self.renderChord(measure.chord))
-            htmlLyLine += '<td{}>{}</td>'.format(("", ' class="firstLetter"')[isFirst], self.renderLyrics(measure.lyrics))
+            htmlLyLine += '<td>{}</td>'.format(self.renderLyrics(measure.lyrics))
 
             if not measure.chord == '':
                 hasChord = True
@@ -129,7 +128,7 @@ class HtmlRenderer(BaseRenderer):
         if not htmlSongHeader == None:
             htmlSongBlock += htmlSongHeader
 
-        htmlSongBlock += '<div style="column-count: {}; column-width: {}; column-fill: auto;">'.format(self.style.columns, self.style.columnWidth)
+        htmlSongBlock += '<div style="column-count: {}; column-width: {};">'.format(self.style.columns, self.style.columnWidth)
         for section in self.song.sections:
             htmlSongBlock += self.renderSection(section)
         htmlSongBlock += '</div>'

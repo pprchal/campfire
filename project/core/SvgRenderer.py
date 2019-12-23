@@ -1,6 +1,10 @@
 chords = {"C": "x32010", "A":"x02220", "G": "320033", "E": "022100", "D": "xx0232", "F": "x3321x", "Am": "x02210", "Dm": "xx0231", "Em": "022000"}
 
 
+"""
+experimental !!!!!!!!!!!!
+"""
+
 def drawCircle(x, y, radius):
     return "<circle cx=\"{0}\" cy=\"{1}\" r=\"{2}\" stroke=\"black\" stroke-width=\"4\" />\n".format(x, y, radius)
 
