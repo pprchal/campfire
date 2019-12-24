@@ -110,6 +110,9 @@ class HtmlRenderer(BaseRenderer):
 
 
     def renderSongHeader(self):
+        """
+        author + song name
+        """
         htmlSongHeader = '<div class="songHeader">\n'
         htmlSongHeader += '<h3>{}</h3>\n'.format(self.song.getMeta('title'))
         htmlSongHeader += '<h4>{}</h4>\n'.format(self.song.getMeta('artist'))

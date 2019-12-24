@@ -16,6 +16,25 @@ class Song:
         self.metadata[key] = value
 
 
+    def reuseSection(self, sectionType, sectionName):
+        section = self.findSectionByTypeAndName(sectionType, sectionName)
+        if not section == None:
+            self.sections.append(section)
+        return section
+
+
+    def findSectionByTypeAndName(self, sectionType, sectionName):
+        for section in self.sections:
+            a = section.sectionType == sectionType
+            b = True
+            if not sectionName == None:
+                b = section.name == sectionName
+            if a and b:
+                return section
+
+        return None
+
+
     def openNewSection(self, sectionType : str, name : str):
         if self.isOpenSection():
             previousSection = self.sections[len(self.sections) - 1]

@@ -3,6 +3,7 @@
 {time: 4/4}
 {tempo: 120}
 
+{start_of_verse}
 [H7]Každej tu[Em/G]černou káru[C9]svou
 si [H9+]táhne[Em/G]sám
 [C9 / H9+]Kdo může [Em]znát tu[Hmi7]píseň
@@ -13,6 +14,13 @@ si [H9+]táhne[Em/G]sám
 [G7]cizí[C9]žal,[C9]cizí 
 [C9]žal,[C9]cizíma[Em]ústy
 [Em/G]ještě[C9]nikdo [H9+]nezpí[Em/G]val
+{end_of_verse}
+
+{start_of_chorus}
+[H7]Každej tu[Em/G]černou káru[C9]svou
+si [H9+]táhne[Em/G]sám
+{end_of_chorus}
+
 
 {start_of_verse}
 Tu černou káru tu mám
@@ -35,6 +43,9 @@ co na tý cestě mám
 Ať jako blues
 tě na svých ústech vyzpívám
 {end_of_verse}
+
+
+{chorus}
 
 
 {columns: 3}

@@ -24,7 +24,12 @@ metadata_keys = {
 unsupported_keys = {
     'new_song', 'ns',
     'new_physical_page', 'np',
-    'new_page', 'np'
+    'new_page', 'np',
+    'comment',
+    'comment_italic',
+    'comment_box',
+    'highlight',
+    'image'
 }
 
 translate_keys = {
@@ -108,8 +113,13 @@ class Parser:
         if isStartBlock:
             song.openNewSection(sectionType, value)
         else:
-            song.addMeta(key, value)
+            if self.isReuseBlock(key):
+                song.reuseSection(key, value)
+            else:                
+                song.addMeta(key, value)
 
+    def isReuseBlock(self, key):
+        return key == 'chorus'
 
     def parseStartBlock(self, strBlock : str):
         if strBlock.startswith('start_of_'):
