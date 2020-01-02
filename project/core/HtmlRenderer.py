@@ -8,6 +8,10 @@ from project.core.SectionLine import SectionLine
 class HtmlRenderer(BaseRenderer):
     def __init__(self, song: Song, style: Style):
         super().__init__(song, style)
+        self.chordSymbols = {
+            'b': '&#9837;',
+            '#': '&#9839;'
+        }
 
 
     def renderFraction(self, fraction):
@@ -35,8 +39,11 @@ class HtmlRenderer(BaseRenderer):
 
 
     def renderSection(self, section : Section):
+        """
+        render single section
+        """
         htmlSection = '<div>\n'
-        htmlSection += '<div class="numberBox">{}</div>'.format(str(section.n + 1))
+        htmlSection += '<p class="numberBox">{}</p>'.format(section.getSectionTitle())
         nSectionLine = 0
 
         for line in section.lines:
@@ -103,8 +110,6 @@ class HtmlRenderer(BaseRenderer):
         links stylesheets and so...
         """
         htmlHead = '<head><meta charset=\"utf-8\" /></head>\n'
-        htmlHead += '<link rel="stylesheet" href="css/gutenberg.css" >'
-        htmlHead += '<link rel="stylesheet" href="css/themes/oldstyle.css">'
         htmlHead += '<link rel="stylesheet" href="css/custom.css" >'
         return htmlHead
 
@@ -127,10 +132,7 @@ class HtmlRenderer(BaseRenderer):
         render song in one reusable html block 
         """
         htmlSongBlock = '<div>\n'
-        htmlSongHeader = self.renderSongHeader()
-        if not htmlSongHeader == None:
-            htmlSongBlock += htmlSongHeader
-
+        htmlSongBlock += self.renderSongHeader()
         htmlSongBlock += '<div style="column-count: {}; column-width: {};">'.format(self.style.columns, self.style.columnWidth)
         for section in self.song.sections:
             htmlSongBlock += self.renderSection(section)

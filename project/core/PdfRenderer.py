@@ -1,154 +1,199 @@
-# from project.core.Measure import Measure
-# from project.core.Style import Style
-# from project.core.Song import Song
-# from project.core.Section import Section
-# from project.core.SectionLine import SectionLine
-
-# from __future__ import print_function
-# from pypdf.pdf import PdfFileWriter, PdfFileReader
-
-# class PdfRenderer:
-#     def __init__(self, song: Song, style: Style):
-#         super().__init__(song, style)
+from project.core.Measure import Measure
+from project.core.BaseRenderer import BaseRenderer
+from project.core.Style import Style
+from project.core.Song import Song
+from project.core.Section import Section
+from project.core.SectionLine import SectionLine
+from fpdf import FPDF
 
 
-#     def renderFraction(self, fraction):
-#         """
-#         render time fraction (2/3)
-#         """
-#         split = fraction.split('/')
-#         return '<sup>{}</sup>&frasl;<sub>{}</sub>'.format(split[0], split[1])
+class PdfRenderer(BaseRenderer):
+    def __init__(self, song: Song, style: Style):
+        super().__init__(song, style)
+        self.pdf = None
+        self.currentY = 0
+        self.chordSymbols = {
+            'b': '♭',
+            '#': '♯'
+        }
+        self.upperNumbers = {
+            '0': '⁰',
+            '1': '¹',
+            '2': '²',
+            '3': '³',
+            '4': '⁴',
+            '5': '⁵',
+            '6': '⁶',
+            '7': '⁷',
+            '8': '⁸',
+            '9': '⁹',
+        }
+        self.lowerNumbers = {
+            '0': '₀',
+            '1': '₁',
+            '2': '₂',
+            '3': '₃',
+            '4': '₄',
+            '5': '₅',
+            '6': '₆',
+            '7': '₇',
+            '8': '₈',
+            '9': '₉',
+        }
+
+    def openPdf(self):
+        self.pdf = FPDF('L')
+        self.pdf.set_line_width(0.2)
+        self.pdf.add_font('FreeSerif', '', "c:\\Data\\campfire\\freefont-20120503\\FreeSerif.ttf", uni=True)
+        self.pdf.add_font('FreeSerifBold', '', "c:\\Data\\campfire\\freefont-20120503\\FreeSerifBold.ttf", uni=True)
 
 
-#     def renderMetadata(self):
-#         """
-#         render some metadata as floating line
-#         """
-#         htmlMetadata = '\t<div class="clearfix">\n'
+    def renderChord(self, chord : str):
+        """
+        render chord - with respect to music notation
+        """
+        if chord == '':
+            return ''
+
+        pdfChord = ''
+        for c in chord:
+            if c in self.chordSymbols:
+                pdfChord += self.chordSymbols[c]
+            else:
+                pdfChord += c
+
+        return pdfChord
+
+
+    def renderFraction(self, fraction):
+        """
+        render time fraction (2/3)
+        """
+        split = fraction.split('/')
+        uppers = ''
+        for upper in split[0]:
+            uppers += self.upperNumbers[upper]
+
+        lowers = ''
+        for lower in split[1]:
+            lowers += self.lowerNumbers[lower]
+
+        return '{}⁄{}'.format(uppers, lowers)
+
+
+    def renderMetadata(self):
+        """
+        render some metadata as floating line
+        """
+        self.pdf.set_text_color(0, 0, 0)
+        metadataRow = ''
+        for key in self.style.renderMetadataKeys:
+            value = self.song.getMeta(key)
+            if not value == None:
+                if key == 'time':
+                    metadataRow =  metadataRow + '{}: {}  '.format(key, self.renderFraction(value))
+                else:
+                    metadataRow =  metadataRow + '{}: {}  '.format(key, value)
+
+        if not metadataRow == '':
+            self.pdf.set_font("freeserif", "", 8)
+            self.pdf.cell(0, self.currentY, txt=metadataRow, ln=1, align="R")
+            self.pdf.line(10, self.currentY, self.style.pageWidth, self.currentY)
+
+            self.currentY = self.pdf.y
         
-#         for key in self.style.renderMetadataKeys:
-#             value = self.song.getMeta(key)
-#             if not value == None:
-#                 if key == 'time':
-#                     htmlMetadata += '\t\t<div class="box">{} {}</div>\n'.format('takt', self.renderFraction(value))
-#                 else:
-#                     htmlMetadata += '\t\t<div class="box">{}</div>\n'.format(value)
-#         return htmlMetadata + '\t</div>\n\n'
+    
+    def renderSongHeader(self):
+        """
+        author + song name
+        """
+        self.pdf.set_text_color(255, 0, 0)
+        self.pdf.set_font("freeserif", "", 24)
+        title = self.song.getMeta('title')
+        if not title == None:
+            self.pdf.cell(0, self.currentY, txt=title, ln=1, align="C")
+            self.currentY = self.pdf.y
+
+        artist = self.song.getMeta('artist')
+        if not artist == None:
+            self.pdf.set_font("freeserif", "", 17)
+            self.pdf.cell(0, self.currentY + 2, txt=artist, ln=1, align="C")
+            self.currentY = self.pdf.y
+
+        # custom metadata (time: 3/4,....)
+        self.renderMetadata()
+
+        # self.pdf.set_draw_color(0, 0, 0)
+        # self.pdf.line(10, self.currentY, self.style.pageWidth, self.currentY)
 
 
-#     def renderSection(self, section : Section):
-#         htmlSection = ''
-#         nSectionLine = 0
-
-#         for line in section.lines:
-#             htmlSection += '<table>\n'
-#             htmlChLine, htmlLyLine, hasChord = self.renderSectionLine(line, nSectionLine, section)
-#             nSectionLine = nSectionLine + 1
-
-#             if hasChord:
-#                 htmlSection += '<tr class="chordLine">{}</tr>\n'.format(htmlChLine)
-#             htmlSection += '<tr>{}</tr>\n'.format(htmlLyLine)
-#             htmlSection += '</table>\n'
-
-#         return htmlSection
+    def renderSectionTitle(self, section: Section):
+        self.pdf.set_text_color(0, 0, 0)
+        self.pdf.set_font("freeserif", "", 18)
+        self.pdf.cell(0, 10, txt=section.getSectionTitle(), ln=1)
+        self.currentY = self.currentY + 18
 
 
-#     def renderSectionLine(self, sectionLine : SectionLine, nSectionLine : int, section : Section):
-#         """
-#         render song line (chords + lyrics)
-#         """
-#         htmlChLine = ''
-#         htmlLyLine = ''
-#         hasChord = False
-#         nMeasure = 0
+    def renderSection(self, section : Section):
+        """
+        render single section
+        """
+        self.renderSectionTitle(section) # sloka 1, ref: 1
+        # htmlSection += '<p class="numberBox">{}</p>'.format(section.getSectionTitle())
+        nSectionLine = 0
 
-#         for measure in sectionLine.measures:
-#             isFirst = (nMeasure == 0 and nSectionLine == 0)
-#             htmlChLine += '<td>{}</td>'.format(self.renderChord(measure.chord))
-#             htmlLyLine += '<td{}>{}</td>'.format(("", ' class="firstLetter"')[isFirst], self.renderLyrics(measure.lyrics))
+        for line in section.lines:
+            # htmlSection += '<table class="rowPair">\n'
+            htmlChLine, htmlLyLine, hasChord = self.renderSectionLine(line, nSectionLine, section)
+            nSectionLine = nSectionLine + 1
 
-#             if not measure.chord == '':
-#                 hasChord = True
-#             nMeasure = nMeasure + 1
-
-#         return (htmlChLine, htmlLyLine, hasChord)
+            # if hasChord:
+            #     tmlSection += '<tr class="chordLine">{}</tr>\n'.format(htmlChLine)
+            # htmlSection += '<tr>{}</tr>\n'.format(htmlLyLine)
+            # htmlSection += '</table>\n'
 
 
-#     def renderChord(self, chord : str):
-#         """
-#         render chord - with respect to music notation
-#         """
-#         if chord == '':
-#             return '&nbsp;'
-
-#         htmlChord = ''
-#         for c in chord:
-#             if c in self.chordSymbols:
-#                 htmlChord += self.chordSymbols[c]
-#             else:
-#                 htmlChord += c
-
-#         return htmlChord
+    def renderLyrics(self, lyrics : str):
+        """
+        render lyrics
+        """
+        if lyrics == '':
+            return ''
+        return lyrics
 
 
-#     def renderLyrics(self, lyrics : str):
-#         """
-#         render lyrics
-#         """
-#         if lyrics == '':
-#             return '&nbsp;'
-#         return lyrics
+
+    def renderSectionLine(self, sectionLine : SectionLine, nSectionLine : int, section : Section):
+        """
+        render song line (chords + lyrics)
+        """
+        htmlChLine = ''
+        htmlLyLine = ''
+        hasChord = False
+        nMeasure = 0
+
+        for measure in sectionLine.measures:
+            htmlChLine += '<td>{}</td>'.format(self.renderChord(measure.chord))
+            htmlLyLine += '<td>{}</td>'.format(self.renderLyrics(measure.lyrics))
+
+            if not measure.chord == '':
+                hasChord = True
+            nMeasure = nMeasure + 1
+
+        return (htmlChLine, htmlLyLine, hasChord)
 
 
-#     def renderFullHtmlHead(self):
-#         """ 
-#         links stylesheets and so...
-#         """
-#         htmlHead = '<head><meta charset=\"utf-8\" /></head>\n'
-#         htmlHead += '<link rel="stylesheet" href="css/gutenberg.css" >'
-#         htmlHead += '<link rel="stylesheet" href="css/themes/oldstyle.css">'
-#         htmlHead += '<link rel="stylesheet" href="css/custom.css" >'
-#         return htmlHead
 
+    def renderSong(self):
+        """
+        render song in one reusable html block 
+        """
+        self.openPdf()
+        self.pdf.add_page()
+        self.renderSongHeader()
 
-#     def renderSongHeader(self):
-#         htmlSongHeader = '<div class="songHeader">\n'
-#         htmlSongHeader += '<h3>{}</h3>\n'.format(self.song.getMeta('title'))
-#         htmlSongHeader += '<h4>{}</h4>\n'.format(self.song.getMeta('artist'))
-#         htmlSongHeader += self.renderMetadata()
-
-#         htmlSongHeader += '</div>\n'
-#         return htmlSongHeader
-
-
-#     def renderSongAsHtmlBlock(self):
-#         """
-#         render song in one reusable html block 
-#         """
-#         htmlSongBlock = '<div>\n'
-#         htmlSongHeader = self.renderSongHeader()
-#         if not htmlSongHeader == None:
-#             htmlSongBlock += htmlSongHeader
-
-#         htmlSongBlock += '<div style="column-count: {}; column-width: {}; column-fill: auto;">'.format(self.style.columns, self.style.columnWidth)
-#         for section in self.song.sections:
-#             htmlSongBlock += self.renderSection(section)
-#         htmlSongBlock += '</div>'
-
-#         htmlSongBlock += '</div>\n\n'
-#         return htmlSongBlock
-
-
-#     def renderSongAsFullHtml(self):
-#         """
-#         render song as one html page
-#         """
-#         htmlSong = '<!DOCTYPE html>\n<html>\n'
-#         htmlSong += self.renderFullHtmlHead()
-#         htmlSong += '<body>\n'
-#         htmlSong += self.renderSongAsHtmlBlock()
-#         htmlSong += '</body>\n</html>'
-#         return htmlSong
-
+        for section in self.song.sections:
+            self.renderSection(section)
+        self.pdf.output("name.pdf")
 
 

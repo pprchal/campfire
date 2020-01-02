@@ -1,6 +1,6 @@
 # Campfire - chordpro python reloaded
 
-Simple `.cho` typesetting system. Gets file and renders `.html` output.
+Simple `.cho` typesetting system. Gets file and renders `.html / .pdf` output.
 This sw should be used only for simple campfire songbook.
 
 ## Why another system?
@@ -30,3 +30,9 @@ python -m unittest discover -s tests
 * Test, only test
 * But - brython helps me out to run on browser
 * And I'm able to create `.exe` file
+
+
+## Developing
+
+### Requirements
+* `python -m pip install fpdf`

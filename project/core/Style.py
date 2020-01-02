@@ -8,6 +8,7 @@ class Style:
         self.columns = 1
         self.columnWidth = '100px'
         self.renderMetadataKeys = ('time', 'tempo', 'capo')
+        self.pageWidth = 285
 
 
     def updateFrom(self, song : Song):

@@ -561,3 +561,89 @@ acronym[title].no-reformat:after {
 .no-reformat acronym:after,
 .no-reformat a:after {
   content: ''; }
+
+
+
+
+
+
+  body {
+    font-family: Georgia, "Times New Roman", Times, serif;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Crimson Text', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif; text-align: center; }
+  
+    @media print {
+      .widows {
+        widows:2;
+      }
+    }
+  
+  /* metadata */
+  * {
+    box-sizing: border-box;
+  }
+  
+  .box {
+    float: right;
+    padding-left: 20px;
+  }
+  
+  
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  
+  .numberBox
+  {
+    background-color: lightgray;
+  }
+  
+  .rowPair
+  {
+    padding-top: 15px;
+  }
+  
+  .rowPair tr {
+    -webkit-column-break-inside: avoid; 
+    page-break-inside: avoid;          
+    break-inside: avoid-column;       
+  }
+  
+  
+  h3{
+    text-transform: uppercase;
+  }
+  
+  /* chord lines */
+  .chordLine
+  {
+      color: dodgerblue;
+      font-weight: bold;
+  }
+  
+  .songHeader
+  {
+      border-bottom: solid 1px black;
+      border-top : solid 1px black;
+  }
+  
+  .box {
+      float: right;
+  }
+  
+  .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+  }
+  

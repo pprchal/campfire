@@ -5,10 +5,6 @@ from project.core.Style import Style
 class BaseRenderer:
     def __init__(self, song: Song, style: Style):
         self.song = song
-        self.chordSymbols = {
-            'b': '&#9837;',
-            '#': '&#9839;'
-        }
         self.style = style
 
         
