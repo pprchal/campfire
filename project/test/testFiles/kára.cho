@@ -1,0 +1,28 @@
+{title:Černá kára}
+{artist:Josef Kainar}
+{time: 4/4}
+{tempo: 120}
+
+{columns: 2}
+
+## ##########################################################################################
+## my extensions
+{render_metadata_keys: time,tempo}
+{render_section_numbers}
+## ##########################################################################################
+
+
+{start_of_verse}
+[H7]Každej tu[Em/G]černou káru[C9]svou
+si [H9+]táhne[Em/G]sám
+[C9 / H9+]Kdo může [Em]znát tu[Hmi7]píseň
+[Em7]co já v[Ebdim7]sobě[G]mám,
+[]v sobě[H7]mám
+[]Můžeš si[Em]půjčit [Hm7]klobouk
+[Em7]nepůjčí[Hm7]š si[G7]nikdy
+[]cizí[C9]žal,[]cizí 
+[]žal,[]cizíma[Em]ústy
+[Em/G]ještě[C9]nikdo [H9+]nezpí[Em/G]val
+{end_of_verse}
+
+

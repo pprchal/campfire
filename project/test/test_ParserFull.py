@@ -17,8 +17,7 @@ class ParserFullTests(unittest.TestCase):
             "time": "4/4",
             "tempo": "120"
         }, song.metadata))
-        # self.assertEqual('Refrén', song.sections[1].name)
-        self.assertEqual(3, len(song.sections))
+        self.assertEqual(5, len(song.sections))
 
     def test_full_spec(self):
         fin = open('project/test/testFiles/full_spec.cho', "r", encoding="UTF-8")

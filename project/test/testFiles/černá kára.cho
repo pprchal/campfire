@@ -1,4 +1,4 @@
-{title:Černá fikára}
+{title:Černá kára}
 {artist:Josef Kainar}
 {time: 4/4}
 {tempo: 120}
@@ -48,8 +48,7 @@ tě na svých ústech vyzpívám
 {chorus}
 
 
-{columns: 3}
-{columnWidth: 100px}
+{columns: 2}
 
 ## my extensions
 {render_metadata_keys: time,tempo,capo}

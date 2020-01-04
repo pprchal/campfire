@@ -47,7 +47,7 @@ class Parser:
     def __init__(self, choStream):
         self.choStream = choStream
         self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/%,]+)?}', re.UNICODE)
-        self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\\s#]+\\])', re.UNICODE)
+        self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\\s#]*\\])', re.UNICODE)
 
     def parseSectionLine(self, line: str):
         sectionLine = SectionLine()
@@ -57,7 +57,11 @@ class Parser:
                 continue
 
             if token.startswith('['):
-                chord = token[1:len(token) - 1]
+                chord = token[1:len(token) - 1].strip()
+                if chord == '':
+                    # repeat
+                    chord = '⦁'
+
                 sectionLine.measures.append(Measure('', chord))
                 n = len(sectionLine.measures) - 1 
             else:
@@ -65,7 +69,10 @@ class Parser:
                     sectionLine.measures.append(Measure.createEmpty())
                     n = 0
 
-                sectionLine.measures[n].lyrics = token
+                lyrics = token
+                if lyrics.endswith('\n'):
+                    lyrics = lyrics[0:len(lyrics) - 1]
+                sectionLine.measures[n].lyrics = lyrics
 
         return sectionLine
 

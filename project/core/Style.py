@@ -6,9 +6,9 @@ class Style:
         defaults
         """
         self.columns = 1
-        self.columnWidth = '100px'
         self.renderMetadataKeys = ('time', 'tempo', 'capo')
-        self.pageWidth = 285
+        self.red = (255, 0, 0)
+        self.black = (0, 0, 0)
 
 
     def updateFrom(self, song : Song):
@@ -28,7 +28,7 @@ class Style:
             self.columnWidth = columnWidth
 
         render_metadata_keys = song.getMeta('render_metadata_keys')
-        if not rows == None:
+        if not render_metadata_keys == None:
             self.renderMetadataKeys = render_metadata_keys.split(',')
 
 

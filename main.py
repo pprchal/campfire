@@ -19,21 +19,23 @@ def renderSongToHtmlFile(songFileName, htmlFileName):
     fout.close()
     fin.close()
 
-def renderSongToPdfFile(songFileName, htmlFileName):
+def renderSongToPdfFile(songFileName, pdfFileName):
     """
     render song to output html file
     """
     fin = open(songFileName, "r", encoding="UTF-8")
-    # fout = open(htmlFileName, "w", encoding="UTF-8")
+    fout = open(pdfFileName, "wb")
 
     song = Parser(fin).parse()
-    PdfRenderer(song, Style.fromSong(song)).renderSong()
-    ## fout.write(PdfRenderer(song, Style.fromSong(song)).renderSong())
-    # fout.close()
+
+    buff = PdfRenderer(song, Style.fromSong(song)).renderSong().encode("latin1")
+    fout.write(buff)
+    fout.close()
     fin.close()
 
 # renderSongToHtmlFile('project/test/testFiles/černá kára.cho', 'kara.html')
 # renderSongToHtmlFile('project/test/testFiles/saro.cho', 'saro.html')
 # renderSongToHtmlFile('project/test/testFiles/abc.cho', 'kara.html')
 
-renderSongToPdfFile('project/test/testFiles/černá kára.cho', 'kara.pdf')
+renderSongToPdfFile('project/test/testFiles/černá kára.cho', 'ckara.pdf')
+renderSongToPdfFile('project/test/testFiles/kára.cho', 'kara.pdf')

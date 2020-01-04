@@ -44,12 +44,10 @@ class HtmlRenderer(BaseRenderer):
         """
         htmlSection = '<div>\n'
         htmlSection += '<p class="numberBox">{}</p>'.format(section.getSectionTitle())
-        nSectionLine = 0
 
         for line in section.lines:
             htmlSection += '<table class="rowPair">\n'
-            htmlChLine, htmlLyLine, hasChord = self.renderSectionLine(line, nSectionLine, section)
-            nSectionLine = nSectionLine + 1
+            htmlChLine, htmlLyLine, hasChord = self.renderSectionLine(line, section)
 
             if hasChord:
                 htmlSection += '<tr class="chordLine">{}</tr>\n'.format(htmlChLine)
@@ -59,7 +57,7 @@ class HtmlRenderer(BaseRenderer):
         return htmlSection + '</div>\n'
 
 
-    def renderSectionLine(self, sectionLine : SectionLine, nSectionLine : int, section : Section):
+    def renderSectionLine(self, sectionLine : SectionLine, section : Section):
         """
         render song line (chords + lyrics)
         """

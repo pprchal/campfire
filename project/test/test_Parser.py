@@ -31,13 +31,25 @@ class ParserTests(unittest.TestCase):
             Parser('').parseSectionLine('[H9+]a [Fmi7+]b [Hmol7/G]').measures
         )
 
-
     def test_sectionLine5(self):
         self.assertListEqual(
             [ Measure('Každej tu', 'Ab'), Measure('černou káru', 'G#'), Measure('svou', 'Db')],
             Parser('').parseSectionLine('[Ab]Každej tu[G#]černou káru[Db]svou').measures
         )      
 
+    def test_sectionLine6(self):
+        m = Parser('').parseSectionLine('[A]dvě [D]Honza jde[Hmol7]\n').measures[2]
+        self.assertEqual('', m.lyrics)
+
+    def test_sectionLine7(self):
+        m = Parser('').parseSectionLine('[A]dvě [D]Honza jde\n').measures[1]
+        self.assertEqual('Honza jde', m.lyrics)
+
+    def test_sectionLine8(self):
+        self.assertListEqual(
+            [ Measure('a ', 'H9+'), Measure('b ', '⦁'), Measure('', 'Hmol7/G')],
+            Parser('').parseSectionLine('[H9+]a []b [Hmol7/G]').measures
+        )
 
     def test_processLine1(self):
         s = Song()
