@@ -5,10 +5,13 @@ class Style:
         """
         defaults
         """
-        self.columns = 1
-        self.renderMetadataKeys = ('time', 'tempo', 'capo')
+        self.columns = 2
+        self.renderMetadataKeys = ('time', 'tempo')
         self.red = (255, 0, 0)
         self.black = (0, 0, 0)
+        self.xSpace = 7
+        self.maxRows = 14
+        self.widowRows = 4
 
 
     def updateFrom(self, song : Song):

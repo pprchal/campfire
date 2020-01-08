@@ -19,6 +19,8 @@ def renderSongToHtmlFile(songFileName, htmlFileName):
     fout.close()
     fin.close()
 
+
+
 def renderSongToPdfFile(songFileName, pdfFileName):
     """
     render song to output html file
@@ -33,9 +35,5 @@ def renderSongToPdfFile(songFileName, pdfFileName):
     fout.close()
     fin.close()
 
-# renderSongToHtmlFile('project/test/testFiles/černá kára.cho', 'kara.html')
-# renderSongToHtmlFile('project/test/testFiles/saro.cho', 'saro.html')
-# renderSongToHtmlFile('project/test/testFiles/abc.cho', 'kara.html')
-
-renderSongToPdfFile('project/test/testFiles/černá kára.cho', 'ckara.pdf')
-renderSongToPdfFile('project/test/testFiles/kára.cho', 'kara.pdf')
+# renderSongToPdfFile('project/test/testFiles/černá kára.cho', 'kara.pdf')
+renderSongToPdfFile('project/test/testFiles/saro.cho', 'saro.pdf')

@@ -17,7 +17,7 @@ si [H9+]táhne[Em/G]sám
 {end_of_verse}
 
 {start_of_chorus}
-[H7]Každej tu[Em/G]černou káru[C9]svou
+[H7]*Každej tu[Em/G]černou káru[C9]svou
 si [H9+]táhne[Em/G]sám
 {end_of_chorus}
 
@@ -45,11 +45,8 @@ tě na svých ústech vyzpívám
 {end_of_verse}
 
 
-{chorus}
-
 
 {columns: 2}
 
 ## my extensions
-{render_metadata_keys: time,tempo,capo}
 {render_section_numbers}

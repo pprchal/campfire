@@ -9,6 +9,11 @@ class Song:
     def getMeta(self, name: str):
         if name in self.metadata:
             return self.metadata.get(name)
+
+        # default values
+        if name == "time":
+            return "4/4"
+
         return None
 
 

@@ -7,4 +7,6 @@ class BaseRenderer:
         self.song = song
         self.style = style
 
+
+
         

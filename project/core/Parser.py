@@ -4,50 +4,41 @@ from project.core.SectionLine import SectionLine
 from project.core.Measure import Measure
 import re
 
-metadata_keys = {
-    'title', 't',
-    'subtitle', 'st'
-    'artist',
-    'composer',
-    'lyricist',
-    'copyright',
-    'album',
-    'year',
-    'key',
-    'time',
-    'tempo',
-    'duration',
-    'capo',
-    'meta',
-}
-
-unsupported_keys = {
-    'new_song', 'ns',
-    'new_physical_page', 'np',
-    'new_page', 'np',
-    'comment',
-    'comment_italic',
-    'comment_box',
-    'highlight',
-    'image'
-}
-
-translate_keys = {
-    'st': 'subtitle',
-    'soc': 'start_of_chorus',
-    't': 'title',
-
-    'col': 'columns',
-    'g': 'grid',
-    'ng': 'no_grid',
-    'cb': 'column_break'
-}
 
 class Parser:
     def __init__(self, choStream):
         self.choStream = choStream
         self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/%,]+)?}', re.UNICODE)
         self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\\s#]*\\])', re.UNICODE)
+        self.ligatures = {
+            'ff': 'ﬀ',
+            'fi': 'ﬁ',
+            'fl': 'ﬂ',
+            'ffi': 'ﬃ',
+            'ffl': 'ﬄ',
+            'ft': 'ﬅ'
+        }
+        self.unsupported_keys = {
+            'new_song', 'ns',
+            'new_physical_page', 'np',
+            'new_page', 'np',
+            'comment',
+            'comment_italic',
+            'comment_box',
+            'highlight',
+            'image'
+        }
+        self.translate_keys = {
+            'st': 'subtitle',
+            'soc': 'start_of_chorus',
+            't': 'title',
+
+            'col': 'columns',
+            'g': 'grid',
+            'ng': 'no_grid',
+            'cb': 'column_break'
+        }
+
 
     def parseSectionLine(self, line: str):
         sectionLine = SectionLine()
@@ -72,12 +63,12 @@ class Parser:
                 lyrics = token
                 if lyrics.endswith('\n'):
                     lyrics = lyrics[0:len(lyrics) - 1]
-                sectionLine.measures[n].lyrics = lyrics
+                sectionLine.measures[n].lyrics = self.ligatureText(lyrics)
 
         return sectionLine
 
 
-    def ignoreLine(self, line: str):
+    def isIgnoredLine(self, line: str):
         return line.startswith("#") or line.strip() == ''
 
 
@@ -86,7 +77,7 @@ class Parser:
         main tokenizer
         """
         # skip comments and empty lines
-        if self.ignoreLine(line):
+        if self.isIgnoredLine(line):
             return
 
         # handle {key: value} lines
@@ -102,18 +93,18 @@ class Parser:
     def processMatch(self, match, song: Song, i):
         key = match.groups()[0]
         
-        if key in unsupported_keys:
+        if key in self.unsupported_keys:
             print('Unsupported directive: {' + key + '} at line: ' + str(i))
             return
 
-        if key in translate_keys:
-            key = translate_keys[key]
+        if key in self.translate_keys:
+            key = self.translate_keys[key]
 
         value = None
         if len(match.groups()) == 2 and not match.groups()[1] == None:
             # {key:value}
             value = match.groups()[1]
-            value = value[1:len(value)].lstrip()
+            value = self.ligatureText(value[1:len(value)].lstrip())
 
         # value can be None
         isStartBlock, sectionType = self.parseStartBlock(key)
@@ -125,14 +116,23 @@ class Parser:
             else:                
                 song.addMeta(key, value)
 
+
     def isReuseBlock(self, key):
         return key == 'chorus'
+
 
     def parseStartBlock(self, strBlock : str):
         if strBlock.startswith('start_of_'):
             return (True, strBlock[9 : len(strBlock)])
         return (False, None)
 
+
+    def ligatureText(self, text : str):
+        x = text
+        for ligatureKey in self.ligatures:
+            ligatureValue = self.ligatures[ligatureKey]
+            x = x.replace(ligatureKey, ligatureValue)
+        return x
 
     def parse(self):
         song = Song()
