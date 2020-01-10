@@ -41,13 +41,8 @@ def renderSongToPdfFile(songFileName, pdfFileName):
     fout.close()
     fin.close()
 
-<<<<<<< HEAD
 renderSongToPdfFile('project/test/testFiles/černá kára.cho', 'kara.pdf')
 # renderSongToPdfFile('project/test/testFiles/saro.cho', 'saro.pdf')
 
 
 
-=======
-# renderSongToPdfFile('project/test/testFiles/černá kára.cho', 'kara.pdf')
-renderSongToPdfFile('project/test/testFiles/saro.cho', 'saro.pdf')
->>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
