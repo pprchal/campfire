@@ -13,7 +13,7 @@
     LYRICS: [18, black]
     CHORD: [18, red]
     SECTION_NUMBER: [34, black]
-    METADATA: [20, black]
+    METADATA: [17, black]
 
 
 parser:

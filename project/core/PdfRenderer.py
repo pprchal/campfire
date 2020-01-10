@@ -66,7 +66,6 @@ class PdfRenderer(BaseRenderer):
 
         for key in self.style.renderMetadataKeys:
             value = self.song.getMeta(key)
-
             if value == None:
                 print('empty metadata: [{}]'.format(key))
                 continue
@@ -78,8 +77,6 @@ class PdfRenderer(BaseRenderer):
 
         return '  '.join(values)
 
-        return '  '.join(values)
-
 
     def renderMetadata(self):
         """
@@ -87,7 +84,7 @@ class PdfRenderer(BaseRenderer):
         """
         metadataRow = self.formatMetadataRow()
         if not metadataRow == '':
-            self.drawText(self.pdf.l_margin, 20, metadataRow, FontStyles.METADATA)
+            self.drawText(self.pdf.l_margin + 50, 18, metadataRow, FontStyles.METADATA)
             self.y = self.y + self.pdf.font_size
         self.y = self.y + 2
         
