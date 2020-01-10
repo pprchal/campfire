@@ -10,13 +10,13 @@ class ParserTests(unittest.TestCase):
     def test_sectionLine1(self):
         self.assertListEqual(
             [ Measure('faa ', 'F'), Measure('aaa  ', 'A'), Measure('dd d', 'D')],
-            Parser('').parseSectionLine('[F]faa [A]aaa  [D]dd d').measures
+            Parser(None, None).parseSectionLine('[F]faa [A]aaa  [D]dd d').measures
         )
 
     def test_sectionLine2(self):
         self.assertListEqual(
             [ Measure('jedna ', ''), Measure('dvě ', 'A'), Measure('Honza jde', 'D')],
-            Parser('').parseSectionLine('jedna [A]dvě [D]Honza jde').measures
+            Parser(None, None).parseSectionLine('jedna [A]dvě [D]Honza jde').measures
         )
 
     def test_sectionLine3(self):
