@@ -1,3 +1,4 @@
+from project.core.Config import Config
 from project.core.Measure import Measure
 from project.core.BaseRenderer import BaseRenderer
 from project.core.Style import Style
@@ -6,8 +7,8 @@ from project.core.Section import Section
 from project.core.SectionLine import SectionLine
 
 class HtmlRenderer(BaseRenderer):
-    def __init__(self, song: Song, style: Style):
-        super().__init__(song, style)
+    def __init__(self, config : Config, song: Song, style: Style):
+        super().__init__(config, song, style)
         self.chordSymbols = {
             'b': '&#9837;',
             '#': '&#9839;'

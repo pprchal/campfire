@@ -1,5 +1,5 @@
 class Measure:
-    def __init__(self, lyrics, chord):
+    def __init__(self, lyrics: str, chord: str):
         self.lyrics = lyrics
         self.chord = chord
 

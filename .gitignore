@@ -3,3 +3,9 @@ chords/
 kara.html
 saro.html
 testCho.html
+ckara.pdf
+kara.pdf
+*.pkl
+*.pdf
+.vs
+.pytest_cache
