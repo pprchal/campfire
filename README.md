@@ -18,17 +18,28 @@ Fetures:
 * `chordpro` is old and weird
 * `musescore` - typesetting is perfect, MIDI support is perfect, ... use this if you want more features
 * `tex - packages` - overhelming complexity for single sheet with poor UTF8 support 
+<<<<<<< HEAD
 
 
 ## Running
 `python main.py input.cho`
+=======
 
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
 
+## Running
+`python main.py input.cho`
+
+<<<<<<< HEAD
 ## Developing & hacking
 ### Requirements
 * `python -m pip install fpdf`
 * `python -m pip install pyyaml`
 
+=======
+
+## Developing & hacking
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
 ### Planned features
 * Guttenberg print styles integration - dropped
 * SVG chord printing - preview works, but there is long journery to go
@@ -38,6 +49,10 @@ python -m unittest discover -s tests
 C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\python.exe" -m pip install pyaml
 ```
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
 ### Bugs
 Not working with pdf library 
 ```

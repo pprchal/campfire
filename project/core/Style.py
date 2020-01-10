@@ -9,6 +9,7 @@ class Style:
         """
         defaults
         """
+<<<<<<< HEAD
         self.config = config
 
 
@@ -35,6 +36,15 @@ class Style:
     @property
     def columns(self):
         return int(self.config.getProperty('style.columns'))
+=======
+        self.columns = 2
+        self.renderMetadataKeys = ('time', 'tempo')
+        self.red = (255, 0, 0)
+        self.black = (0, 0, 0)
+        self.xSpace = 7
+        self.maxRows = 14
+        self.widowRows = 4
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
 
     @columns.setter
     def columns(self, value : int):

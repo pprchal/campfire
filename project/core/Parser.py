@@ -12,6 +12,17 @@ class Parser:
         self.choStream = choStream
         self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/%,]+)?}', re.UNICODE)
         self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\\s#]*\\])', re.UNICODE)
+<<<<<<< HEAD
+=======
+        self.ligatures = {
+            'ff': 'ﬀ',
+            'fi': 'ﬁ',
+            'fl': 'ﬂ',
+            'ffi': 'ﬃ',
+            'ffl': 'ﬄ',
+            'ft': 'ﬅ'
+        }
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
         self.unsupported_keys = {
             'new_song', 'ns',
             'new_physical_page', 'np',
@@ -128,6 +139,13 @@ class Parser:
             self.config.setProperty('parser.ligatures', ligatures)
 
         return ligatures
+
+    def ligatureText(self, text : str):
+        x = text
+        for ligatureKey in self.ligatures:
+            ligatureValue = self.ligatures[ligatureKey]
+            x = x.replace(ligatureKey, ligatureValue)
+        return x
 
     def ligatureText(self, text : str):
         x = text

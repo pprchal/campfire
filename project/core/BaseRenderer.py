@@ -9,6 +9,7 @@ class BaseRenderer:
         self.song = song
         self.style = style
 
+<<<<<<< HEAD
     @property
     def chordSymbols(self):
         chordSymbols = self.config.getProperty('pdfrenderer.chordSymbols')
@@ -17,3 +18,8 @@ class BaseRenderer:
             self.config.setProperty('pdfrenderer.chordSymbols', chordSymbols)
 
         return chordSymbols
+=======
+
+
+        
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b

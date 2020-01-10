@@ -11,12 +11,49 @@ from fpdf import FPDF
 
 
 class PdfRenderer(BaseRenderer):
+<<<<<<< HEAD
     def __init__(self, config : Config, song: Song, style : Style):
         super().__init__(config, song, style)
+=======
+    def __init__(self, song: Song, style: Style):
+        super().__init__(song, style)
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
         self.row = 0
         self.col = 0
         self.y = 10
         self.pdf = None
+<<<<<<< HEAD
+=======
+        self.chordSymbols = {
+            'b': '♭',
+            '#': '♯'
+        }
+        self.upperNumbers = {
+            '0': '⁰',
+            '1': '¹',
+            '2': '²',
+            '3': '³',
+            '4': '⁴',
+            '5': '⁵',
+            '6': '⁶',
+            '7': '⁷',
+            '8': '⁸',
+            '9': '⁹',
+        }
+        self.lowerNumbers = {
+            '0': '₀',
+            '1': '₁',
+            '2': '₂',
+            '3': '₃',
+            '4': '₄',
+            '5': '₅',
+            '6': '₆',
+            '7': '₇',
+            '8': '₈',
+            '9': '₉',
+        }
+        self.punctions = '❶❷❸❹❺❻❼❽❾❿'
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
         self.firstPageYOffset = 0
 
 
@@ -25,12 +62,20 @@ class PdfRenderer(BaseRenderer):
         create new PDF file
         """
         pdf = FPDF('L', 'mm', 'A4')
+<<<<<<< HEAD
         pdf.set_line_width(self.style.lineWidth)
 
         # set font
         fontName = self.config.getProperty('pdfrenderer.font')
         pdf.add_font(fontName, '', self.getFontPath(fontName + '.ttf'), uni=True)
         pdf.set_font(fontName.lower(), "")        
+=======
+        pdf.set_line_width(0.2)
+        
+        # pdf.add_font('FreeSerif', '', "n:/campfire/freefont-20120503/FreeSerif.ttf", uni=True)
+        pdf.add_font('FreeSerif', '', "c:/Users/Pavel/Documents/campfire/freefont-20120503/FreeSerif.ttf", uni=True)
+        pdf.set_font("freeserif", "")        
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
         self.colWidth = pdf.w / self.style.columns
         return pdf
 
@@ -70,6 +115,7 @@ class PdfRenderer(BaseRenderer):
             if value == None:
                 print('empty metadata: [{}]'.format(key))
                 continue
+<<<<<<< HEAD
 
             if key == 'time':
                 values.append(self.formatFraction(value))
@@ -77,7 +123,15 @@ class PdfRenderer(BaseRenderer):
                 values.append('{}: {}'.format(key, value))
 
         return '  '.join(values)
+=======
 
+            if key == 'time':
+                values.append(self.formatFraction(value))
+            else:
+                values.append('{}: {}'.format(key, value))
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
+
+        return '  '.join(values)
 
 
     def renderMetadata(self):
@@ -95,6 +149,7 @@ class PdfRenderer(BaseRenderer):
         """
         font styles
         """
+<<<<<<< HEAD
         key = 'style.' + str(fontStyle.name)
         obj = self.config.getProperty(key)
 
@@ -106,12 +161,34 @@ class PdfRenderer(BaseRenderer):
             self.setRedColor()
         else:
             self.setBlackColor()
+=======
+        if fontStyle == FontStyles.TITLE:
+            self.setRedColor()
+            self.pdf.set_font_size(24)
+        elif fontStyle == FontStyles.AUTHOR:
+            self.setRedColor()
+            self.pdf.set_font_size(17)
+        elif fontStyle == FontStyles.LYRICS:
+            self.setBlackColor()
+            self.pdf.set_font_size(18)
+        elif fontStyle == FontStyles.CHORD:
+            self.setRedColor()
+            self.pdf.set_font_size(18)
+        elif fontStyle == FontStyles.SECTION_NUMBER:
+            self.setBlackColor()
+            self.pdf.set_font_size(34)
+        elif fontStyle == FontStyles.METADATA:
+            self.setBlackColor()
+            self.pdf.set_font_size(20)
+
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
 
 
     def renderSongHeader(self):
         """
         author + song name
         """
+<<<<<<< HEAD
         self.drawText(10, 10, self.song.getMeta('title'), FontStyles.TITLE)
         self.y = self.y + self.pdf.font_size
 
@@ -120,6 +197,16 @@ class PdfRenderer(BaseRenderer):
 
         # custom metadata (time: 3/4,....)
         lineY = 23
+=======
+        self.drawCenteredText(10, self.song.getMeta('title'), FontStyles.TITLE)
+        self.y = self.y + self.pdf.font_size
+
+        self.drawCenteredText(18, self.song.getMeta('artist'), FontStyles.AUTHOR)
+        self.y = self.y + self.pdf.font_size
+
+        # custom metadata (time: 3/4,....)
+        lineY = 20
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
         self.pdf.line(self.pdf.l_margin, lineY, self.pdf.w - self.pdf.r_margin, lineY)
 
         if self.firstPageYOffset == 0:
@@ -141,7 +228,11 @@ class PdfRenderer(BaseRenderer):
 
         # section number
         if self.row == 0:
+<<<<<<< HEAD
             self.drawText(self.calculateStartX() - 10, self.y + 5, str(section.n), FontStyles.SECTION_NUMBER) 
+=======
+            self.drawText(self.calculateStartX() - 10, self.y + 5, self.punctions[section.n], FontStyles.SECTION_NUMBER) 
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
             self.y = self.calculateStartY()
 
         # ...and content
@@ -154,6 +245,10 @@ class PdfRenderer(BaseRenderer):
     def isWidow(self, section : Section):
         return False
         #remaining = self.style.maxRows - self.row
+<<<<<<< HEAD
+=======
+        #return remaining < self.style.widowRows
+>>>>>>> 9477bd4ab1195b164b32a2f7635bbf8329e2f46b
 
 
     def moveForward(self):
