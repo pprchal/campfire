@@ -42,7 +42,7 @@ def renderSongToPdfFile(songFileName, pdfFileName):
     fin.close()
 
 renderSongToPdfFile('project/test/testFiles/černá kára.cho', 'kara.pdf')
-# renderSongToPdfFile('project/test/testFiles/saro.cho', 'saro.pdf')
+renderSongToPdfFile('project/test/testFiles/saro.cho', 'saro.pdf')
 
 
 
