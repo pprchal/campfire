@@ -3,21 +3,22 @@
     maxRows: 14
     red: [26, 129, 255]
     black: [0, 0, 0]
+    fill: [20, 20, 20]
     upperNumbers: '⁰¹²³⁴⁵⁶⁷⁸⁹'
     lowerNumbers: '₀₁₂₃₄₅₆₇₈₉'
     renderMetadataKeys: ['time', 'tempo']
     lineWidth: 0.2
     xSpace: 7
-    TITLE: [24, red]
+    TITLE: [26, red]
     AUTHOR: [17, red]
-    LYRICS: [18, black]
-    CHORD: [18, red]
-    SECTION_NUMBER: [34, black]
+    LYRICS: [19, black]
+    CHORD: [19, red]
     METADATA: [17, black]
 
 
 parser:
     ligatures: [ 'ff': 'ﬀ', 'fi': 'ﬁ', 'fl': 'ﬂ', 'ffi': 'ﬃ', 'ffl': 'ﬄ', 'ft': 'ﬅ' ]
+
 
 pdfrenderer:
     # font: 'Palladio Regular'

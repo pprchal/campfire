@@ -48,15 +48,20 @@ class Style:
     def xSpace(self):
         return self.config.getProperty('style.xSpace')
 
+    def toColor(self, arr):
+        return (arr[0], arr[1], arr[2])
+
     @property
     def red(self):
-        red = self.config.getProperty('style.red')
-        return (red[0], red[1], red[2])
+        return self.toColor(self.config.getProperty('style.red'))
 
     @property
     def black(self):
-        black = self.config.getProperty('style.black')
-        return (black[0], black[1], black[2])
+        return self.toColor(self.config.getProperty('style.black'))
+
+    @property
+    def fill(self):
+        return self.toColor(self.config.getProperty('style.fill'))
 
 
     def updateFromSong(self, song : Song):

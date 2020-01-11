@@ -14,16 +14,11 @@ si [H9+]táhne[Em/G]sám
 [G7]cizí[C9]žal,[C9]cizí 
 [C9]žal,[C9]cizíma[Em]ústy
 [Em/G]ještě[C9]nikdo [H9+]nezpí[Em/G]val
+[C9][H9+][Em]
 {end_of_verse}
 
-{start_of_chorus}
-[H7]*Každej tu[Em/G]černou káru[C9]svou
-si [H9+]táhne[Em/G]sám
-{end_of_chorus}
-
-
 {start_of_verse}
-Tu černou káru tu mám
+[C7]Tu [H7]černou [Em/G]káru tu mám
 stále na patách
 On se z ní sype věčnej
 jemnej černej prach
@@ -46,7 +41,7 @@ tě na svých ústech vyzpívám
 
 
 
-{columns: 2}
+{columns: 3}
 
 ## my extensions
 {render_section_numbers}

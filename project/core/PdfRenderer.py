@@ -137,17 +137,14 @@ class PdfRenderer(BaseRenderer):
             self.moveForward()
             print("renderSection2({}-{}) row:{} col:{}".format(section.sectionType, section.getSectionTitle(), self.row, self.col))
 
-        # section number
-        if self.row == 0:
-            self.drawText(self.calculateStartX() - 10, self.y + 5, str(section.n), FontStyles.SECTION_NUMBER) 
-            self.y = self.calculateStartY()
-
         # ...and content
         for line in section.lines:
             self.renderSectionLine(line, section)
         print('----------------------')
 
-
+    def renderSerctionTitle(self, section: Section):
+        self.pdf.set_fill_color(self.config.fill)
+        # self.pdf.cell(self.x, sel)
 
     def isWidow(self, section : Section):
         return False
@@ -252,7 +249,7 @@ class PdfRenderer(BaseRenderer):
         """
         get start x
         """
-        return (self.pdf.l_margin + self.style.xSpace) + (self.col * self.colWidth)
+        return self.pdf.l_margin + (self.col * self.colWidth)
 
 
     def formatChord(self, chord : str):
