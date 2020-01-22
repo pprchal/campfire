@@ -2,14 +2,19 @@ print('__file__={0:<35} | __name__={1:<20} | __package__={2:<20}'.format(__file_
 
 import unittest
 from project.core.Parser import Parser
+from project.core.Config import Config
 from project.core.Song import Song
 from project.core.Measure import Measure
 from project.core.SectionLine import SectionLine
 
 class ParserFullTests(unittest.TestCase):
+    def createParser(self, f):
+        config = Config.fromYaml()
+        return Parser(f, config)
+
     def test_kara(self):
         fin = open('project/test/testFiles/černá kára.cho', "r", encoding="UTF-8")
-        song = Parser(fin).parse()
+        song = self.createParser(fin).parse()
         fin.close()
         self.assertEqual(True, self.compare_dict({
             "title" : "Černá kára",
@@ -22,7 +27,7 @@ class ParserFullTests(unittest.TestCase):
 
     def test_full_spec(self):
         fin = open('project/test/testFiles/full_spec.cho', "r", encoding="UTF-8")
-        n = Parser(fin).parse()
+        n = self.createParser(fin).parse()
         fin.close
         self.assertEqual(True, self.compare_dict({
             "title" : "Swing Low Sweet Chariot",

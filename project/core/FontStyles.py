@@ -5,5 +5,5 @@ class FontStyles(Enum):
     AUTHOR = 2
     CHORD = 3
     LYRICS = 4
-    SECTION_NUMBER = 5
+    SECTION = 5
     METADATA = 6

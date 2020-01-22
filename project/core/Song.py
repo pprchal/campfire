@@ -10,10 +10,6 @@ class Song:
         if name in self.metadata:
             return self.metadata.get(name)
 
-        # default values
-        if name == "time":
-            return "4/4"
-
         return None
 
 

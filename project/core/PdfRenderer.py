@@ -1,3 +1,5 @@
+import os
+from project.core.Config import Config
 from project.core.Measure import Measure
 from project.core.BaseRenderer import BaseRenderer
 from project.core.Style import Style
@@ -9,41 +11,12 @@ from fpdf import FPDF
 
 
 class PdfRenderer(BaseRenderer):
-    def __init__(self, song: Song, style: Style):
-        super().__init__(song, style)
+    def __init__(self, config : Config, song: Song, style : Style):
+        super().__init__(config, song, style)
         self.row = 0
         self.col = 0
         self.y = 10
         self.pdf = None
-        self.chordSymbols = {
-            'b': '♭',
-            '#': '♯'
-        }
-        self.upperNumbers = {
-            '0': '⁰',
-            '1': '¹',
-            '2': '²',
-            '3': '³',
-            '4': '⁴',
-            '5': '⁵',
-            '6': '⁶',
-            '7': '⁷',
-            '8': '⁸',
-            '9': '⁹',
-        }
-        self.lowerNumbers = {
-            '0': '₀',
-            '1': '₁',
-            '2': '₂',
-            '3': '₃',
-            '4': '₄',
-            '5': '₅',
-            '6': '₆',
-            '7': '₇',
-            '8': '₈',
-            '9': '₉',
-        }
-        self.punctions = '❶❷❸❹❺❻❼❽❾❿'
         self.firstPageYOffset = 0
 
 
@@ -52,14 +25,32 @@ class PdfRenderer(BaseRenderer):
         create new PDF file
         """
         pdf = FPDF('L', 'mm', 'A4')
-        pdf.set_line_width(0.2)
-        
-        # pdf.add_font('FreeSerif', '', "n:/campfire/freefont-20120503/FreeSerif.ttf", uni=True)
-        pdf.add_font('FreeSerif', '', "c:/Users/Pavel/Documents/campfire/freefont-20120503/FreeSerif.ttf", uni=True)
-        pdf.set_font("freeserif", "")        
+        pdf.set_line_width(self.style.lineWidth)
+
+        # load fonts
+        fontNames = list()
+        for fontStyle in FontStyles:
+            fontName = self.config.getProperty('style.' + str(fontStyle.name))[2]
+            if not fontName in fontNames:
+                self.loadTtfFont(pdf, fontName)
+                fontNames.append(fontName)
+
         self.colWidth = pdf.w / self.style.columns
         return pdf
 
+    def loadTtfFont(self, pdf : FPDF, fontName : str):
+        """
+        load ttf font from directory
+        """
+        pdf.add_font(fontName, '', self.getFontPath(fontName + '.ttf'), uni=True)
+        pdf.set_font(fontName.lower(), "")        
+
+
+    def getFontPath(self, font : str):
+        """
+        gets font from current work dir
+        """
+        return os.path.join(os.getcwd(), 'fonts') + os.sep + font
 
 
     def formatFraction(self, fraction):
@@ -69,11 +60,11 @@ class PdfRenderer(BaseRenderer):
         split = fraction.split('/')
         uppers = ''
         for upper in split[0]:
-            uppers += self.upperNumbers[upper]
+            uppers += self.style.upperNumbers[int(upper)]
 
         lowers = ''
         for lower in split[1]:
-            lowers += self.lowerNumbers[lower]
+            lowers += self.style.lowerNumbers[int(lower)]
 
         return '{}⁄{}'.format(uppers, lowers)
 
@@ -86,7 +77,6 @@ class PdfRenderer(BaseRenderer):
 
         for key in self.style.renderMetadataKeys:
             value = self.song.getMeta(key)
-
             if value == None:
                 print('empty metadata: [{}]'.format(key))
                 continue
@@ -99,13 +89,19 @@ class PdfRenderer(BaseRenderer):
         return '  '.join(values)
 
 
+    def getStringWidth(self, text : str, fontStyle : FontStyles):
+        self.setFontStyle(fontStyle)
+        return self.pdf.get_string_width(text)
+
+
     def renderMetadata(self):
         """
         render some metadata as floating line
         """
         metadataRow = self.formatMetadataRow()
         if not metadataRow == '':
-            self.drawText(self.pdf.l_margin, 20, metadataRow, FontStyles.METADATA)
+            width = self.getStringWidth(metadataRow, FontStyles.METADATA)
+            self.drawText(self.pdf.w - width - self.pdf.r_margin, 18, metadataRow, FontStyles.METADATA)
             self.y = self.y + self.pdf.font_size
         self.y = self.y + 2
         
@@ -114,39 +110,30 @@ class PdfRenderer(BaseRenderer):
         """
         font styles
         """
-        if fontStyle == FontStyles.TITLE:
+        style = self.config.getProperty('style.' + str(fontStyle.name))
+        fontSize = style[0]
+        color = style[1]
+        fontName = style[2]
+        self.pdf.set_font(fontName)
+        self.pdf.set_font_size(fontSize)
+        if color == 'red':
             self.setRedColor()
-            self.pdf.set_font_size(24)
-        elif fontStyle == FontStyles.AUTHOR:
-            self.setRedColor()
-            self.pdf.set_font_size(17)
-        elif fontStyle == FontStyles.LYRICS:
+        else:
             self.setBlackColor()
-            self.pdf.set_font_size(18)
-        elif fontStyle == FontStyles.CHORD:
-            self.setRedColor()
-            self.pdf.set_font_size(18)
-        elif fontStyle == FontStyles.SECTION_NUMBER:
-            self.setBlackColor()
-            self.pdf.set_font_size(34)
-        elif fontStyle == FontStyles.METADATA:
-            self.setBlackColor()
-            self.pdf.set_font_size(20)
-
 
 
     def renderSongHeader(self):
         """
         author + song name
         """
-        self.drawCenteredText(10, self.song.getMeta('title'), FontStyles.TITLE)
+        self.drawText(10, 10, self.song.getMeta('title'), FontStyles.TITLE)
         self.y = self.y + self.pdf.font_size
 
-        self.drawCenteredText(18, self.song.getMeta('artist'), FontStyles.AUTHOR)
+        self.drawText(10, 18, self.song.getMeta('artist'), FontStyles.AUTHOR)
         self.y = self.y + self.pdf.font_size
 
         # custom metadata (time: 3/4,....)
-        lineY = 20
+        lineY = 23
         self.pdf.line(self.pdf.l_margin, lineY, self.pdf.w - self.pdf.r_margin, lineY)
 
         if self.firstPageYOffset == 0:
@@ -160,28 +147,33 @@ class PdfRenderer(BaseRenderer):
         render single section
         """
 
+        # self.renderSectionTitle(section)
+
         # check size (is fit?)
         print("renderSection1({}-{}) row:{} col:{}".format(section.sectionType, section.getSectionTitle(), self.row, self.col))
         if self.isWidow(section):
             self.moveForward()
             print("renderSection2({}-{}) row:{} col:{}".format(section.sectionType, section.getSectionTitle(), self.row, self.col))
 
-        # section number
-        if self.row == 0:
-            self.drawText(self.calculateStartX() - 10, self.y + 5, self.punctions[section.n], FontStyles.SECTION_NUMBER) 
-            self.y = self.calculateStartY()
-
         # ...and content
         for line in section.lines:
             self.renderSectionLine(line, section)
         print('----------------------')
 
+    def renderSectionTitle(self, section: Section):
+        self.drawText(self.calculateStartX(), self.y, section.getSectionTitle(), FontStyles.CHORD)
+        # self.pdf.set_fill_color(self.style.fill[0], self.style.fill[1], self.style.fill[2])
+        # self.pdf.cell(self.colWidth, 19, section.getSectionTitle(), 0, 1, '', 1)
+        self.y = self.y + 12
 
 
     def isWidow(self, section : Section):
+        """
+        NEED MORE WORK!!!!!!!!!
+        so far, so stupid
+        """
         return False
         #remaining = self.style.maxRows - self.row
-        #return remaining < self.style.widowRows
 
 
     def moveForward(self):
@@ -247,10 +239,17 @@ class PdfRenderer(BaseRenderer):
         if self.col >= self.style.columns:
             # owerflow column
             print("NEW_PAGE {}".format(self.pdf.page_no() + 1))
-            self.y = self.calculateStartY()
-            self.col = 0
-            self.pdf.add_page('L')
+            self.addPdfPage()
             self.renderSongHeader()
+
+
+    def addPdfPage(self):
+        """
+        add new pdf page
+        """
+        self.y = self.calculateStartY()
+        self.col = 0
+        self.pdf.add_page('L')
 
 
     def drawText(self, x, y, text, fontStyle : FontStyles):
@@ -282,7 +281,7 @@ class PdfRenderer(BaseRenderer):
         """
         get start x
         """
-        return (self.pdf.l_margin + self.style.xSpace) + (self.col * self.colWidth)
+        return self.pdf.l_margin + (self.col * self.colWidth)
 
 
     def formatChord(self, chord : str):
@@ -296,8 +295,6 @@ class PdfRenderer(BaseRenderer):
         for c in chord:
             if c in self.chordSymbols:
                 c = self.chordSymbols[c]
-            elif c in self.lowerNumbers:
-                c = self.lowerNumbers[c]
 
             pdfChord += c
 
@@ -330,8 +327,9 @@ class PdfRenderer(BaseRenderer):
         render song in one reusable html block 
         """
         self.pdf = self.createPdf()
-        self.pdf.add_page()
+        self.addPdfPage()
         self.renderSongHeader()
+
         for section in self.song.sections:
             self.renderSection(section)
         return self.pdf.output('', 'S')

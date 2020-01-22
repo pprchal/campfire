@@ -1,3 +1,4 @@
+from project.core.Config import Config
 from project.core.Song import Song
 from project.core.Section import Section
 from project.core.SectionLine import SectionLine
@@ -6,18 +7,11 @@ import re
 
 
 class Parser:
-    def __init__(self, choStream):
+    def __init__(self, choStream, config : Config):
+        self.config = config
         self.choStream = choStream
         self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/%,]+)?}', re.UNICODE)
         self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\\s#]*\\])', re.UNICODE)
-        self.ligatures = {
-            'ff': 'ﬀ',
-            'fi': 'ﬁ',
-            'fl': 'ﬂ',
-            'ffi': 'ﬃ',
-            'ffl': 'ﬄ',
-            'ft': 'ﬅ'
-        }
         self.unsupported_keys = {
             'new_song', 'ns',
             'new_physical_page', 'np',
@@ -127,12 +121,23 @@ class Parser:
         return (False, None)
 
 
+    @property
+    def ligatures(self):
+        ligatures = self.config.getProperty('parser.ligatures')
+        if not isinstance(ligatures, dict):
+            ligatures = Config.toDict(ligatures)
+            self.config.setProperty('parser.ligatures', ligatures)
+
+        return ligatures
+
+
     def ligatureText(self, text : str):
         x = text
         for ligatureKey in self.ligatures:
             ligatureValue = self.ligatures[ligatureKey]
             x = x.replace(ligatureKey, ligatureValue)
         return x
+
 
     def parse(self):
         song = Song()
