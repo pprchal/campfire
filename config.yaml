@@ -1,19 +1,21 @@
 ﻿style:
     columns: 2
     maxRows: 14
-    red: [26, 129, 255]
-    black: [0, 0, 0]
-    fill: [20, 20, 20]
     upperNumbers: '⁰¹²³⁴⁵⁶⁷⁸⁹'
     lowerNumbers: '₀₁₂₃₄₅₆₇₈₉'
     renderMetadataKeys: ['time', 'tempo']
     lineWidth: 0.2
     xSpace: 7
-    TITLE: [26, red]
-    AUTHOR: [17, red]
-    LYRICS: [19, black]
-    CHORD: [19, red]
-    METADATA: [17, black]
+    red: [26, 129, 255]
+    black: [0, 0, 0]
+    fill: [20, 20, 20]
+    TITLE: [26, red, FreeSerif]
+    AUTHOR: [17, red, FreeSerif]
+    CHORD: [19, red, FreeSerif]
+    LYRICS: [19, black, FreeSerif]
+    METADATA: [17, black, FreeSerif]
+    SECTION: [19, black, FreeSerifBold]
+
 
 
 parser:
@@ -21,7 +23,5 @@ parser:
 
 
 pdfrenderer:
-    # font: 'Palladio Regular'
-    font: 'FreeSerif'
     chordSymbols: [ 'b': '♭', '#': '♯' ]
 
