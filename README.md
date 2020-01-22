@@ -23,16 +23,22 @@ Fetures:
 ## Running
 `python main.py input.cho`
 
+## Running
+`python main.py input.cho`
 
 ## Developing & hacking
+### Requirements
+* `python -m pip install fpdf`
+* `python -m pip install pyyaml`
+
 ### Planned features
 * Guttenberg print styles integration - dropped
 * SVG chord printing - preview works, but there is long journery to go
 
 ```
 python -m unittest discover -s tests
+C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\python.exe" -m pip install pyaml
 ```
-
 
 ### Bugs
 Not working with pdf library 
@@ -43,5 +49,3 @@ self.fractionSymbols = {
 }
 ```
 
-### Requirements
-* `python -m pip install fpdf`

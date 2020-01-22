@@ -5,7 +5,7 @@ saro.html
 testCho.html
 ckara.pdf
 kara.pdf
-.vs
-__pycache__
-saro.pdf
 *.pkl
+*.pdf
+.vs
+.pytest_cache
