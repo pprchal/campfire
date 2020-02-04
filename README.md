@@ -1,10 +1,14 @@
 # Campfire - chordpro python reloaded
 
 Simple songbook typesetting system
-Gets `.cho` file and renders `.pdf / .html` output.
+Gets `.cho` file and renders `.pdf` output.
+
+## Recommended ussage:
+1) OPTIONAL - Grab Visual Studio code and install ChordPro extension to colorize `.cho` files
+2) Run `python main.py input.cho`
 
 
-Fetures:
+## Features:
 * Real UTF8 support without any woodo-magic
 * Produces nicely large printable pdfs which you can take to pub
 * Keeping great support for KISS principe - just look for example `cho` file, no 2 weeks of learning
@@ -19,21 +23,13 @@ Fetures:
 * `musescore` - typesetting is perfect, MIDI support is perfect, ... use this if you want more features
 * `tex - packages` - overhelming complexity for single sheet with poor UTF8 support 
 
-
-## Running
-`python main.py input.cho`
-
-## Running
-`python main.py input.cho`
-
 ## Developing & hacking
 ### Requirements
 * `python -m pip install fpdf`
 * `python -m pip install pyyaml`
 
 ### Planned features
-* Guttenberg print styles integration - dropped
-* SVG chord printing - preview works, but there is long journery to go
+* chord printing - preview works, but there is long journery to go
 
 ```
 python -m unittest discover -s tests

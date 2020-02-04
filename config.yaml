@@ -1,21 +1,28 @@
 ﻿style:
+    # default columns, you can override by: {columns: 3}
     columns: 2
+    # maximum number of rows per page - should be computed :)
     maxRows: 14
+    # upper fractions
     upperNumbers: '⁰¹²³⁴⁵⁶⁷⁸⁹'
+    # lower fractions
     lowerNumbers: '₀₁₂₃₄₅₆₇₈₉'
+    # default metadata to render
     renderMetadataKeys: ['time', 'tempo']
     lineWidth: 0.2
     xSpace: 7
     red: [26, 129, 255]
+    # text color
     black: [0, 0, 0]
+    # hilight color
     fill: [20, 20, 20]
+    # --------- fonts  [size, color, FaceLookTo fonts directory (FreeSerif is fonts/FreeSerif.ttf)]
     TITLE: [26, red, FreeSerif]
     AUTHOR: [17, red, FreeSerif]
     CHORD: [19, red, FreeSerif]
     LYRICS: [19, black, FreeSerif]
     METADATA: [17, black, FreeSerif]
     SECTION: [19, black, FreeSerifBold]
-
 
 
 parser:
