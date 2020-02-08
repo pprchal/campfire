@@ -108,7 +108,8 @@ class PdfRenderer(BaseRenderer):
         self.y = self.y + self.drawText(self.pdf.l_margin, self.y, self.song.getMeta('artist'), FontStyles.AUTHOR).height
 
         # line ---------------------
-        self.pdf.line(self.pdf.l_margin, self.y, self.pdf.w - self.pdf.r_margin, self.y)
+        yLine = 24
+        self.pdf.line(self.pdf.l_margin, yLine, self.pdf.w - self.pdf.r_margin, yLine)
         # custom metadata (time: 3/4,....)
         self.renderMetadata()
         self.y = self.calculateStartY()
@@ -118,8 +119,6 @@ class PdfRenderer(BaseRenderer):
         """
         render single section
         """
-        self.renderSectionTitle(section)
-
         # check size (is fit?)
         print("renderSection1({}-{}) row:{} col:{}".format(section.sectionType, section.getSectionTitle(), self.row, self.col))
         if self.isWidow(section):
@@ -127,6 +126,7 @@ class PdfRenderer(BaseRenderer):
             print("renderSection2({}-{}) row:{} col:{}".format(section.sectionType, section.getSectionTitle(), self.row, self.col))
 
         # ...and content
+        self.renderSectionTitle(section)
         for line in section.lines:
             self.renderSectionLine(line, section)
         print('----------------------')
@@ -146,8 +146,8 @@ class PdfRenderer(BaseRenderer):
         NEED MORE WORK!!!!!!!!!
         so far, so stupid
         """
-        return False
-        #remaining = self.style.maxRows - self.row
+        remaining = self.style.maxRows - self.row - len(section.lines)
+        return remaining < 3
 
 
     def moveForward(self):
@@ -242,7 +242,7 @@ class PdfRenderer(BaseRenderer):
         """
         calc start Y
         """
-        return 30
+        return 32
 
 
     def calculateStartX(self):
