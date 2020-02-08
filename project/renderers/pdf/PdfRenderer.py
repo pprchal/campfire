@@ -8,7 +8,7 @@ from project.core.Song import Song
 from project.core.Section import Section
 from project.core.FontStyles import FontStyles
 from project.core.SectionLine import SectionLine
-from project.renderers.PdfBox import PdfBox
+from project.renderers.pdf.PdfBox import PdfBox
 from fpdf import FPDF
 
 

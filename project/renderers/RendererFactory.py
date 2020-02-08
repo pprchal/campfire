@@ -2,7 +2,7 @@ from project.core.OutputFormats import OutputFormats
 from project.core.Config import Config
 from project.core.Parser import Parser
 from project.core.Song import Song
-from project.renderers.PdfRenderer import PdfRenderer
+from project.renderers.pdf.PdfRenderer import PdfRenderer
 
 
 class RendererFactory:
