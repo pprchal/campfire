@@ -21,6 +21,7 @@ class PdfRenderer(BaseRenderer):
         self.y = 0
         self.pdf = None
         self.xSpace = 0
+        self.rowHeight = 0
 
 
     def createPdf(self):
@@ -40,6 +41,7 @@ class PdfRenderer(BaseRenderer):
         self.colWidth = self.pdf.w / self.style.columns
         self.pdf.set_line_width(self.style.lineWidth)
         self.xSpace = self.pdf.get_string_width('X')
+        self.rowHeight = self.getFontByStyle(FontStyles.LYRICS).Height / self.pdf.k
 
 
     def loadTtfFont(self, fontName: str):
@@ -89,8 +91,7 @@ class PdfRenderer(BaseRenderer):
         font styles
         """
         font = self.getFontByStyle(fontStyle)
-        self.pdf.set_font(font.Name)
-        self.pdf.set_font_size(font.Height)
+        self.pdf.set_font(font.Name, '', font.Height)
         if font.Color == 'red':
             self.setRedColor()
         else:
@@ -110,6 +111,7 @@ class PdfRenderer(BaseRenderer):
         self.pdf.line(self.pdf.l_margin, self.y, self.pdf.w - self.pdf.r_margin, self.y)
         # custom metadata (time: 3/4,....)
         self.renderMetadata()
+        self.y = self.calculateStartY()
 
 
     def renderSection(self, section : Section):
@@ -135,7 +137,8 @@ class PdfRenderer(BaseRenderer):
         render section title
         """
         self.drawText(self.calculateStartX(), self.y, "---" + section.getSectionTitle() + "---", FontStyles.CHORD)
-        self.y = self.y + 12
+        self.y = self.y + self.rowHeight
+        self.row = self.row + 1
 
 
     def isWidow(self, section : Section):
@@ -155,13 +158,14 @@ class PdfRenderer(BaseRenderer):
         self.handlePossibleOverflow()
 
 
+
     def renderSectionLine(self, sectionLine : SectionLine, section : Section):
         """
         render song line (chords + lyrics)
         """
         self.x = self.calculateStartX()
-        chordDrawed = 0
-        lyricsDrawed = 0
+        isLyricsRendered = 0
+        isChordRendered = 0
 
         for measure in sectionLine.measures:
             # format
@@ -176,30 +180,30 @@ class PdfRenderer(BaseRenderer):
             # draw if not empty
             if not chord.strip() == '':
                 s = chord
-                chordDrawed = 1
+                isChordRendered = 1
                 self.drawText(self.x, self.y, chord, FontStyles.CHORD)
 
             if not lyrics.strip() == '':
                 s = lyrics
-                lyricsDrawed = 1
+                isLyricsRendered = 1
                 self.drawText(self.x, self.y + 5, lyrics, FontStyles.LYRICS)
 
             # move x to next postition
             self.x = self.x + self.pdf.get_string_width(s) + (self.xSpace * self.style.xSpaceFactor)
 
         # overflow
+        renderedRows =  (isChordRendered + isLyricsRendered)
+        self.y = self.y + self.rowHeight*renderedRows
+        self.row = self.row + renderedRows
         self.handlePossibleOverflow()
 
-        renderedRows = chordDrawed + lyricsDrawed
-        self.row = self.row + renderedRows
-        self.y = self.y + (renderedRows * 8)
 
 
     def handlePossibleOverflow(self):
         """
         flow of [rows - cols - pages]
         """
-        if self.row > self.style.maxRows:
+        if self.row >= self.style.maxRows:
             self.row = 0
             self.y = self.calculateStartY()
             self.x = self.calculateStartX()
@@ -208,6 +212,7 @@ class PdfRenderer(BaseRenderer):
 
         if self.col >= self.style.columns:
             # owerflow column
+            self.y = self.calculateStartY()
             self.addPageWithTitle()
             print("NEW_PAGE {}".format(self.pdf.page_no()))
 

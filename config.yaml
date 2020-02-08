@@ -2,7 +2,7 @@
     # default columns, you can override by: {columns: 3}
     columns: 2
     # maximum number of rows per page - should be computed :)
-    maxRows: 14
+    maxRows: 24
     # upper fractions
     upperNumbers: '⁰¹²³⁴⁵⁶⁷⁸⁹'
     # lower fractions
@@ -28,5 +28,4 @@
     CHORD: [19, red, FreeSerif]
     LYRICS: [19, black, FreeSerif]
     METADATA: [17, black, FreeSerif]
-    SECTION: [19, black, FreeSerifBold]
 
