@@ -128,6 +128,7 @@ class PdfRenderer(BaseRenderer):
         # ...and content
         self.renderSectionTitle(section)
         for line in section.lines:
+            print('Line: [{}]'.format(line.linePosition))
             self.renderSectionLine(line, section)
         print('----------------------')
 

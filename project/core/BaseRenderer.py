@@ -26,7 +26,7 @@ class BaseRenderer:
 
     @property
     def chordSymbols(self):
-        chordSymbols = self.config.getProperty('chordSymbols')
+        chordSymbols = self.config.getProperty('style.chordSymbols')
         if not isinstance(chordSymbols, dict):
             chordSymbols = Config.toDict(chordSymbols)
             self.config.setProperty('chordSymbols', chordSymbols)

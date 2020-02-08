@@ -53,6 +53,13 @@ class ParserTests(unittest.TestCase):
             self.createEmptyParser().parseSectionLine('[H9+]a []b [Hmol7/G]', 1).measures
         )
 
+
+    def test_sectionLine9(self):
+        self.assertListEqual(
+            [ Measure('a ', 'E♭dim7')],
+            self.createEmptyParser().parseSectionLine('[Ebdim7]a ', 1).measures
+        )        
+
     def test_processLine1(self):
         s = Song()
         self.createEmptyParser().processLine('{start_of_chorus: Chorus 2} {soc: Chorus 2}', s, 0)
