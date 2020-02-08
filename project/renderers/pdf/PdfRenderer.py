@@ -166,8 +166,11 @@ class PdfRenderer(BaseRenderer):
         self.x = self.calculateStartX()
         isLyricsRendered = 0
         isChordRendered = 0
+        renderedWidth = 0
 
-        for measure in sectionLine.measures:
+        for i in range(0, len(sectionLine.measures)):
+            width = 0
+            measure = sectionLine.measures[i]
             # format
             chord = self.formatChord(measure.chord)
             lyrics = self.formatLyrics(measure.lyrics)
@@ -189,10 +192,14 @@ class PdfRenderer(BaseRenderer):
                 self.drawText(self.x, self.y + 5, lyrics, FontStyles.LYRICS)
 
             # move x to next postition
-            self.x = self.x + self.pdf.get_string_width(s) + (self.xSpace * self.style.xSpaceFactor)
+            width = self.pdf.get_string_width(s)
+            if i < len(sectionLine.measures):
+                width = width +  (self.xSpace * self.style.xSpaceFactor)
+            self.x = self.x + width
+            renderedWidth = renderedWidth + width
 
         # overflows
-        if self.x > self.colWidth:
+        if renderedWidth > self.colWidth:
             print('Line:{} [{}] is too wide! please wrap it'.format(sectionLine.linePosition, sectionLine.rawLine))
 
         renderedRows =  (isChordRendered + isLyricsRendered)
