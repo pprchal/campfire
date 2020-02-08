@@ -13,9 +13,9 @@ class Parser:
         self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/%,]+)?}', re.UNICODE)
         self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\\s#]*\\])', re.UNICODE)
         self.unsupported_keys = {
-            'new_song', 'ns',
-            'new_physical_page', 'np',
-            'new_page', 'np',
+            'new_song', 
+            'ns',
+            'new_physical_page',
             'comment',
             'comment_italic',
             'comment_box',
@@ -23,6 +23,7 @@ class Parser:
             'image'
         }
         self.translate_keys = {
+            'np': 'new_page',
             'st': 'subtitle',
             'soc': 'start_of_chorus',
             't': 'title',
@@ -123,10 +124,10 @@ class Parser:
 
     @property
     def ligatures(self):
-        ligatures = self.config.getProperty('parser.ligatures')
+        ligatures = self.config.getProperty('ligatures')
         if not isinstance(ligatures, dict):
             ligatures = Config.toDict(ligatures)
-            self.config.setProperty('parser.ligatures', ligatures)
+            self.config.setProperty('ligatures', ligatures)
 
         return ligatures
 

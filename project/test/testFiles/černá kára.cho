@@ -2,46 +2,54 @@
 {artist:Josef Kainar}
 {time: 4/4}
 {tempo: 120}
+## my extensions
+{columns: 3}
+
 
 {start_of_verse}
 [H7]Každej tu[Em]černou [Em/G]káru[C9]svou
-si [H9+]táhne[Em]sám[Em/G]
-[C9]Kdo [H9+]může [Em]znát tu[Hmi7]píseň
-[Em7]co já v[Ebdim7]sobě
-[G]mám, [G]v sobě[H7]mám
+si [H9+]táhne[Em]sám[Em/G][C9]
+[H9+]Kdo může [Em]znát tu[Hmi7]píseň
+[Em7]co já v[Ebdim7]sobě [G]mám, 
+[G]v sobě[H7]mám
 [H7]Můžeš si[Em]půjčit [Hm7]klobouk
 [Em7]nepůjčí[Hm7]š si[G7]nikdy
-[G7]cizí[C9]žal,[C9]cizí 
+[G7]cizí[C9]žal,[]cizí 
 [C9]žal,[C9]cizíma[Em]ústy
 [Em/G]ještě[C9]nikdo [H9+]nezpí[Em/G]val
-[C9][H9+][Em][Em]
+[C9][H9+]
 {end_of_verse}
 
 {start_of_verse}
 [C7]Tu [H7]černou [Em/G]káru tu mám
-stále na patách
-On se z ní sype věčnej
-jemnej černej prach
-Zastavit nelze ani chvíli
-ani chvíli zaživa
-Ta černá kára se můj život nazývá
+[C9]stále na [H9+]patách[C9][H9+]
+On se z ní [Em]sype [Hm7]věčnej
+[Em7]jemnej [Ebdim7]černej [G]prach
+[G][H7][]
+[Em]Zastavit [Hm7]nelze [Em7]ani chvíli
+[G7]ani [G7]chvíli [C9]zaživa[C9]
+[Em/G]Ta černá kára se [C9]můj 
+[H9+]život [Em]nazývá
 {end_of_verse}
 
+{new_page}
+
 {start_of_verse}
-Trochu tý lásky dej mi
-věrný srdce mý
-Věčně tu káru táhnout
-to je šílený
-Sevři mě jemně 
-ty seš jediný
-co na tý cestě mám
-Ať jako blues
+[C7]Trochu [H7]tý [Em/G]lásky dej mi
+[C9]věrný [H9+]srdce mý
+[Em/G][C9][H9+]
+[Em]Věčně tu káru [Hm7]táhnout
+[Em]to je [Ebdim7]šílený[G][H7]
+[Em]Sevři mě [Hm7]jemně 
+[Em7]ty seš [Hm7]jediný
+[G]co na tý cestě [C9]mám
+[Em/G]Ať jako blues
 tě na svých ústech vyzpívám
 {end_of_verse}
 
+{start_of_verse}
+[C7][H7][Em][Em][C7][H7]
+[C7][H7][C7][H7][Em]
+{end_of_verse}
 
 
-{columns: 3}
-
-## my extensions
-{render_section_numbers}

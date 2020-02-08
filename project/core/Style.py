@@ -1,4 +1,3 @@
-import os
 import yaml
 from project.core.Song import Song
 from project.core.Config import Config
@@ -45,8 +44,8 @@ class Style:
         return self.config.getProperty('style.renderMetadataKeys')
 
     @property
-    def xSpace(self):
-        return self.config.getProperty('style.xSpace')
+    def xSpaceFactor(self):
+        return self.config.getProperty('style.xSpaceFactor')
 
     def toColor(self, arr):
         return (arr[0], arr[1], arr[2])

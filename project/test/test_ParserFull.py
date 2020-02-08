@@ -1,5 +1,3 @@
-print('__file__={0:<35} | __name__={1:<20} | __package__={2:<20}'.format(__file__,__name__,str(__package__)))
-
 import unittest
 from project.core.Parser import Parser
 from project.core.Config import Config
@@ -9,8 +7,7 @@ from project.core.SectionLine import SectionLine
 
 class ParserFullTests(unittest.TestCase):
     def createParser(self, f):
-        config = Config.fromYaml()
-        return Parser(f, config)
+        return Parser(f, Config.fromYaml())
 
     def test_kara(self):
         fin = open('project/test/testFiles/černá kára.cho', "r", encoding="UTF-8")
@@ -22,7 +19,7 @@ class ParserFullTests(unittest.TestCase):
             "time": "4/4",
             "tempo": "120"
         }, song.metadata))
-        self.assertEqual(3, len(song.sections))
+        self.assertEqual(4, len(song.sections))
         self.assertEqual(21, song.sections[0].getRenderableLinesCount())
 
     def test_full_spec(self):

@@ -10,12 +10,18 @@
     # default metadata to render
     renderMetadataKeys: ['time', 'tempo']
     lineWidth: 0.2
-    xSpace: 7
+    # how many spaces between two words in verse    Každej tu[xSpaceFactor * widthOf('X')]černou
+    xSpaceFactor: 2.5
+    # red color ;)
     red: [26, 129, 255]
     # text color
     black: [0, 0, 0]
     # hilight color
     fill: [20, 20, 20]
+    # chord replacements
+    chordSymbols: [ 'b': '♭', '#': '♯' ]
+    # ligature symbols - check if your ttf font supplies all of those ones
+    ligatures: [ 'ff': 'ﬀ', 'fi': 'ﬁ', 'fl': 'ﬂ', 'ffi': 'ﬃ', 'ffl': 'ﬄ', 'ft': 'ﬅ' ]
     # --------- fonts  [size, color, FaceLookTo fonts directory (FreeSerif is fonts/FreeSerif.ttf)]
     TITLE: [26, red, FreeSerif]
     AUTHOR: [17, red, FreeSerif]
@@ -23,12 +29,4 @@
     LYRICS: [19, black, FreeSerif]
     METADATA: [17, black, FreeSerif]
     SECTION: [19, black, FreeSerifBold]
-
-
-parser:
-    ligatures: [ 'ff': 'ﬀ', 'fi': 'ﬁ', 'fl': 'ﬂ', 'ffi': 'ﬃ', 'ffl': 'ﬄ', 'ft': 'ﬅ' ]
-
-
-pdfrenderer:
-    chordSymbols: [ 'b': '♭', '#': '♯' ]
 
