@@ -7,7 +7,7 @@ import re
 
 
 class Parser:
-    def __init__(self, choStream, config : Config):
+    def __init__(self, choStream, config: Config):
         self.config = config
         self.choStream = choStream
         self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/%,]+)?}', re.UNICODE)
@@ -35,8 +35,11 @@ class Parser:
         }
 
 
-    def parseSectionLine(self, line: str):
-        sectionLine = SectionLine()
+    def parseSectionLine(self, line: str, linePosition: int):
+        """
+        parse cho line -- core of parser
+        """
+        sectionLine = SectionLine(line, linePosition)
         n = -1
         for token in self.chordRE.split(line):
             if token == '':
@@ -64,6 +67,9 @@ class Parser:
 
 
     def isIgnoredLine(self, line: str):
+        """
+        recognize comments
+        """
         return line.startswith("#") or line.strip() == ''
 
 
@@ -82,7 +88,7 @@ class Parser:
 
         if x == 0: 
             # line within section
-            song.addLineToCurrentSection(self.parseSectionLine(line))
+            song.addLineToCurrentSection(self.parseSectionLine(line, i))
 
 
     def processMatch(self, match, song: Song, i):
@@ -133,6 +139,9 @@ class Parser:
 
 
     def ligatureText(self, text : str):
+        """
+        find ligature patterns in input and replace by config
+        """
         x = text
         for ligatureKey in self.ligatures:
             ligatureValue = self.ligatures[ligatureKey]
@@ -141,6 +150,9 @@ class Parser:
 
 
     def parse(self):
+        """
+        read file line by line and create song structure
+        """
         song = Song()
         i = 1
         for line in self.choStream:

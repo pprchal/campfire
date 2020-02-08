@@ -191,7 +191,10 @@ class PdfRenderer(BaseRenderer):
             # move x to next postition
             self.x = self.x + self.pdf.get_string_width(s) + (self.xSpace * self.style.xSpaceFactor)
 
-        # overflow
+        # overflows
+        if self.x > self.colWidth:
+            print('Line:{} [{}] is too wide! please wrap it'.format(sectionLine.linePosition, sectionLine.rawLine))
+
         renderedRows =  (isChordRendered + isLyricsRendered)
         self.y = self.y + self.rowHeight*renderedRows
         self.row = self.row + renderedRows
@@ -208,13 +211,13 @@ class PdfRenderer(BaseRenderer):
             self.y = self.calculateStartY()
             self.x = self.calculateStartX()
             self.col = self.col + 1 
-            print("NEW_COLUMN {}".format(self.col))
+            print("+COLUMN {}".format(self.col))
 
         if self.col >= self.style.columns:
             # owerflow column
             self.y = self.calculateStartY()
             self.addPageWithTitle()
-            print("NEW_PAGE {}".format(self.pdf.page_no()))
+            print("+PAGE {}".format(self.pdf.page_no()))
 
 
     def addPageWithTitle(self):

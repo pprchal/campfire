@@ -3,3 +3,4 @@ class Font:
         self.Height = style[0]
         self.Color = style[1]
         self.Name = style[2]
+        
