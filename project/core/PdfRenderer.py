@@ -150,18 +150,19 @@ class PdfRenderer(BaseRenderer):
         # self.renderSectionTitle(section)
 
         # check size (is fit?)
-        print("renderSection1({}-{}) row:{} col:{}".format(section.sectionType, section.getSectionTitle(), self.row, self.col))
+        print("renderSection1({}-{}) row:{} col:{}".format(section.sectionType, self.formatSectionTitle(section), self.row, self.col))
         if self.isWidow(section):
             self.moveForward()
-            print("renderSection2({}-{}) row:{} col:{}".format(section.sectionType, section.getSectionTitle(), self.row, self.col))
+            print("renderSection2({}-{}) row:{} col:{}".format(section.sectionType, self.formatSectionTitle(section), self.row, self.col))
 
         # ...and content
         for line in section.lines:
             self.renderSectionLine(line, section)
         print('----------------------')
 
+
     def renderSectionTitle(self, section: Section):
-        self.drawText(self.calculateStartX(), self.y, section.getSectionTitle(), FontStyles.CHORD)
+        self.drawText(self.calculateStartX(), self.y, self.formatSectionTitle(section), FontStyles.CHORD)
         # self.pdf.set_fill_color(self.style.fill[0], self.style.fill[1], self.style.fill[2])
         # self.pdf.cell(self.colWidth, 19, section.getSectionTitle(), 0, 1, '', 1)
         self.y = self.y + 12

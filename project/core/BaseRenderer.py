@@ -2,6 +2,7 @@ import abc
 from project.core.Config import Config
 from project.core.Song import Song
 from project.core.Style import Style
+from project.core.Section import Section
 
 
 class BaseRenderer:
@@ -32,6 +33,27 @@ class BaseRenderer:
             self.config.setProperty('chordSymbols', chordSymbols)
 
         return chordSymbols
+
+
+    @property
+    def sectionTitles(self):
+        sectionTitles = self.config.getProperty('style.sectionTitles')
+        if not isinstance(sectionTitles, dict):
+            sectionTitles = Config.toDict(sectionTitles)
+            self.config.setProperty('sectionTitles', sectionTitles)
+
+        return sectionTitles
+
+
+    def formatSectionTitle(self, section:Section):
+        """
+        return formated section title
+        """
+        sectionType = section.getSectionType()
+        if sectionType in self.sectionTitles:
+            sectionType = self.sectionTitles[sectionType]
+
+        return '{}. {}'.format(str(section.getSectionPosition() + 1), sectionType)
 
 
     def formatFraction(self, fraction):

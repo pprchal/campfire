@@ -4,10 +4,15 @@ class Section:
         self.sectionType = sectionType
         self.name = name
         self.n = n
+        
+
+    def getSectionPosition(self):
+        return self.n
 
 
-    def getSectionTitle(self):
-        return self.sectionType + ': ' + str(self.n + 1)
+    def getSectionType(self):
+        return self.sectionType
+
 
     def getRenderableLinesCount(self):
         n = 0

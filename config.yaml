@@ -22,6 +22,8 @@
     chordSymbols: [ 'b': '♭', '#': '♯' ]
     # ligature symbols - check if your ttf font supplies all of those ones
     ligatures: [ 'ff': 'ﬀ', 'fi': 'ﬁ', 'fl': 'ﬂ', 'ffi': 'ﬃ', 'ffl': 'ﬄ', 'ft': 'ﬅ' ]
+    # translations
+    sectionTitles: ['verse': 'sloka']
     # --------- fonts  [size, color, FaceLookTo fonts directory (FreeSerif is fonts/FreeSerif.ttf)]
     TITLE: [26, red, FreeSerif]
     AUTHOR: [17, red, FreeSerif]

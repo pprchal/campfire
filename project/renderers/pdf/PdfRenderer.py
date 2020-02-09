@@ -120,10 +120,10 @@ class PdfRenderer(BaseRenderer):
         render single section
         """
         # check size (is fit?)
-        print("renderSection1({}-{}) row:{} col:{}".format(section.sectionType, section.getSectionTitle(), self.row, self.col))
+        print("renderSection1({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
         if self.isWidow(section):
             self.moveForward()
-            print("renderSection2({}-{}) row:{} col:{}".format(section.sectionType, section.getSectionTitle(), self.row, self.col))
+            print("renderSection2({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
 
         # ...and content
         self.renderSectionTitle(section)
@@ -137,7 +137,7 @@ class PdfRenderer(BaseRenderer):
         """
         render section title
         """
-        self.drawText(self.calculateStartX(), self.y, "---" + section.getSectionTitle() + "---", FontStyles.CHORD)
+        self.drawText(self.calculateStartX(), self.y, self.formatSectionTitle(section), FontStyles.CHORD)
         self.y = self.y + self.rowHeight
         self.row = self.row + 1
 
