@@ -3,6 +3,7 @@ from project.core.Config import Config
 from project.core.Parser import Parser
 from project.core.Song import Song
 from project.renderers.pdf.PdfRenderer import PdfRenderer
+from project.renderers.txt.TxtRenderer import TxtRenderer
 
 
 class RendererFactory:
@@ -13,6 +14,8 @@ class RendererFactory:
         """
         if outputFormat == OutputFormats.PDF:
             return PdfRenderer(config, song)
+        elif outputFormat == OutputFormats.TXT:
+            return TxtRenderer(config, song)
 
         raise NotImplementedError("Unimplemented output format: " + outputFormat)
 
@@ -26,7 +29,6 @@ class RendererFactory:
         fout = open(outFileName, "wb")
 
         config = Config.fromYaml()
-
         buff = RendererFactory.createRenderer(outputFormat, config, Parser(fin, config).parse()).renderSong()
         fout.write(buff)
         fout.close()

@@ -181,18 +181,19 @@ class PdfRenderer(BaseRenderer):
             lyrics = lyrics.ljust(k)
 
             s = ''
-            # draw if not empty
+            # chord
             if not chord.strip() == '':
                 s = chord
                 isChordRendered = 1
                 self.drawText(self.x, self.y, chord, FontStyles.CHORD)
 
+            # lyrics
             if not lyrics.strip() == '':
                 s = lyrics
                 isLyricsRendered = 1
-                self.drawText(self.x, self.y + 5, lyrics, FontStyles.LYRICS)
+                self.drawText(self.x, self.y + self.rowHeight, lyrics, FontStyles.LYRICS)
 
-            # move x to next postition
+            # move x to next position
             width = self.pdf.get_string_width(s)
             if i < len(sectionLine.measures):
                 width = width +  (self.xSpace * self.style.xSpaceFactor)
@@ -204,7 +205,7 @@ class PdfRenderer(BaseRenderer):
             print('Line:{} [{}] is too wide! please wrap it'.format(sectionLine.linePosition, sectionLine.rawLine))
 
         renderedRows =  (isChordRendered + isLyricsRendered)
-        self.y = self.y + self.rowHeight*renderedRows
+        self.y = self.y + self.rowHeight*renderedRows + (self.rowHeight * 0.6)
         self.row = self.row + renderedRows
         self.handlePossibleOverflow()
 
@@ -253,7 +254,7 @@ class PdfRenderer(BaseRenderer):
         """
         calc start Y
         """
-        return 32
+        return 34
 
 
     def calculateStartX(self):

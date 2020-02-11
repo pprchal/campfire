@@ -20,7 +20,7 @@ class ParserFullTests(BaseTest):
             "tempo": "120"
         }, song.metadata))
         self.assertEqual(4, len(song.sections))
-        self.assertEqual(21, song.sections[0].getRenderableLinesCount())
+        self.assertEqual(18, song.sections[0].getRenderableLinesCount())
 
     def test_full_spec(self):
         song = self.readSong('project/test/testFiles/full_spec.cho')

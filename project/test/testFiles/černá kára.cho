@@ -2,7 +2,6 @@
 {artist:Josef Kainar}
 {time: 4/4}
 {tempo: 120}
-## my extensions
 {columns: 3}
 
 
@@ -10,15 +9,14 @@
 [H7]Každej tu[Em]černou [Em/G]káru[C9]svou
 si [H9+]táhne[Em]sám[Em/G][C9]
 [H9+]Kdo může [Em]znát tu[Hmi7]píseň
-[Em7]co já v[Ebdim7]sobě [G]mám, 
-[G]v sobě[H7]mám
-[H7]Můžeš si[Em]půjčit [Hm7]klobouk
-[Em7]nepůjčí[Hm7]š si[G7]nikdy
-[G7]cizí[C9]žal,[]cizí 
-[C9]žal,[C9]cizíma[Em]ústy
-[Em/G]ještě[C9]nikdo [H9+]nezpí[Em/G]val
-[C9][H9+]
+[Em7]co já v[Ebdim7]sobě [G]mám, []v sobě
+[H7]mám []Můžeš si[Em]půjčit 
+[Hm7]klobouk [Em7]nepůjčí[Hm7]š si[G7]nikdy
+[]cizí[C9]žal,[]cizí []žal,[]cizíma
+[Em]ústy[Em/G]ještě[C9]nikdo [H9+]
+nezpí[Em/G]val[C9][H9+]
 {end_of_verse}
+
 
 {start_of_verse}
 [C7]Tu [H7]černou [Em/G]káru tu mám
@@ -32,7 +30,6 @@ On se z ní [Em]sype [Hm7]věčnej
 [H9+]život [Em]nazývá
 {end_of_verse}
 
-{new_page}
 
 {start_of_verse}
 [C7]Trochu [H7]tý [Em/G]lásky dej mi
@@ -40,10 +37,9 @@ On se z ní [Em]sype [Hm7]věčnej
 [Em/G][C9][H9+]
 [Em]Věčně tu káru [Hm7]táhnout
 [Em]to je [Ebdim7]šílený[G][H7]
-[Em]Sevři mě [Hm7]jemně 
-[Em7]ty seš [Hm7]jediný
-[G]co na tý cestě [C9]mám
-[Em/G]Ať jako blues
+[Em]Sevři mě [Hm7]jemně [Em7]
+ty seš [Hm7]jediný[G]co na tý cestě
+[C9]mám[Em/G]Ať jako blues
 tě na svých ústech vyzpívám
 {end_of_verse}
 
