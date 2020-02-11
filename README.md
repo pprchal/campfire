@@ -5,8 +5,7 @@ Gets `.cho` file and renders `.pdf` output.
 
 ## Recommended ussage:
 1) OPTIONAL - Grab Visual Studio code and install ChordPro extension to colorize `.cho` files
-2) Run `python main.py input.cho`
-
+2) Run `python main.py PDF mysong.cho` transforms to `mysong.pdf `
 
 ## Features:
 * Real UTF8 support without any woodo-magic
@@ -17,11 +16,18 @@ Gets `.cho` file and renders `.pdf` output.
 * Great extensibility and modularity - write your own renderer
 * Ligatures ;)
 
+### Supported renderers
+* PDF - Primary renderer
+* TXT - Simple, but usefull in some emergency cases
+
+
+
 ## Why another system?
 * `lilypond` doesn't work well with guitar only song and is too complicated - and why export to `.mid`?
 * `chordpro` is old and weird
 * `musescore` - typesetting is perfect, MIDI support is perfect, ... use this if you want more features
 * `tex - packages` - overhelming complexity for single sheet with poor UTF8 support 
+
 
 ## Developing & hacking
 ### Requirements

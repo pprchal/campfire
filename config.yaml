@@ -12,6 +12,8 @@
     lineWidth: 0.2
     # how many spaces between two words in verse    Každej tu[xSpaceFactor * widthOf('X')]černou
     xSpaceFactor: 2.5
+    # row height(LYRICS) * ySpaceFactor is space between two rows
+    ySpaceFactor: 0.6
     # red color ;)
     red: [26, 129, 255]
     # text color
@@ -23,7 +25,7 @@
     # ligature symbols - check if your ttf font supplies all of those ones
     ligatures: [ 'ff': 'ﬀ', 'fi': 'ﬁ', 'fl': 'ﬂ', 'ffi': 'ﬃ', 'ffl': 'ﬄ', 'ft': 'ﬅ' ]
     # translations
-    sectionTitles: ['verse': 'sloka']
+    sectionTitles: ['verse': 'sloka', 'chorus': 'refrén']
     # --------- fonts  [size, color, FaceLookTo fonts directory (FreeSerif is fonts/FreeSerif.ttf)]
     TITLE: [26, red, FreeSerif]
     AUTHOR: [17, red, FreeSerif]
