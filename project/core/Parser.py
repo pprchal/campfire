@@ -108,8 +108,8 @@ class Parser:
             value = self.ligatureText(value[1:len(value)].lstrip())
 
         # value can be None
-        isStartBlock, sectionType = self.parseStartBlock(key)
-        if isStartBlock:
+        isBlock, sectionType = self.parseBlock(key)
+        if isBlock:
             song.openNewSection(sectionType, value)
         else:
             if self.isReuseBlock(key):
@@ -122,9 +122,11 @@ class Parser:
         return key == 'chorus'
 
 
-    def parseStartBlock(self, strBlock : str):
+    def parseBlock(self, strBlock : str):
         if strBlock.startswith('start_of_'):
             return (True, strBlock[9 : len(strBlock)])
+        elif strBlock == 'new_page':
+            return (True, strBlock)
         return (False, None)
 
 

@@ -5,12 +5,29 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "PDF: Kara",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "${workspaceFolder}/main.py",
+            "args": [ "PDF", "project/test/testFiles/černá kára.cho" ],
             "console": "integratedTerminal",
         },
+        {
+            "name": "TXT: Kara",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "args": [ "TXT", "project/test/testFiles/černá kára.cho" ],
+            "console": "integratedTerminal",
+        },        
+        // {
+        //     "name": "Python: Current File",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "program": "${file}",
+        //     "args": [ "project/test/testFiles/černá kára.cho" ],
+        //     "console": "integratedTerminal",
+        // },
         {
             "name": "Python: Module",
             "type": "python",

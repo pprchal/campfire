@@ -104,6 +104,7 @@ class PdfRenderer(BaseRenderer):
         author + song name
         """
         self.y = self.pdf.t_margin
+        self.pdf.line(self.pdf.l_margin, 5, self.pdf.w - self.pdf.r_margin, 5)
         self.y = self.y + self.drawText(self.pdf.l_margin, self.y, self.song.getMeta('title'), FontStyles.TITLE).height
         self.y = self.y + self.drawText(self.pdf.l_margin, self.y, self.song.getMeta('artist'), FontStyles.AUTHOR).height
 
@@ -119,6 +120,10 @@ class PdfRenderer(BaseRenderer):
         """
         render single section
         """
+        if section.getSectionType() == 'new_page':
+            self.addPageWithTitle()
+            return
+            
         # check size (is fit?)
         print("renderSection1({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
         if self.isWidow(section):

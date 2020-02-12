@@ -37,12 +37,13 @@ class Song:
 
 
     def openNewSection(self, sectionType : str, name : str):
-        if self.isOpenSection():
-            previousSection = self.sections[len(self.sections) - 1]
-            # fun young cannibals ;) - reuse previous section
-            if len(previousSection.lines) == 0:
-                previousSection.name = name
-                return
+        if not sectionType == 'new_page':
+            if self.isOpenSection():
+                previousSection = self.sections[len(self.sections) - 1]
+                # fun young cannibals ;) - reuse previous section
+                if len(previousSection.lines) == 0:
+                    previousSection.name = name
+                    return
 
         self.sections.append(Section(sectionType, name, len(self.sections)))
 
