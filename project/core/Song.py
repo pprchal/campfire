@@ -1,3 +1,4 @@
+from typing import List
 from project.core.Section import Section
 
 class Song:
@@ -45,7 +46,11 @@ class Song:
                     previousSection.name = name
                     return
 
-        self.sections.append(Section(sectionType, name, len(self.sections)))
+        self.sections.append(Section(sectionType, name, self.getNumberForSectionType(sectionType)))
+
+
+    def getNumberForSectionType(self, sectionType:str):
+        return len(self.sections)        
 
 
     def addLineToCurrentSection(self, line : str):
