@@ -105,11 +105,12 @@ class PdfRenderer(BaseRenderer):
         """
         self.y = self.pdf.t_margin
         self.pdf.line(self.pdf.l_margin, 5, self.pdf.w - self.pdf.r_margin, 5)
+        self.y = self.y + 5
         self.y = self.y + self.drawText(self.pdf.l_margin, self.y, self.song.getMeta('title'), FontStyles.TITLE).height
         self.y = self.y + self.drawText(self.pdf.l_margin, self.y, self.song.getMeta('artist'), FontStyles.AUTHOR).height
 
         # line ---------------------
-        yLine = 24
+        yLine = 26
         self.pdf.line(self.pdf.l_margin, yLine, self.pdf.w - self.pdf.r_margin, yLine)
         # custom metadata (time: 3/4,....)
         self.renderMetadata()
@@ -123,7 +124,7 @@ class PdfRenderer(BaseRenderer):
         if section.getSectionType() == 'new_page':
             self.addPageWithTitle()
             return
-            
+
         # check size (is fit?)
         print("renderSection1({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
         if self.isWidow(section):
