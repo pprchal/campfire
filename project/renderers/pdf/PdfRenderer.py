@@ -1,7 +1,6 @@
 import os
 from project.core.Config import Config
 from project.core.Measure import Measure
-from project.core.BaseRenderer import BaseRenderer
 from project.core.Font import Font
 from project.core.Style import Style
 from project.core.Song import Song
@@ -9,6 +8,7 @@ from project.core.Section import Section
 from project.core.FontStyles import FontStyles
 from project.core.SectionLine import SectionLine
 from project.renderers.pdf.PdfBox import PdfBox
+from project.renderers.BaseRenderer import BaseRenderer
 from fpdf import FPDF
 
 
