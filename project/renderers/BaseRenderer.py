@@ -92,7 +92,7 @@ class BaseRenderer:
         return '  '.join(values)
 
 
-    def formatLyrics(self, lyrics : str):
+    def formatLyrics(self, lyrics: str):
         """
         render lyrics
         """
@@ -101,7 +101,7 @@ class BaseRenderer:
         return lyrics
 
 
-    def formatChord(self, txtChord : str):
+    def formatChord(self, txtChord: str):
         """
         render chord - with respect to music notation
         """
