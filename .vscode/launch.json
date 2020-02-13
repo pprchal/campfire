@@ -13,6 +13,14 @@
             "console": "integratedTerminal",
         },
         {
+            "name": "PDF: Saro",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "args": [ "PDF", "project/test/testFiles/saro.cho" ],
+            "console": "integratedTerminal",
+        },
+        {
             "name": "TXT: Kara",
             "type": "python",
             "request": "launch",

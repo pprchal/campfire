@@ -1,13 +1,13 @@
 import os
 from project.core.Config import Config
 from project.core.Measure import Measure
-from project.core.BaseRenderer import BaseRenderer
 from project.core.Font import Font
 from project.core.Style import Style
 from project.core.Song import Song
 from project.core.Section import Section
 from project.core.FontStyles import FontStyles
 from project.core.SectionLine import SectionLine
+from project.renderers.BaseRenderer import BaseRenderer
 
 
 class TxtRenderer(BaseRenderer):
@@ -48,7 +48,7 @@ class TxtRenderer(BaseRenderer):
         self.renderSectionTitle(section)
         for line in section.lines:
             self.renderSectionLine(line, section)
-        self.drawText('\n', FontStyles.LYRICS)
+        self.drawText('\n\n', FontStyles.LYRICS)
 
     
     def renderSectionTitle(self, section: Section):
@@ -59,6 +59,13 @@ class TxtRenderer(BaseRenderer):
         self.drawText('-----------------------------------------------------------------\n', FontStyles.CHORD)
         self.row = self.row + 1
 
+    
+    def formatChord(self, txtChord:str):
+        """
+        format chord
+        """
+        return '[' + super().formatChord(txtChord) + ']'
+
 
     def renderSectionLine(self, sectionLine : SectionLine, section : Section):
         """
@@ -67,6 +74,9 @@ class TxtRenderer(BaseRenderer):
         isLyricsRendered = 0
         isChordRendered = 0
         renderedWidth = 0
+
+        l1 = ''
+        l2 = ''
 
         for i in range(0, len(sectionLine.measures)):
             width = 0
@@ -79,21 +89,21 @@ class TxtRenderer(BaseRenderer):
             chord = chord.ljust(k)
             lyrics = lyrics.ljust(k)
 
-            s = ''
             # chord
             if not chord.strip() == '':
-                s = chord
+                l1 = l1 + chord
                 isChordRendered = 1
-                self.drawText(chord, FontStyles.CHORD)
 
             # lyrics
             if not lyrics.strip() == '':
-                s = lyrics
+                l2 = l2 + lyrics
                 isLyricsRendered = 1
-                self.drawText(lyrics, FontStyles.LYRICS)
 
             renderedWidth = renderedWidth + width
 
+        self.drawText(l1, FontStyles.CHORD)
+        self.drawText('\n', FontStyles.LYRICS)
+        self.drawText(l2, FontStyles.LYRICS)
         self.drawText('\n', FontStyles.LYRICS)
         # overflows
         # if renderedWidth > self.colWidth:

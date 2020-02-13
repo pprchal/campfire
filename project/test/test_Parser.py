@@ -4,6 +4,8 @@ from project.core.Config import Config
 from project.core.Song import Song
 from project.core.Measure import Measure
 from project.core.SectionLine import SectionLine
+from project.core.OutputFormats import OutputFormats
+from project.renderers.BaseRenderer import BaseRenderer
 
 class ParserTests(unittest.TestCase):
     def createEmptyParser(self):
@@ -53,15 +55,6 @@ class ParserTests(unittest.TestCase):
             self.createEmptyParser().parseSectionLine('[H9+]a []b [Hmol7/G]', 1).measures
         )
 
-
-    # not yet -- must be tested BaseRenderer !!
-    # def test_sectionLine9(self):
-    #     sectionLine = self.createEmptyParser().parseSectionLine('[Ebdim7]a ', 1)
-    #     self.assertEqual('E♭dim7', sectionLine.measures[0].chord)
-    #     # self.assertListEqual(
-    #     #     [ Measure('a ', 'E♭dim7')],
-    #     #     .measures
-    #     # )        
 
     def test_processLine1(self):
         s = Song()
