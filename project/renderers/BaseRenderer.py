@@ -30,7 +30,7 @@ class BaseRenderer:
         chordSymbols = self.config.getProperty('style.chordSymbols')
         if not isinstance(chordSymbols, dict):
             chordSymbols = Config.toDict(chordSymbols)
-            self.config.setProperty('chordSymbols', chordSymbols)
+            self.config.setProperty('style.chordSymbols', chordSymbols)
 
         return chordSymbols
 
@@ -40,7 +40,7 @@ class BaseRenderer:
         sectionTitles = self.config.getProperty('style.sectionTitles')
         if not isinstance(sectionTitles, dict):
             sectionTitles = Config.toDict(sectionTitles)
-            self.config.setProperty('sectionTitles', sectionTitles)
+            self.config.setProperty('style.sectionTitles', sectionTitles)
 
         return sectionTitles
 

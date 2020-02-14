@@ -55,6 +55,9 @@ class ParserTests(unittest.TestCase):
             self.createEmptyParser().parseSectionLine('[H9+]a []b [Hmol7/G]', 1).measures
         )
 
+    def test_ligature(self):
+        m = self.createEmptyParser().parseSectionLine('fičel floutek ffi', 1).measures[0]
+        self.assertEqual('ﬁčel ﬂoutek ﬃ', m.lyrics)
 
     def test_processLine1(self):
         s = Song()

@@ -127,15 +127,17 @@ class Parser:
             return (True, strBlock[9 : len(strBlock)])
         elif strBlock == 'new_page':
             return (True, strBlock)
+        elif strBlock == 'nc':
+            return (True, strBlock)
         return (False, None)
 
 
     @property
     def ligatures(self):
-        ligatures = self.config.getProperty('ligatures')
+        ligatures = self.config.getProperty('style.ligatures')
         if not isinstance(ligatures, dict):
             ligatures = Config.toDict(ligatures)
-            self.config.setProperty('ligatures', ligatures)
+            self.config.setProperty('style.ligatures', ligatures)
 
         return ligatures
 

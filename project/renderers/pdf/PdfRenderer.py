@@ -124,6 +124,8 @@ class PdfRenderer(BaseRenderer):
         if section.getSectionType() == 'new_page':
             self.addPageWithTitle()
             return
+        elif section.getSectionType() == 'nc':
+            self.nextColumn()
 
         # check size (is fit?)
         print("renderSection1({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
@@ -162,6 +164,14 @@ class PdfRenderer(BaseRenderer):
         do owerflow
         """
         self.row = self.style.maxRows + 1
+        self.handlePossibleOverflow()
+
+
+    def nextColumn(self):
+        """
+        move to next column
+        """
+        self.col = self.style.columns
         self.handlePossibleOverflow()
 
 
