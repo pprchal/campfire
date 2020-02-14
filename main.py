@@ -8,6 +8,8 @@ if outputFormat.lower() == 'pdf':
     outputFormat = OutputFormats.PDF
 elif outputFormat.lower() == 'txt':
     outputFormat = OutputFormats.TXT
+elif outputFormat.lower() == 'html':
+    outputFormat = OutputFormats.HTML
 
 inputFileName = sys.argv[2]
 outputFileName = inputFileName.replace('.cho', '.' + str(outputFormat.name.lower()))

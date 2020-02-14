@@ -4,6 +4,7 @@ from project.core.Parser import Parser
 from project.core.Song import Song
 from project.renderers.pdf.PdfRenderer import PdfRenderer
 from project.renderers.txt.TxtRenderer import TxtRenderer
+from project.renderers.html.HtmlRenderer import HtmlRenderer
 
 
 class RendererFactory:
@@ -16,8 +17,11 @@ class RendererFactory:
             return PdfRenderer(config, song)
         elif outputFormat == OutputFormats.TXT:
             return TxtRenderer(config, song)
+        elif outputFormat == OutputFormats.HTML:
+            return HtmlRenderer(config, song)
 
-        raise NotImplementedError("Unimplemented output format: " + outputFormat)
+
+        raise NotImplementedError("Unimplemented output format: " + outputFormat.name)
 
 
     @staticmethod
