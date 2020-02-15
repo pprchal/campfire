@@ -14,6 +14,7 @@ Gets `.cho` file and renders `.pdf` output.
 * Multiplatform - using only python libraries without any native dependencies
 * Great test coverage
 * Great extensibility and modularity - write your own renderer
+* PDF, HTML and TXT formats are supported
 * Ligatures ;)
 
 ### Supported renderers
