@@ -1,8 +1,9 @@
 import abc
+
 from project.core.Config import Config
+from project.core.Section import Section
 from project.core.Song import Song
 from project.core.Style import Style
-from project.core.Section import Section
 
 
 class BaseRenderer:
