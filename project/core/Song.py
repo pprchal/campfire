@@ -1,10 +1,13 @@
 from typing import List
+
 from project.core.Section import Section
+
 
 class Song:
     def __init__(self):
         self.metadata = {}
         self.sections = list()
+        self.sectionNumbers = dict()
 
     
     def getMeta(self, name: str):
@@ -50,7 +53,16 @@ class Song:
 
 
     def getNumberForSectionType(self, sectionType:str):
-        return len(self.sections)        
+        """
+        get section number for specified type
+        """
+        n = -1
+        if sectionType in self.sectionNumbers:
+            n = self.sectionNumbers[sectionType]
+
+        n = n + 1
+        self.sectionNumbers.update({sectionType: n})
+        return n
 
 
     def addLineToCurrentSection(self, line : str):

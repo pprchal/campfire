@@ -1,9 +1,10 @@
+import re
+
 from project.core.Config import Config
-from project.core.Song import Song
+from project.core.Measure import Measure
 from project.core.Section import Section
 from project.core.SectionLine import SectionLine
-from project.core.Measure import Measure
-import re
+from project.core.Song import Song
 
 
 class Parser:
@@ -91,7 +92,7 @@ class Parser:
             song.addLineToCurrentSection(self.parseSectionLine(line, i))
 
 
-    def processMatch(self, match, song: Song, i):
+    def processMatch(self, match, song: Song, i:int):
         key = match.groups()[0]
         
         if key in self.unsupported_keys:
@@ -163,5 +164,3 @@ class Parser:
             self.processLine(line, song, i)
             i = i + 1
         return song
-
-

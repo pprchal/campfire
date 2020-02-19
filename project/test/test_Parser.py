@@ -68,6 +68,6 @@ class ParserTests(unittest.TestCase):
     def test_processLine2(self):
         s = Song()
         self.createEmptyParser().processLine('{start_of_chorus}', s, 0)
-        self.assertEqual(None, s.sections[0].name)
+        
 
 

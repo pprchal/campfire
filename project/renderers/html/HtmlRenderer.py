@@ -40,8 +40,11 @@ class HtmlRenderer(BaseRenderer):
 
 
     def renderSection(self, section: Section):
+        """
+        render section
+        """
         htmlSection = '<div>\n'
-        htmlSection += '<div>{}</div>'.format(str(section.n + 1))
+        htmlSection += '<div>{}</div>'.format(self.formatSectionTitle(section))
         nSectionLine = 0
 
         for line in section.lines:
@@ -82,20 +85,6 @@ class HtmlRenderer(BaseRenderer):
         render section title
         """
         self.drawElement(self.formatSectionTitle(section), 'h4')
-
-    
-    def formatChord(self, txtChord:str):
-        """
-        format chord
-        """
-        htmlChord = ''
-        for c in txtChord:
-            if c in self.chordSymbols:
-                htmlChord += self.chordSymbols[c]
-            else:
-                htmlChord += c
-
-        return htmlChord
 
 
     def drawText(self, text:str):
