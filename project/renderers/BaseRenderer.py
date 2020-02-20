@@ -28,6 +28,10 @@ class BaseRenderer:
 
     @property
     def chordSymbols(self):
+        """
+        translation dict
+        b -> ♭
+        """
         chordSymbols = self.config.getProperty('style.chordSymbols')
         if not isinstance(chordSymbols, dict):
             chordSymbols = Config.toDict(chordSymbols)
@@ -38,6 +42,10 @@ class BaseRenderer:
 
     @property
     def sectionTitles(self):
+        """
+        translation dict
+        section -> sloka
+        """
         sectionTitles = self.config.getProperty('style.sectionTitles')
         if not isinstance(sectionTitles, dict):
             sectionTitles = Config.toDict(sectionTitles)
@@ -117,3 +125,8 @@ class BaseRenderer:
             chord += c
 
         return chord        
+
+    def log(self, msg:str):
+        print(msg)
+
+        

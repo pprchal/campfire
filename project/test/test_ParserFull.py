@@ -1,10 +1,12 @@
 import unittest
-from project.core.Parser import Parser
+
 from project.core.Config import Config
-from project.core.Song import Song
 from project.core.Measure import Measure
+from project.core.Parser import Parser
 from project.core.SectionLine import SectionLine
+from project.core.Song import Song
 from project.test.BaseTest import BaseTest
+
 
 class ParserFullTests(BaseTest):
     def createParser(self, f):
@@ -19,20 +21,16 @@ class ParserFullTests(BaseTest):
             "time": "4/4",
             "tempo": "120"
         }, song.metadata))
-        self.assertEqual(4, len(song.sections))
+
+        self.assertFalse('end_of_verse' in song.metadata.keys())
+        self.assertEqual(5, len(song.sections))
         self.assertEqual(18, song.sections[0].getRenderableLinesCount())
 
 
     def test_newPageShouldBeSection(self):
         song = self.readSong('project/test/testFiles/newpage.cho')
-        self.assertEqual(True, self.compare_dict({
-            "title" : "Černá kára",
-            "artist" :"Josef Kainar",
-            "time": "4/4",
-            "tempo": "120"
-        }, song.metadata))
+        self.assertFalse('end_of_verse' in song.metadata.keys())
         self.assertEqual(3, len(song.sections))
-        # self.assertEqual(song.sections[1].)
 
 
     def test_full_spec(self):

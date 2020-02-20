@@ -1,10 +1,12 @@
 import os
+
 import yaml
 
+
 class Config:
-    def __init__(self):
+    def __init__(self, yamlDoc):
         self.props = dict()
-        self.yamlDoc = None
+        self.yamlDoc = yamlDoc
 
     def getProperty(self, keyPath : str):
         """
@@ -45,10 +47,5 @@ class Config:
     @classmethod
     def fromYaml(cls):
         fullPath = os.getcwd() + os.sep + 'config.yaml'
-        config = Config()
         with open(fullPath, encoding="utf8") as f:
-            config.yamlDoc = yaml.load(f, Loader=yaml.FullLoader)
-
-        return config
-
-
+            return Config(yaml.load(f, Loader=yaml.FullLoader))

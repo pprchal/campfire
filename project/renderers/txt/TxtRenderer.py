@@ -36,11 +36,14 @@ class TxtRenderer(BaseRenderer):
         self.renderMetadata()
 
 
-    def renderSection(self, section : Section):
+    def renderSection(self, section: Section):
         """
         render single section
         """
         # ...and content
+        if section.isCommandSection():
+            return
+            
         self.renderSectionTitle(section)
         for line in section.lines:
             self.renderSectionLine(line, section)

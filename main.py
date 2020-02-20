@@ -1,20 +1,12 @@
 import sys
+
 from project.core.OutputFormats import OutputFormats
 from project.renderers.RendererFactory import RendererFactory
 
-
-outputFormat = sys.argv[1]
-if outputFormat.lower() == 'pdf':
-    outputFormat = OutputFormats.PDF
-elif outputFormat.lower() == 'txt':
-    outputFormat = OutputFormats.TXT
-elif outputFormat.lower() == 'html':
-    outputFormat = OutputFormats.HTML
-
+# process args
+outputFormat = OutputFormats.parse(sys.argv[1])
 inputFileName = sys.argv[2]
 outputFileName = inputFileName.replace('.cho', '.' + str(outputFormat.name.lower()))
-RendererFactory.renderSong(outputFormat,  inputFileName, outputFileName)
 
-
-
-
+# render song!
+RendererFactory.renderSong(outputFormat, inputFileName, outputFileName)

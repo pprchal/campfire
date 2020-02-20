@@ -21,17 +21,24 @@ class Parser:
             'comment_italic',
             'comment_box',
             'highlight',
-            'image'
+            'image',
+            'chordcolour',
+            'textcolour',
+            'textsize',
+            'no_grid', 'ng'
+            'grid', 'g',
+            'image',
+            'highlight',
+            'comment_box', 'cb',
+            'comment_italic',
+            'comment'
         }
         self.translate_keys = {
             'np': 'new_page',
             'st': 'subtitle',
             'soc': 'start_of_chorus',
             't': 'title',
-
             'col': 'columns',
-            'g': 'grid',
-            'ng': 'no_grid',
             'cb': 'column_break'
         }
 
@@ -74,9 +81,9 @@ class Parser:
         return line.startswith("#") or line.strip() == ''
 
 
-    def processLine(self, line: str, song: Song, i: int):
+    def processLine(self, line: str, song: Song, n: int):
         """
-        main tokenizer
+        main tokenizer - parse line and add to section
         """
         # skip comments and empty lines
         if self.isIgnoredLine(line):
@@ -85,52 +92,58 @@ class Parser:
         # handle {key: value} lines
         x = 0
         for x, match in enumerate(self.sectionRE.finditer(line), start=1):
-            self.processMatch(match, song, i)
+            self.processMatch(match, song, n)
 
+        # line within section
         if x == 0: 
-            # line within section
-            song.addLineToCurrentSection(self.parseSectionLine(line, i))
+            song.addLineToCurrentSection(self.parseSectionLine(line, n))
 
 
-    def processMatch(self, match, song: Song, i:int):
+    def processMatch(self, match, song: Song, n:int):
+        """
+        process match within line
+        """
         key = match.groups()[0]
         
         if key in self.unsupported_keys:
-            print('Unsupported directive: {' + key + '} at line: ' + str(i))
+            print('Unsupported directive: {} at line: {}'.format(key, str(n)))
             return
 
+        # handle shortcuts (np -> new_page)....
         if key in self.translate_keys:
             key = self.translate_keys[key]
 
+        # {key:value}
         value = None
         if len(match.groups()) == 2 and not match.groups()[1] == None:
-            # {key:value}
             value = match.groups()[1]
             value = self.ligatureText(value[1:len(value)].lstrip())
 
         # value can be None
-        isBlock, sectionType = self.parseBlock(key)
+        isBlock, createSection, sectionType = self.analyzeBlockAction(key)
         if isBlock:
-            song.openNewSection(sectionType, value)
+            # analyzed as block... add or reuse
+            if createSection:
+                song.openNewSection(sectionType, value)
         else:
-            if self.isReuseBlock(key):
-                song.reuseSection(key, value)
-            else:                
-                song.addMeta(key, value)
+            # this is metadata
+            song.addMeta(key, value)
 
 
-    def isReuseBlock(self, key):
-        return key == 'chorus'
-
-
-    def parseBlock(self, strBlock : str):
-        if strBlock.startswith('start_of_'):
-            return (True, strBlock[9 : len(strBlock)])
-        elif strBlock == 'new_page':
-            return (True, strBlock)
-        elif strBlock == 'nc':
-            return (True, strBlock)
-        return (False, None)
+    def analyzeBlockAction(self, block: str):
+        """
+        analyze block
+        (isBlock, openSection, blockName)
+        """
+        if block.startswith('start_of_'):
+            return (True, True, block[9 : len(block)])
+        elif block.startswith('end_of_'):
+            return (True, False, block[7 : len(block)])
+        elif block == 'new_page':
+            return (True, True, block)
+        elif block == 'cb':
+            return (True, True, block)
+        return (False, False, None)
 
 
     @property
@@ -159,8 +172,8 @@ class Parser:
         read file line by line and create song structure
         """
         song = Song()
-        i = 1
+        n = 1
         for line in self.choStream:
-            self.processLine(line, song, i)
-            i = i + 1
+            self.processLine(line, song, n)
+            n = n + 1
         return song

@@ -21,7 +21,7 @@ class PdfRenderer(BaseRenderer):
         self.col = 0
         self.x = 0
         self.y = 0
-        self.pdf = None
+        self.pdf = None # type: FPDF
         self.xSpace = 0
         self.rowHeight = 0
 
@@ -125,21 +125,22 @@ class PdfRenderer(BaseRenderer):
         """
         if section.getSectionType() == 'new_page':
             self.addPageWithTitle()
-        elif section.getSectionType() == 'nc':
+            return
+        elif section.getSectionType() == 'column_break':
             self.nextColumn()
 
         # check size (is fit?)
-        print("renderSection1({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
+        self.log("renderSection1({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
         if self.isWidow(section):
             self.moveForward()
-            print("renderSection2({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
+            self.log("renderSection2({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
 
         # ...and content
         self.renderSectionTitle(section)
         for line in section.lines:
-            print('Line: [{}]'.format(line.linePosition))
+            self.log('Line: [{}]'.format(line.linePosition))
             self.renderSectionLine(line, section)
-        print('----------------------')
+        self.log('----------------------')
 
     
     def renderSectionTitle(self, section: Section):
@@ -219,7 +220,7 @@ class PdfRenderer(BaseRenderer):
 
         # overflows
         if renderedWidth > self.colWidth:
-            print('Line:{} [{}] is too wide! please wrap it'.format(sectionLine.linePosition, sectionLine.rawLine))
+            self.log('Line:{} [{}] is too wide! please wrap it'.format(sectionLine.linePosition, sectionLine.rawLine))
 
         renderedRows =  (isChordRendered + isLyricsRendered)
         self.y = self.y + self.rowHeight*renderedRows + (self.rowHeight * 0.6)
@@ -237,13 +238,13 @@ class PdfRenderer(BaseRenderer):
             self.y = self.calculateStartY()
             self.x = self.calculateStartX()
             self.col = self.col + 1 
-            print("+COLUMN {}".format(self.col))
+            self.log("+COLUMN {}".format(self.col))
 
         if self.col >= self.style.columns:
             # owerflow column
             self.y = self.calculateStartY()
             self.addPageWithTitle()
-            print("+PAGE {}".format(self.pdf.page_no()))
+            self.log("+PAGE {}".format(self.pdf.page_no()))
 
 
     def addPageWithTitle(self):
@@ -262,7 +263,7 @@ class PdfRenderer(BaseRenderer):
         """
         draw text
         """
-        print("[{} {}] x:{:.2f} y:{:.2f}    {}".format(self.row, self.col, x, y, text))
+        self.log("[{} {}] x:{:.2f} y:{:.2f}    {}".format(self.row, self.col, x, y, text))
         font = self.setFontStyle(fontStyle)
         self.pdf.text(x, y, text)
         return PdfBox(self.pdf.get_string_width(text), font.Height / self.pdf.k)

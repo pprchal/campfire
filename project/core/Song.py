@@ -6,7 +6,7 @@ from project.core.Section import Section
 class Song:
     def __init__(self):
         self.metadata = {}
-        self.sections = list()
+        self.sections = []  # type: List[Section]
         self.sectionNumbers = dict()
 
     
@@ -17,15 +17,8 @@ class Song:
         return None
 
 
-    def addMeta(self, key : str, value : str):
+    def addMeta(self, key: str, value: str):
         self.metadata[key] = value
-
-
-    def reuseSection(self, sectionType, sectionName):
-        section = self.findSectionByTypeAndName(sectionType, sectionName)
-        if not section == None:
-            self.sections.append(section)
-        return section
 
 
     def findSectionByTypeAndName(self, sectionType, sectionName):
@@ -40,19 +33,14 @@ class Song:
         return None
 
 
-    def openNewSection(self, sectionType : str, name : str):
-        if not sectionType == 'new_page':
-            if self.isOpenSection():
-                previousSection = self.sections[len(self.sections) - 1]
-                # fun young cannibals ;) - reuse previous section
-                if len(previousSection.lines) == 0:
-                    previousSection.name = name
-                    return
-
+    def openNewSection(self, sectionType: str, name: str):
+        """
+        open new section -- more work needs to be done to achieve reusing (verse: A) {A}
+        """
         self.sections.append(Section(sectionType, name, self.getNumberForSectionType(sectionType)))
 
 
-    def getNumberForSectionType(self, sectionType:str):
+    def getNumberForSectionType(self, sectionType: str):
         """
         get section number for specified type
         """
@@ -65,15 +53,20 @@ class Song:
         return n
 
 
-    def addLineToCurrentSection(self, line : str):
-        if not self.isOpenSection():
+    def addLineToCurrentSection(self, line: str):
+        if self.getCurrentSection() == None:
+            self.openNewSection('verse', '')
+        elif self.getCurrentSection().sectionType == 'new_page':
             self.openNewSection('verse', '')
 
-        self.sections[len(self.sections) - 1].lines.append(line)
+        self.getCurrentSection().lines.append(line)
 
 
-    def isOpenSection(self):
-        return len(self.sections) > 0
+    def getCurrentSection(self):
+        if len(self.sections) == 0:
+            return None
+
+        return self.sections[len(self.sections) - 1]
 
 
     def print(self):

@@ -1,10 +1,11 @@
+from project.core.SectionLine import SectionLine
+
 class Section:
-    def __init__(self, sectionType : str, name : str, n : int):
-        self.lines = list()
+    def __init__(self, sectionType: str, name: str, n: int):
+        self.lines = [] # type: List[SectionLine]
         self.sectionType = sectionType
-        # self.name = name
+        self.name = name
         self.n = n
-        
 
     def getSectionPosition(self):
         return self.n
@@ -26,3 +27,11 @@ class Section:
                     lyrics = 1
             n = n + chord + lyrics
         return n
+
+
+    def isCommandSection(self):
+        if self.sectionType == 'new_page':
+            return True
+        elif self.sectionType == 'column_break':
+            return True
+        return False
