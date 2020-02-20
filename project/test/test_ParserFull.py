@@ -22,6 +22,19 @@ class ParserFullTests(BaseTest):
         self.assertEqual(4, len(song.sections))
         self.assertEqual(18, song.sections[0].getRenderableLinesCount())
 
+
+    def test_newPageShouldBeSection(self):
+        song = self.readSong('project/test/testFiles/newpage.cho')
+        self.assertEqual(True, self.compare_dict({
+            "title" : "Černá kára",
+            "artist" :"Josef Kainar",
+            "time": "4/4",
+            "tempo": "120"
+        }, song.metadata))
+        self.assertEqual(3, len(song.sections))
+        # self.assertEqual(song.sections[1].)
+
+
     def test_full_spec(self):
         song = self.readSong('project/test/testFiles/full_spec.cho')
         self.assertEqual(True, self.compare_dict({

@@ -119,13 +119,12 @@ class PdfRenderer(BaseRenderer):
         self.y = self.calculateStartY()
 
 
-    def renderSection(self, section : Section):
+    def renderSection(self, section: Section):
         """
         render single section
         """
         if section.getSectionType() == 'new_page':
             self.addPageWithTitle()
-            return
         elif section.getSectionType() == 'nc':
             self.nextColumn()
 
@@ -254,6 +253,7 @@ class PdfRenderer(BaseRenderer):
         self.y = self.calculateStartY()
         self.x = self.calculateStartX()
         self.col = 0
+        self.row = 0
         self.pdf.add_page('L')
         self.renderSongHeader()
 
