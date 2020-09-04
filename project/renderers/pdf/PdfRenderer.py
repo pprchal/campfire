@@ -44,6 +44,12 @@ class PdfRenderer(BaseRenderer):
         self.pdf.set_line_width(self.style.lineWidth)
         self.xSpace = self.pdf.get_string_width('X')
         self.rowHeight = self.getFontByStyle(FontStyles.LYRICS).Height / self.pdf.k
+        self.addPdfMetadata()
+
+    def addPdfMetadata(self):
+        title = self.song.getMeta('title')
+        ## author = self.song.getMeta('author')
+        ## self.pdf.set_keywords('<meta  />')
 
 
     def loadTtfFont(self, fontName: str):
@@ -301,6 +307,8 @@ class PdfRenderer(BaseRenderer):
         """
         self.createPdf()
         self.addPageWithTitle()
+        self.song.addMeta
+
 
         for section in self.song.sections:
             self.renderSection(section)
