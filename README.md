@@ -24,7 +24,7 @@ Gets `.cho` file and renders `.pdf` output.
 
 
 ## Why another system?
-* `lilypond` doesn't work well with guitar only song and is too complicated - and why export to `.mid`?
+* `lilypond` - perfect typesetting but doesn't work well simple songs - and why export to `.mid`?
 * `chordpro` is old and weird
 * `musescore` - typesetting is perfect, MIDI support is perfect, ... use this if you want more features
 * `tex - packages` - overhelming complexity for single sheet with poor UTF8 support 
