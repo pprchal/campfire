@@ -1,7 +1,7 @@
 import os
-
 import yaml
-
+from os.path import exists
+from pathlib import Path
 
 class Config:
     def __init__(self, yamlDoc):
@@ -43,9 +43,15 @@ class Config:
                 d.update(li)
         return d
 
+    @classmethod 
+    def getConfigPath(cls):
+        fullPath = os.path.join(Path.home(), '.campfire.yaml')
+        if exists(fullPath):
+            return fullPath
+
+        return os.path.join(os.getcwd(), '.campfire.yaml')
 
     @classmethod
     def fromYaml(cls):
-        fullPath = os.getcwd() + os.sep + 'config.yaml'
-        with open(fullPath, encoding="utf8") as f:
+        with open(Config.getConfigPath(), encoding="utf8") as f:
             return Config(yaml.load(f, Loader=yaml.FullLoader))

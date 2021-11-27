@@ -8,8 +8,6 @@ parser = argparse.ArgumentParser(description='Process songbook.')
 parser.add_argument('--format', help='[pdf] html txt', default='pdf', type=OutputFormats.parse)
 parser.add_argument('infile', nargs='?')
 args = parser.parse_args()
-print(args.format)
-print(args.infile)
 
 # prepare output file
 inputFileName = args.infile
@@ -17,3 +15,4 @@ outputFileName = inputFileName.replace('.cho', '.' + str(args.format.name.lower(
 
 # render song!
 RendererFactory.renderSong(args.format, inputFileName, outputFileName)
+print("OK: " + outputFileName)

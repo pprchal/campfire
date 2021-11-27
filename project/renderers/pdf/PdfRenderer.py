@@ -61,7 +61,7 @@ class PdfRenderer(BaseRenderer):
         """
         gets font from current work dir
         """
-        return os.path.join(os.getcwd(), 'fonts') + os.sep + font
+        return os.path.join(os.getcwd(), 'fonts', font)
 
 
     def getStringWidth(self, text : str, fontStyle : FontStyles):
