@@ -1,13 +1,25 @@
-# Campfire - chordpro python reloaded
+# Campfire - chordpro python
 
-Simple songbook ,,typesetting'' system
-
-Gets `.cho` file and renders `.pdf` output.
+* Simple songbook ,,typesetting'' system based on format chodpro
+* Gets `.cho` file and renders `.pdf` output.
+* ChordPro to PDF, HTML and TXT
 
 ## Recommended ussage:
-1) Run `python main.py PDF mysong.cho` transforms to `mysong.pdf `
+1) Run `python main.py mysong.cho` transforms to `mysong.pdf `
 2) OPTIONAL - Grab Visual Studio code and install ChordPro extension to colorize `.cho` files
 
+```
+usage: campfire.py [-h] [--format FORMAT] [infile]
+
+Process songbook.
+
+positional arguments:
+  infile
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --format FORMAT  [pdf] html txt
+```
 
 ## Features:
 * Real UTF8 support without any woodo-magic
@@ -23,28 +35,25 @@ Gets `.cho` file and renders `.pdf` output.
 * TXT - Simple, but usefull in some emergency cases
 * HTML - Aspiring to be primary renderer, but there is long way to go(page wrapping)
 
-
 ## Why another system?
 * `lilypond` - perfect typesetting but doesn't work well simple songs
 * `chordpro` is old and weird
 * `musescore` - typesetting is perfect, MIDI support is perfect, ... use this if you want more features
 * `tex - packages` - overhelming complexity for single sheet with poor UTF8 support 
 
-
 ## Developing & hacking
+
 ### Requirements - libs
 ```
-python -m pip install fpdf
-python -m pip install pyyaml
-python -m pip install PyPDF2
+pip install -r requirements.txt
 ```
 
 ### Planned features
 * Compiled to js - enable run within browser also
 
+### Notes
 ```
 python -m unittest discover -s tests
-C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\python.exe" -m pip install pyaml
 ```
 
 ### Bugs
@@ -56,4 +65,4 @@ self.fractionSymbols = {
 }
 ```
 
-(c) Pavel Prchal, 2020
+(c) Pavel Prchal, 2020, 2021

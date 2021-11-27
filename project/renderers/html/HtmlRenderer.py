@@ -44,7 +44,7 @@ class HtmlRenderer(BaseRenderer):
         render section
         """
         htmlSection = '<div>\n'
-        htmlSection += '<div>{}</div>'.format(self.formatSectionTitle(section))
+        htmlSection += '<h4>{}</h4>'.format(self.formatSectionTitle(section))
         nSectionLine = 0
 
         for line in section.lines:
