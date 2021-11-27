@@ -1,5 +1,6 @@
-from typing import List
+# author: Pavel Prchal
 
+from typing import List
 from project.core.Section import Section
 
 

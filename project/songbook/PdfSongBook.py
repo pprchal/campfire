@@ -6,8 +6,6 @@ class PdfSongBook:
     def loadPdfMetadata(self, pdfPath):
         pdfFileObj = open(pdfPath, 'rb') 
 
-        # logging.info('Ahoj')
-        # logging.error('hyba se stala')
         pdfReader = PyPDF2.PdfFileReader(pdfFileObj) 
         logging.debug('PDF: {} opened pages: {}'.format(pdfPath, pdfReader.numPages))
 

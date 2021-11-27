@@ -48,9 +48,6 @@ class PdfRenderer(BaseRenderer):
 
     def addPdfMetadata(self):
         title = self.song.getMeta('title')
-        ## author = self.song.getMeta('author')
-        ## self.pdf.set_keywords('<meta  />')
-
 
     def loadTtfFont(self, fontName: str):
         """
