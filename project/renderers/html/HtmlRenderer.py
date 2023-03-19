@@ -100,16 +100,28 @@ class HtmlRenderer(BaseRenderer):
         """
         self.out = self.out + "<{}>{}</{}>\n".format(element, text, element)
 
+    def writeMeta(self):
+        html = '<meta charset=\"utf-8\" />'
+        for m in self.song.getMetaList():
+            html += "<meta name='{}' content='{}' />".format(m[0], m[1])
+        return html
 
     def renderSong(self):
         """
         render song in one reusable html block 
         """
-        self.drawText('<head><meta charset=\"utf-8\" /></head>')
+        self.drawText('<html>')
+        self.drawElement(self.writeMeta(), 'head')
+        # self.drawText('<head>')
+        # self.writeMeta()
+        # self.drawText('</head>')
+
+        self.drawText('<body>')
         self.renderSongHeader()
         for section in self.song.sections:
             self.drawText(self.renderSection(section))
-        self.drawText('</body></html>')
+        self.drawText('</body>')
+        self.drawText('</html>')        
         return self.out.encode()
 
 

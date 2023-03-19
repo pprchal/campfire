@@ -10,7 +10,9 @@ class Song:
         self.sections = []  # type: List[Section]
         self.sectionNumbers = dict()
 
-    
+    def getMetaList(self):
+        return zip(self.metadata.keys(), self.metadata.values()) 
+        
     def getMeta(self, name: str):
         if name in self.metadata:
             return self.metadata.get(name)
