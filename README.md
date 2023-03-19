@@ -2,7 +2,7 @@
 
 * Simple songbook ,,typesetting'' system based on format chodpro
 * Gets `.cho` file and renders `.pdf` output.
-* ChordPro to PDF, HTML and TXT
+* ChordPro to `PDF`, `HTML` and `TXT`
 
 ## Recommended ussage:
 1) Run `python main.py mysong.cho` transforms to `mysong.pdf `
@@ -37,27 +37,30 @@ optional arguments:
 
 ## Why another system?
 * `lilypond` - perfect typesetting but doesn't work well simple songs
-* `chordpro` is old and weird
+* `chordpro` is old and weird. Update: I'm not able to run version 6 on manjaro.
 * `musescore` - typesetting is perfect, MIDI support is perfect, ... use this if you want more features
 * `tex - packages` - overhelming complexity for single sheet with poor UTF8 support 
 
-## Developing & hacking
+# Developing & hacking
 
-### Requirements - libs
+## Requirements - libs
 ```
 pip install -r requirements.txt
 ```
 
-### Planned features
-* Compiled to js - enable run within browser also
+## Planned features
+* Transition to `html` 
+* Enable batch generation
+* ~~Compiled to js - enable run within browser also~~
 
-### Notes
+## Notes
 ```
 python -m unittest discover -s tests
 ```
 
-### Bugs
-Not working with pdf library 
+# Bugs
+* Fonts cache is weird, delete `*.pkl` files
+* Not working with pdf library 
 ```
 self.fractionSymbols = {
     '4/4': '𝄴',
@@ -65,4 +68,4 @@ self.fractionSymbols = {
 }
 ```
 
-(c) Pavel Prchal, 2020, 2021
+(c) Pavel Prchal, 2020, 2021, 2023
