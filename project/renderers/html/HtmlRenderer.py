@@ -70,8 +70,8 @@ class HtmlRenderer(BaseRenderer):
         nMeasure = 0
 
         for measure in sectionLine.measures:
-            htmlChLine += '<td>{}</td>'.format(self.formatChord(measure.chord))
-            htmlLyLine += '<td>{}</td>'.format(self.formatLyrics(measure.lyrics))
+            htmlChLine += '<td>{}</td>'.format(self.format_chord(measure.chord))
+            htmlLyLine += '<td>{}</td>'.format(self.format_lyrics(measure.lyrics))
 
             if not measure.chord == '':
                 hasChord = True

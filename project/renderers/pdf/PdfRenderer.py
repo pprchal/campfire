@@ -203,8 +203,8 @@ class PdfRenderer(BaseRenderer):
             width = 0
             measure = sectionLine.measures[i]
             # format
-            chord = self.formatChord(measure.chord)
-            lyrics = self.formatLyrics(measure.lyrics)
+            chord = self.format_chord(measure.chord)
+            lyrics = self.format_lyrics(measure.lyrics)
 
             k = max(len(chord), len(lyrics))
             chord = chord.ljust(k)
@@ -255,6 +255,9 @@ class PdfRenderer(BaseRenderer):
         if self.col >= self.style.columns:
             # owerflow column
             self.y = self.calculate_start_y()
+            if(self.section < self.sections):
+                return
+
             self.add_page_with_title()
             self.log("+PAGE {}".format(self.pdf.page_no()))
 
@@ -313,9 +316,8 @@ class PdfRenderer(BaseRenderer):
         """
         self.create_pdf()
         self.add_page_with_title()
-        self.song.addMeta
 
-
+        self.sections = len(self.song.sections)
         for self.section in range(0, len(self.song.sections)):
             self.render_section(self.song.sections[self.section])
         return self.pdf.output('', 'S').encode("latin1")

@@ -54,11 +54,11 @@ class TxtRenderer(BaseRenderer):
         self.writeLine('-----------------------------------------------------------------')
 
     
-    def formatChord(self, txtChord:str):
+    def format_chord(self, txtChord:str):
         """
         format chord
         """
-        return '[' + super().formatChord(txtChord) + ']'
+        return '[' + super().format_chord(txtChord) + ']'
 
 
     def render_section_line(self, sectionLine : SectionLine, section : Section):
@@ -71,8 +71,8 @@ class TxtRenderer(BaseRenderer):
         for i in range(0, len(sectionLine.measures)):
             measure = sectionLine.measures[i]
             # format
-            chord = self.formatChord(measure.chord)
-            lyrics = self.formatLyrics(measure.lyrics)
+            chord = self.format_chord(measure.chord)
+            lyrics = self.format_lyrics(measure.lyrics)
 
             k = max(len(chord), len(lyrics))
             chord = chord.ljust(k)
