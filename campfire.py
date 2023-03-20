@@ -14,5 +14,5 @@ inputFileName = args.infile
 outputFileName = inputFileName.replace('.cho', '.' + str(args.format.name.lower()))
 
 # render song!
-RendererFactory.renderSong(args.format, inputFileName, outputFileName)
+RendererFactory.render_song(args.format, inputFileName, outputFileName)
 print("OK: " + outputFileName)

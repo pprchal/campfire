@@ -32,7 +32,7 @@ class TxtRenderer(BaseRenderer):
         self.renderMetadata()
 
 
-    def renderSection(self, section: Section):
+    def render_section(self, section: Section):
         """
         render single section
         """
@@ -99,11 +99,11 @@ class TxtRenderer(BaseRenderer):
         self.out = self.out + text + '\n'
 
 
-    def renderSong(self):
+    def render_song(self):
         """
         render song in one reusable html block 
         """
         self.renderSongHeader()
         for section in self.song.sections:
-            self.renderSection(section)
+            self.render_section(section)
         return self.out.encode()

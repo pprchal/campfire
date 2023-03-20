@@ -12,22 +12,6 @@
             "args": [ "--format=pdf", "/home/pavels/krabice/github/zpevnik/DEN1.cho" ],
             "console": "integratedTerminal",
         },
-        {
-            "name": "HTML: Kara",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/campfire.py",
-            "args": [ "--format=html", "project/test/testFiles/černá kára.cho" ],
-            "console": "integratedTerminal",
-        },
-        {
-            "name": "TXT: Kara",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/campfire.py",
-            "args": [ "--format=txt", "project/test/testFiles/černá kára.cho" ],
-            "console": "integratedTerminal",
-        },        
         // {
         //     "name": "Python: Current File",
         //     "type": "python",

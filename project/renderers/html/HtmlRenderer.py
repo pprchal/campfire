@@ -39,7 +39,7 @@ class HtmlRenderer(BaseRenderer):
         self.renderMetadata()
 
 
-    def renderSection(self, section: Section):
+    def render_section(self, section: Section):
         """
         render section
         """
@@ -87,7 +87,7 @@ class HtmlRenderer(BaseRenderer):
         self.drawElement(self.formatSectionTitle(section), 'h4')
 
 
-    def drawText(self, text:str):
+    def draw_text(self, text:str):
         """
         draw text
         """
@@ -106,22 +106,18 @@ class HtmlRenderer(BaseRenderer):
             html += "<meta name='{}' content='{}' />".format(m[0], m[1])
         return html
 
-    def renderSong(self):
+    def render_song(self):
         """
         render song in one reusable html block 
         """
-        self.drawText('<html>')
+        self.draw_text('<html>')
         self.drawElement(self.writeMeta(), 'head')
-        # self.drawText('<head>')
-        # self.writeMeta()
-        # self.drawText('</head>')
-
-        self.drawText('<body>')
+        self.draw_text('<body>')
         self.renderSongHeader()
         for section in self.song.sections:
-            self.drawText(self.renderSection(section))
-        self.drawText('</body>')
-        self.drawText('</html>')        
+            self.draw_text(self.render_section(section))
+        self.draw_text('</body>')
+        self.draw_text('</html>')        
         return self.out.encode()
 
 

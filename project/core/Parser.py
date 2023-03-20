@@ -2,7 +2,6 @@ import re
 
 from project.core.Config import Config
 from project.core.Measure import Measure
-from project.core.Section import Section
 from project.core.SectionLine import SectionLine
 from project.core.Song import Song
 

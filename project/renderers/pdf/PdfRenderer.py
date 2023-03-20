@@ -79,7 +79,7 @@ class PdfRenderer(BaseRenderer):
         metadataRow = self.formatMetadataRow()
         if not metadataRow == '':
             width = self.getStringWidth(metadataRow, FontStyles.METADATA)
-            self.drawText(self.pdf.w - width - self.pdf.r_margin, 18, metadataRow, FontStyles.METADATA)
+            self.draw_text(self.pdf.w - width - self.pdf.r_margin, 18, metadataRow, FontStyles.METADATA)
             self.y = self.y + self.pdf.font_size
         self.y = self.y + 2
         
@@ -114,18 +114,18 @@ class PdfRenderer(BaseRenderer):
         self.y = self.pdf.t_margin
         self.pdf.line(self.pdf.l_margin, 5, self.pdf.w - self.pdf.r_margin, 5)
         self.y = self.y + 5
-        self.y = self.y + self.drawText(self.pdf.l_margin, self.y, self.song.getMeta('title'), FontStyles.TITLE).height
-        self.y = self.y + self.drawText(self.pdf.l_margin, self.y, self.song.getMeta('artist'), FontStyles.AUTHOR).height
+        self.y = self.y + self.draw_text(self.pdf.l_margin, self.y, self.song.getMeta('title'), FontStyles.TITLE).height
+        self.y = self.y + self.draw_text(self.pdf.l_margin, self.y, self.song.getMeta('artist'), FontStyles.AUTHOR).height
 
         # line ---------------------
         yLine = 26
         self.pdf.line(self.pdf.l_margin, yLine, self.pdf.w - self.pdf.r_margin, yLine)
         # custom metadata (time: 3/4,....)
         self.renderMetadata()
-        self.y = self.calculateStartY()
+        self.y = self.calculate_start_y()
 
 
-    def renderSection(self, section: Section):
+    def render_section(self, section: Section):
         """
         render single section
         """
@@ -136,19 +136,20 @@ class PdfRenderer(BaseRenderer):
             self.next_column()
 
         # check size (is fit?)
-        self.log("renderSection1({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
+        self.log("render_section({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
         if self.isWidow(section):
-            self.moveForward()
-            self.log("renderSection2({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
+            self.move_forward()
+            self.log("render_section({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
 
         # ...and content
         self.render_section_title(section)
-        for line in section.lines:
-            self.log('Line: [{}]'.format(line.linePosition))
+        for n in range(0, len(section.lines)):
+            line = section.lines[n]
+            self.log('Line[{}]: [{}]'.format(n, line.linePosition))
             self.render_section_line(line, section)
             # too many lines - wrap to next column
             if self.y > 200:
-                self.y = self.calculateStartY()
+                self.y = self.calculate_start_y()
                 self.next_column()
 
         self.log('----------------------')
@@ -158,7 +159,7 @@ class PdfRenderer(BaseRenderer):
         """
         render section title
         """
-        self.drawText(self.calculateStartX(), self.y, self.formatSectionTitle(section), FontStyles.CHORD)
+        self.draw_text(self.calculate_start_x(), self.y, self.formatSectionTitle(section), FontStyles.CHORD)
         self.y = self.y + self.rowHeight
         self.row = self.row + 1
 
@@ -172,7 +173,7 @@ class PdfRenderer(BaseRenderer):
         return remaining < 3
 
 
-    def moveForward(self):
+    def move_forward(self):
         """
         do owerflow
         """
@@ -193,7 +194,7 @@ class PdfRenderer(BaseRenderer):
         """
         render song line (chords + lyrics)
         """
-        self.x = self.calculateStartX()
+        self.x = self.calculate_start_x()
         isLyricsRendered = 0
         isChordRendered = 0
         renderedWidth = 0
@@ -214,13 +215,13 @@ class PdfRenderer(BaseRenderer):
             if not chord.strip() == '':
                 s = Transpose.transponse_chord(self.config, chord)
                 isChordRendered = 1
-                self.drawText(self.x, self.y, chord, FontStyles.CHORD)
+                self.draw_text(self.x, self.y, chord, FontStyles.CHORD)
 
             # lyrics
             if not lyrics.strip() == '':
                 s = lyrics
                 isLyricsRendered = 1
-                self.drawText(self.x, self.y + self.rowHeight, lyrics, FontStyles.LYRICS)
+                self.draw_text(self.x, self.y + self.rowHeight, lyrics, FontStyles.LYRICS)
 
             # move x to next position
             width = self.pdf.get_string_width(s)
@@ -246,14 +247,14 @@ class PdfRenderer(BaseRenderer):
         """
         if self.row >= self.style.maxRows:
             self.row = 0
-            self.y = self.calculateStartY()
-            self.x = self.calculateStartX()
+            self.y = self.calculate_start_y()
+            self.x = self.calculate_start_x()
             self.col = self.col + 1 
             self.log("+COLUMN {}".format(self.col))
 
         if self.col >= self.style.columns:
             # owerflow column
-            self.y = self.calculateStartY()
+            self.y = self.calculate_start_y()
             self.add_page_with_title()
             self.log("+PAGE {}".format(self.pdf.page_no()))
 
@@ -262,15 +263,15 @@ class PdfRenderer(BaseRenderer):
         """
         add new pdf page
         """
-        self.y = self.calculateStartY()
-        self.x = self.calculateStartX()
+        self.y = self.calculate_start_y()
+        self.x = self.calculate_start_x()
         self.col = 0
         self.row = 0
         self.pdf.add_page('L')
         self.renderSongHeader()
 
 
-    def drawText(self, x: float, y: float, text:str, fontStyle:FontStyles):
+    def draw_text(self, x: float, y: float, text:str, fontStyle:FontStyles):
         """
         draw text
         """
@@ -280,14 +281,14 @@ class PdfRenderer(BaseRenderer):
         return PdfBox(self.pdf.get_string_width(text), font.Height / self.pdf.k)
 
 
-    def calculateStartY(self):
+    def calculate_start_y(self):
         """
         calc start Y
         """
         return 34
 
 
-    def calculateStartX(self):
+    def calculate_start_x(self):
         """
         get start x
         """
@@ -306,7 +307,7 @@ class PdfRenderer(BaseRenderer):
         self.setColor(self.style.black)
 
 
-    def renderSong(self):
+    def render_song(self):
         """
         render song in one reusable html block 
         """
@@ -315,6 +316,6 @@ class PdfRenderer(BaseRenderer):
         self.song.addMeta
 
 
-        for section in self.song.sections:
-            self.renderSection(section)
+        for self.section in range(0, len(self.song.sections)):
+            self.render_section(self.song.sections[self.section])
         return self.pdf.output('', 'S').encode("latin1")

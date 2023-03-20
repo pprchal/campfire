@@ -12,8 +12,8 @@ class BaseRenderer:
         self.song = song
         self._style = None
 
-    def renderSong(self):        
-        raise NotImplementedError("renderSong is not implemented-abstract")
+    def render_song(self):        
+        raise NotImplementedError("render_song is not implemented-abstract")
 
 
     @property

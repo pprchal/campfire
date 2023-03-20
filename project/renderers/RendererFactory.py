@@ -25,7 +25,7 @@ class RendererFactory:
 
 
     @staticmethod
-    def renderSong(outputFormat: OutputFormats, songFileName: str, outFileName: str):
+    def render_song(outputFormat: OutputFormats, songFileName: str, outFileName: str):
         """
         render song to output html file
         """
@@ -33,7 +33,7 @@ class RendererFactory:
         fout = open(outFileName, "wb")
 
         config = Config.fromYaml()
-        buff = RendererFactory.createRenderer(outputFormat, config, Parser(fin, config).parse()).renderSong()
+        buff = RendererFactory.createRenderer(outputFormat, config, Parser(fin, config).parse()).render_song()
         fout.write(buff)
         fout.close()
         fin.close()

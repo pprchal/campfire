@@ -1,10 +1,7 @@
 import unittest
 
 from project.core.Config import Config
-from project.core.Measure import Measure
 from project.core.Parser import Parser
-from project.core.SectionLine import SectionLine
-from project.core.Song import Song
 from project.test.BaseTest import BaseTest
 
 
