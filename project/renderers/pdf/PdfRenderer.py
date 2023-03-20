@@ -12,7 +12,7 @@ from project.core.Song import Song
 from project.core.Style import Style
 from project.renderers.BaseRenderer import BaseRenderer
 from project.renderers.pdf.PdfBox import PdfBox
-
+from project.core.Transpose import Transpose
 
 class PdfRenderer(BaseRenderer):
     def __init__(self, config: Config, song: Song):
@@ -143,6 +143,11 @@ class PdfRenderer(BaseRenderer):
         for line in section.lines:
             self.log('Line: [{}]'.format(line.linePosition))
             self.renderSectionLine(line, section)
+            # too many lines - wrap to next column
+            if self.y > 200:
+                self.y = self.calculateStartY()
+                self.nextColumn()
+
         self.log('----------------------')
 
     
@@ -176,7 +181,8 @@ class PdfRenderer(BaseRenderer):
         """
         move to next column
         """
-        self.col = self.style.columns
+        self.col = self.col + 1
+        self.row = 0
         self.handlePossibleOverflow()
 
 
@@ -204,7 +210,7 @@ class PdfRenderer(BaseRenderer):
             s = ''
             # chord
             if not chord.strip() == '':
-                s = chord
+                s = Transpose.transponse_chord(self.config, chord)
                 isChordRendered = 1
                 self.drawText(self.x, self.y, chord, FontStyles.CHORD)
 
@@ -225,7 +231,7 @@ class PdfRenderer(BaseRenderer):
         if renderedWidth > self.colWidth:
             self.log('Line:{} [{}] is too wide! please wrap it'.format(sectionLine.linePosition, sectionLine.rawLine))
 
-        renderedRows =  (isChordRendered + isLyricsRendered)
+        renderedRows = (isChordRendered + isLyricsRendered)
         self.y = self.y + self.rowHeight*renderedRows + (self.rowHeight * 0.6)
         self.row = self.row + renderedRows
         self.handlePossibleOverflow()

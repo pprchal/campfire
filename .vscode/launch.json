@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "PDF: Kara",
+            "name": "PDF: OLY1",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/campfire.py",
-            "args": [ "--format=pdf", "project/test/testFiles/myšlenka.cho" ],
+            "args": [ "--format=pdf", "/home/pavels/krabice/github/zpevnik/OLY1.cho" ],
             "console": "integratedTerminal",
         },
         {

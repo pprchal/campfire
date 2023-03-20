@@ -39,7 +39,18 @@ class BaseRenderer:
 
         return chordSymbols
 
+    @property
+    def tones(self):
+        """
+        tone names
+        """
+        tones = self.config.getProperty('style.tones')
+        if not isinstance(tones, dict):
+            tones = Config.toDict(tones)
+            self.config.setProperty('style.tones', tones)
 
+        return tones
+    
     @property
     def sectionTitles(self):
         """
@@ -52,7 +63,6 @@ class BaseRenderer:
             self.config.setProperty('style.sectionTitles', sectionTitles)
 
         return sectionTitles
-
 
     def formatSectionTitle(self, section:Section):
         """
