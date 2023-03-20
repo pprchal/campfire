@@ -49,7 +49,7 @@ class HtmlRenderer(BaseRenderer):
 
         for line in section.lines:
             htmlSection += '<table>\n'
-            htmlChLine, htmlLyLine, hasChord = self.renderSectionLine(line, nSectionLine, section)
+            htmlChLine, htmlLyLine, hasChord = self.render_section_line(line, nSectionLine, section)
             nSectionLine = nSectionLine + 1
 
             if hasChord:
@@ -60,7 +60,7 @@ class HtmlRenderer(BaseRenderer):
         return htmlSection + '</div>\n'
 
 
-    def renderSectionLine(self, sectionLine: SectionLine, nSectionLine: int, section: Section):
+    def render_section_line(self, sectionLine: SectionLine, nSectionLine: int, section: Section):
         """
         render song line (chords + lyrics)
         """
@@ -80,7 +80,7 @@ class HtmlRenderer(BaseRenderer):
         return (htmlChLine, htmlLyLine, hasChord)
 
 
-    def renderSectionTitle(self, section: Section):
+    def render_section_title(self, section: Section):
         """
         render section title
         """

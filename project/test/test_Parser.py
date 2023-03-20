@@ -59,15 +59,15 @@ class ParserTests(unittest.TestCase):
         m = self.createEmptyParser().parseSectionLine('fičel floutek ffi', 1).measures[0]
         self.assertEqual('ﬁčel ﬂoutek ﬃ', m.lyrics)
 
-    def test_processLine1(self):
+    def test_process_line1(self):
         s = Song()
-        self.createEmptyParser().processLine('{start_of_chorus: Chorus 2} {soc: Chorus 2}', s, 0)
+        self.createEmptyParser().process_line('{start_of_chorus: Chorus 2} {soc: Chorus 2}', s, 0)
         self.assertEqual('Chorus 2', s.sections[0].name)
 
 
-    def test_processLine2(self):
+    def test_process_line2(self):
         s = Song()
-        self.createEmptyParser().processLine('{start_of_chorus}', s, 0)
+        self.createEmptyParser().process_line('{start_of_chorus}', s, 0)
         
 
 

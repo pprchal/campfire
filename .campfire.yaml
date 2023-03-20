@@ -9,12 +9,13 @@
     lowerNumbers: '₀₁₂₃₄₅₆₇₈₉'
     # default metadata to render
     renderMetadataKeys: ['time', 'tempo']
+    # linw width
     lineWidth: 0.2
     # how many spaces between two words in verse    Každej tu[xSpaceFactor * widthOf('X')]černou
     xSpaceFactor: 2.5
     # row height(LYRICS) * ySpaceFactor is space between two rows
     ySpaceFactor: 0.6
-    # red color ;)
+    # ,,red''' color ;)
     red: [26, 129, 255]
     # text color
     black: [0, 0, 0]

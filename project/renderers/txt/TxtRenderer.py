@@ -1,13 +1,9 @@
 import os
 
 from project.core.Config import Config
-from project.core.Font import Font
-from project.core.FontStyles import FontStyles
-from project.core.Measure import Measure
 from project.core.Section import Section
 from project.core.SectionLine import SectionLine
 from project.core.Song import Song
-from project.core.Style import Style
 from project.renderers.BaseRenderer import BaseRenderer
 
 
@@ -44,13 +40,13 @@ class TxtRenderer(BaseRenderer):
         if section.isCommandSection():
             return
             
-        self.renderSectionTitle(section)
+        self.render_section_title(section)
         for line in section.lines:
-            self.renderSectionLine(line, section)
+            self.render_section_line(line, section)
         self.writeLine('\n')
 
     
-    def renderSectionTitle(self, section: Section):
+    def render_section_title(self, section: Section):
         """
         render section title
         """
@@ -65,7 +61,7 @@ class TxtRenderer(BaseRenderer):
         return '[' + super().formatChord(txtChord) + ']'
 
 
-    def renderSectionLine(self, sectionLine : SectionLine, section : Section):
+    def render_section_line(self, sectionLine : SectionLine, section : Section):
         """
         render song line (chords + lyrics)
         """

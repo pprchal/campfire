@@ -5,11 +5,9 @@ from fpdf import FPDF
 from project.core.Config import Config
 from project.core.Font import Font
 from project.core.FontStyles import FontStyles
-from project.core.Measure import Measure
 from project.core.Section import Section
 from project.core.SectionLine import SectionLine
 from project.core.Song import Song
-from project.core.Style import Style
 from project.renderers.BaseRenderer import BaseRenderer
 from project.renderers.pdf.PdfBox import PdfBox
 from project.core.Transpose import Transpose
@@ -26,7 +24,7 @@ class PdfRenderer(BaseRenderer):
         self.rowHeight = 0
 
 
-    def createPdf(self):
+    def create_pdf(self):
         """
         create new PDF file
         """
@@ -37,7 +35,7 @@ class PdfRenderer(BaseRenderer):
         for fontStyle in FontStyles:
             fontName = self.config.getProperty('style.' + str(fontStyle.name))[2]
             if not fontName in fontNames:
-                self.loadTtfFont(fontName)
+                self.load_ttf_font(fontName)
                 fontNames.append(fontName)
 
         self.colWidth = self.pdf.w / self.style.columns
@@ -47,17 +45,19 @@ class PdfRenderer(BaseRenderer):
         self.addPdfMetadata()
 
     def addPdfMetadata(self):
-        title = self.song.getMeta('title')
+        # self.pdf.set_xmp_metadata()
+        # title = self.song.getMeta('title')
+        pass
 
-    def loadTtfFont(self, fontName: str):
+    def load_ttf_font(self, fontName: str):
         """
         load ttf font from directory
         """
-        self.pdf.add_font(fontName, '', self.getFontPath(fontName + '.ttf'), uni=True)
+        self.pdf.add_font(fontName, '', self.get_font_path(fontName + '.ttf'), uni=True)
         self.pdf.set_font(fontName.lower(), "")        
 
 
-    def getFontPath(self, font : str):
+    def get_font_path(self, font : str):
         """
         gets font from current work dir
         """
@@ -99,8 +99,11 @@ class PdfRenderer(BaseRenderer):
         self.pdf.set_font(font.Name, '', font.Height)
         if font.Color == 'red':
             self.setRedColor()
-        else:
+        elif font.Color == 'black':
             self.setBlackColor()
+        else:
+            self.log(f'unkonwn color {font.Color}')
+
         return font
 
 
@@ -127,10 +130,10 @@ class PdfRenderer(BaseRenderer):
         render single section
         """
         if section.getSectionType() == 'new_page':
-            self.addPageWithTitle()
+            self.add_page_with_title()
             return
         elif section.getSectionType() == 'column_break':
-            self.nextColumn()
+            self.next_column()
 
         # check size (is fit?)
         self.log("renderSection1({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
@@ -139,19 +142,19 @@ class PdfRenderer(BaseRenderer):
             self.log("renderSection2({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
 
         # ...and content
-        self.renderSectionTitle(section)
+        self.render_section_title(section)
         for line in section.lines:
             self.log('Line: [{}]'.format(line.linePosition))
-            self.renderSectionLine(line, section)
+            self.render_section_line(line, section)
             # too many lines - wrap to next column
             if self.y > 200:
                 self.y = self.calculateStartY()
-                self.nextColumn()
+                self.next_column()
 
         self.log('----------------------')
 
     
-    def renderSectionTitle(self, section: Section):
+    def render_section_title(self, section: Section):
         """
         render section title
         """
@@ -177,7 +180,7 @@ class PdfRenderer(BaseRenderer):
         self.handlePossibleOverflow()
 
 
-    def nextColumn(self):
+    def next_column(self):
         """
         move to next column
         """
@@ -186,8 +189,7 @@ class PdfRenderer(BaseRenderer):
         self.handlePossibleOverflow()
 
 
-
-    def renderSectionLine(self, sectionLine : SectionLine, section : Section):
+    def render_section_line(self, sectionLine : SectionLine, section : Section):
         """
         render song line (chords + lyrics)
         """
@@ -252,11 +254,11 @@ class PdfRenderer(BaseRenderer):
         if self.col >= self.style.columns:
             # owerflow column
             self.y = self.calculateStartY()
-            self.addPageWithTitle()
+            self.add_page_with_title()
             self.log("+PAGE {}".format(self.pdf.page_no()))
 
 
-    def addPageWithTitle(self):
+    def add_page_with_title(self):
         """
         add new pdf page
         """
@@ -308,8 +310,8 @@ class PdfRenderer(BaseRenderer):
         """
         render song in one reusable html block 
         """
-        self.createPdf()
-        self.addPageWithTitle()
+        self.create_pdf()
+        self.add_page_with_title()
         self.song.addMeta
 
 

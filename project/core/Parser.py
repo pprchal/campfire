@@ -11,7 +11,7 @@ class Parser:
     def __init__(self, choStream, config: Config):
         self.config = config
         self.choStream = choStream
-        self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/%,]+)?}', re.UNICODE)
+        self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/%,-]+)?}', re.UNICODE)
         self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\\s#]*\\])', re.UNICODE)
         self.unsupported_keys = {
             'new_song', 
@@ -74,19 +74,19 @@ class Parser:
         return sectionLine
 
 
-    def isIgnoredLine(self, line: str):
+    def is_ignored_line(self, line: str):
         """
         recognize comments
         """
         return line.startswith("#") or line.strip() == ''
 
 
-    def processLine(self, line: str, song: Song, n: int):
+    def process_line(self, line: str, song: Song, n: int):
         """
         main tokenizer - parse line and add to section
         """
         # skip comments and empty lines
-        if self.isIgnoredLine(line):
+        if self.is_ignored_line(line):
             return
 
         # handle {key: value} lines
@@ -174,6 +174,6 @@ class Parser:
         song = Song()
         n = 1
         for line in self.choStream:
-            self.processLine(line, song, n)
+            self.process_line(line, song, n)
             n = n + 1
         return song
