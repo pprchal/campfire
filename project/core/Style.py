@@ -10,7 +10,6 @@ class Style:
         """
         self.config = config
 
-
     @property
     def lineWidth(self):
        return float(self.config.getProperty('style.lineWidth'))
@@ -27,10 +26,6 @@ class Style:
     def punctions(self):
         return self.config.getProperty('style.punctions')
     
-    @property
-    def maxRows(self):
-        return int(self.config.getProperty('style.maxRows'))
-
     @property
     def columns(self):
         return int(self.config.getProperty('style.columns'))

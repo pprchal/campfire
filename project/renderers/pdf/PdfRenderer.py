@@ -151,6 +151,7 @@ class PdfRenderer(BaseRenderer):
             if self.y > 200:
                 self.y = self.calculate_start_y()
                 self.next_column()
+                self.handlePossibleOverflow()
 
         self.log('----------------------')
 
@@ -163,13 +164,17 @@ class PdfRenderer(BaseRenderer):
         self.y = self.y + self.rowHeight
         self.row = self.row + 1
 
+    def max_rows(self):
+        # todo: compute by page & font
+        # step 1 - refactored out from config
+        return 24
 
     def isWidow(self, section : Section):
         """
         NEED MORE WORK!!!!!!!!!
         so far, so stupid
         """
-        remaining = self.style.maxRows - self.row - len(section.lines)
+        remaining = self.max_rows() - self.row - len(section.lines)
         return remaining < 3
 
 
@@ -177,7 +182,7 @@ class PdfRenderer(BaseRenderer):
         """
         do owerflow
         """
-        self.row = self.style.maxRows + 1
+        self.row = self.max_rows() + 1
         self.handlePossibleOverflow()
 
 
@@ -245,7 +250,7 @@ class PdfRenderer(BaseRenderer):
         """
         flow of [rows - cols - pages]
         """
-        if self.row >= self.style.maxRows:
+        if self.row >= self.max_rows():
             self.row = 0
             self.y = self.calculate_start_y()
             self.x = self.calculate_start_x()
@@ -255,8 +260,8 @@ class PdfRenderer(BaseRenderer):
         if self.col >= self.style.columns:
             # owerflow column
             self.y = self.calculate_start_y()
-            if(self.section < self.sections):
-                return
+            # if(self.section < self.sections):
+            #     return
 
             self.add_page_with_title()
             self.log("+PAGE {}".format(self.pdf.page_no()))

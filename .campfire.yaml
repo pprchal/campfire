@@ -1,8 +1,6 @@
 ﻿style:
     # default columns, you can override by: {columns: 3}
     columns: 2
-    # maximum number of rows per page - should be computed :)
-    maxRows: 24
     # upper fractions
     upperNumbers: '⁰¹²³⁴⁵⁶⁷⁸⁹'
     # lower fractions
@@ -24,11 +22,9 @@
     # chord replacements
     chordSymbols: [ 'b': '♭', '#': '♯' ]
     # ligature symbols - check if your ttf font supplies all of those ones
-    ligatures: [ 'ffi': 'ﬃ', 'ffl': 'ﬄ', 'ff': 'ﬀ', 'fi': 'ﬁ', 'fl': 'ﬂ', 'ft': 'ﬅ' ]
+    ligatures: [ 'ffi': 'ﬃ', 'ffl': 'ﬄ', 'ff': 'ﬀ', 'fi': 'ﬁ', 'fl': 'ﬂ', 'ft': 'ﬅ'] # '/:': '𝄆', ':/': '𝄇' ]
     # translations
     sectionTitles: ['verse': 'sloka', 'chorus': 'refrén']
-    # tone names for transposition
-    tones: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'H']
     # --------- fonts  [size, color, FaceLookTo fonts directory (FreeSerif is fonts/FreeSerif.ttf)]
     TITLE: [26, red, FreeSerif]
     AUTHOR: [17, red, FreeSerif]
