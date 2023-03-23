@@ -44,7 +44,7 @@ class Config:
         return d
 
     @classmethod 
-    def getConfigPath(cls):
+    def get_config_path(cls):
         fullPath = os.path.join(Path.home(), '.campfire.yaml')
         if exists(fullPath):
             return fullPath
@@ -53,6 +53,6 @@ class Config:
 
     @classmethod
     def fromYaml(cls):
-        print('loading: ' + Config.getConfigPath())
-        with open(Config.getConfigPath(), encoding="utf8") as f:
+        print('loading: ' + Config.get_config_path())
+        with open(Config.get_config_path(), encoding="utf8") as f:
             return Config(yaml.load(f, Loader=yaml.FullLoader))

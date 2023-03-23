@@ -24,7 +24,7 @@
     # ligature symbols - check if your ttf font supplies all of those ones
     ligatures: [ 'ffi': 'ﬃ', 'ffl': 'ﬄ', 'ff': 'ﬀ', 'fi': 'ﬁ', 'fl': 'ﬂ', 'ft': 'ﬅ']
     # translations
-    sectionTitles: ['verse': 'sloka', 'chorus': 'refrén']
+    sectionTitles: ['verse': '.........................', 'chorus': 'refrén']
     # --------- fonts  [size, color, FaceLookTo fonts directory (FreeSerif is fonts/FreeSerif.ttf)]
     TITLE: [26, red, FreeSerif]
     AUTHOR: [17, red, FreeSerif]

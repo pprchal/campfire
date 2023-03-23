@@ -137,7 +137,7 @@ class PdfRenderer(BaseRenderer):
 
         # check size (is fit?)
         self.log("render_section({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
-        if self.isWidow(section):
+        if self.is_widow(section):
             self.move_forward()
             self.log("render_section({}-{}) row:{} col:{}".format(section.getSectionType(), self.formatSectionTitle(section), self.row, self.col))
 
@@ -146,7 +146,7 @@ class PdfRenderer(BaseRenderer):
         for n in range(0, len(section.lines)):
             line = section.lines[n]
             self.log('Line[{}]: [{}]'.format(n, line.linePosition))
-            self.render_section_line(line, section)
+            self.render_section_line(line)
             # too many lines - wrap to next column
             if self.y > 200:
                 self.y = self.calculate_start_y()
@@ -169,7 +169,7 @@ class PdfRenderer(BaseRenderer):
         # step 1 - refactored out from config
         return 24
 
-    def isWidow(self, section : Section):
+    def is_widow(self, section : Section):
         """
         NEED MORE WORK!!!!!!!!!
         so far, so stupid
@@ -195,7 +195,7 @@ class PdfRenderer(BaseRenderer):
         self.handlePossibleOverflow()
 
 
-    def render_section_line(self, sectionLine : SectionLine, section : Section):
+    def render_section_line(self, sectionLine : SectionLine):
         """
         render song line (chords + lyrics)
         """
@@ -237,7 +237,7 @@ class PdfRenderer(BaseRenderer):
 
         # overflows
         if renderedWidth > self.colWidth:
-            self.log('Line:{} [{}] is too wide! please wrap it'.format(sectionLine.linePosition, sectionLine.rawLine))
+            self.warn('Line:{} [{}] is too wide! please wrap it'.format(sectionLine.linePosition, sectionLine.rawLine))
 
         renderedRows = (isChordRendered + isLyricsRendered)
         self.y = self.y + self.rowHeight*renderedRows + (self.rowHeight * 0.6)
@@ -261,6 +261,7 @@ class PdfRenderer(BaseRenderer):
             # owerflow column
             self.y = self.calculate_start_y()
             # if(self.section < self.sections):
+            #     self.warn('!!!!!!!!!!' + str(self.section))
             #     return
 
             self.add_page_with_title()

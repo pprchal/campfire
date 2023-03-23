@@ -137,6 +137,10 @@ class BaseRenderer:
         return chord        
 
     def log(self, msg:str):
+        # print(msg)
+        pass
+
+    def warn(self, msg:str):
         print(msg)
 
         
