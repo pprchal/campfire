@@ -64,21 +64,21 @@ class PdfRenderer(BaseRenderer):
         return os.path.join(os.getcwd(), 'fonts', font)
 
 
-    def getStringWidth(self, text : str, fontStyle : FontStyles):
+    def get_string_width(self, text : str, fontStyle : FontStyles):
         """
         gets string width by font style
         """
-        self.setFontStyle(fontStyle)
+        self.set_font_style(fontStyle)
         return self.pdf.get_string_width(text)
 
 
-    def renderMetadata(self):
+    def render_metadata(self):
         """
         render some metadata as floating line
         """
         metadataRow = self.formatMetadataRow()
         if not metadataRow == '':
-            width = self.getStringWidth(metadataRow, FontStyles.METADATA)
+            width = self.get_string_width(metadataRow, FontStyles.METADATA)
             self.draw_text(self.pdf.w - width - self.pdf.r_margin, 18, metadataRow, FontStyles.METADATA)
             self.y = self.y + self.pdf.font_size
         self.y = self.y + 2
@@ -91,7 +91,7 @@ class PdfRenderer(BaseRenderer):
         return Font(self.config.getProperty('style.' + str(fontStyle.name)))
 
 
-    def setFontStyle(self, fontStyle: FontStyles):
+    def set_font_style(self, fontStyle: FontStyles):
         """
         font styles
         """
@@ -107,7 +107,7 @@ class PdfRenderer(BaseRenderer):
         return font
 
 
-    def renderSongHeader(self):
+    def render_song_header(self):
         """
         author + song name
         """
@@ -121,7 +121,7 @@ class PdfRenderer(BaseRenderer):
         yLine = 26
         self.pdf.line(self.pdf.l_margin, yLine, self.pdf.w - self.pdf.r_margin, yLine)
         # custom metadata (time: 3/4,....)
-        self.renderMetadata()
+        self.render_metadata()
         self.y = self.calculate_start_y()
 
 
@@ -276,7 +276,7 @@ class PdfRenderer(BaseRenderer):
         self.col = 0
         self.row = 0
         self.pdf.add_page('L')
-        self.renderSongHeader()
+        self.render_song_header()
 
 
     def draw_text(self, x: float, y: float, text:str, fontStyle:FontStyles):
@@ -284,7 +284,7 @@ class PdfRenderer(BaseRenderer):
         draw text
         """
         self.log("[{} {}] x:{:.2f} y:{:.2f}    {}".format(self.row, self.col, x, y, text))
-        font = self.setFontStyle(fontStyle)
+        font = self.set_font_style(fontStyle)
         self.pdf.text(x, y, text)
         return PdfBox(self.pdf.get_string_width(text), font.Height / self.pdf.k)
 

@@ -33,6 +33,8 @@ class RendererFactory:
         fout = open(outFileName, "wb")
 
         config = Config.fromYaml()
+        print(config.getProperty("style.LYRICS"))
+
         buff = RendererFactory.createRenderer(outputFormat, config, Parser(fin, config).parse()).render_song()
         fout.write(buff)
         fout.close()

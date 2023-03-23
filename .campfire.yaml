@@ -22,13 +22,13 @@
     # chord replacements
     chordSymbols: [ 'b': '♭', '#': '♯' ]
     # ligature symbols - check if your ttf font supplies all of those ones
-    ligatures: [ 'ffi': 'ﬃ', 'ffl': 'ﬄ', 'ff': 'ﬀ', 'fi': 'ﬁ', 'fl': 'ﬂ', 'ft': 'ﬅ'] # '/:': '𝄆', ':/': '𝄇' ]
+    ligatures: [ 'ffi': 'ﬃ', 'ffl': 'ﬄ', 'ff': 'ﬀ', 'fi': 'ﬁ', 'fl': 'ﬂ', 'ft': 'ﬅ']
     # translations
     sectionTitles: ['verse': 'sloka', 'chorus': 'refrén']
     # --------- fonts  [size, color, FaceLookTo fonts directory (FreeSerif is fonts/FreeSerif.ttf)]
     TITLE: [26, red, FreeSerif]
     AUTHOR: [17, red, FreeSerif]
-    CHORD: [19, red, FreeSerif]
-    LYRICS: [19, black, FreeSerif]
+    CHORD: [19, red, FreeSerifBold]
+    LYRICS: [19, black, Palladio Regular]
     METADATA: [17, black, FreeSerif]
 

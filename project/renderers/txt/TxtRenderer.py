@@ -23,13 +23,13 @@ class TxtRenderer(BaseRenderer):
             self.writeLine('\n')
         
 
-    def renderSongHeader(self):
+    def render_song_header(self):
         """
         author + song name
         """
         self.writeLine(self.song.getMeta('title'))
         self.writeLine(self.song.getMeta('artist'))
-        self.renderMetadata()
+        self.render_metadata()
 
 
     def render_section(self, section: Section):
@@ -103,7 +103,7 @@ class TxtRenderer(BaseRenderer):
         """
         render song in one reusable html block 
         """
-        self.renderSongHeader()
+        self.render_song_header()
         for section in self.song.sections:
             self.render_section(section)
         return self.out.encode()

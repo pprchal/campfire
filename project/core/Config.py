@@ -53,5 +53,6 @@ class Config:
 
     @classmethod
     def fromYaml(cls):
+        print('loading: ' + Config.getConfigPath())
         with open(Config.getConfigPath(), encoding="utf8") as f:
             return Config(yaml.load(f, Loader=yaml.FullLoader))

@@ -21,7 +21,7 @@ class HtmlRenderer(BaseRenderer):
             '#': '&#9839;'
         }
 
-    def renderMetadata(self):
+    def render_metadata(self):
         """
         render some metadata as floating line
         """
@@ -30,7 +30,7 @@ class HtmlRenderer(BaseRenderer):
             self.drawElement(metadataRow, 'h3')
         
 
-    def renderSongHeader(self):
+    def render_song_header(self):
         """
         author + song name
         """
@@ -113,7 +113,7 @@ class HtmlRenderer(BaseRenderer):
         self.draw_text('<html>')
         self.drawElement(self.writeMeta(), 'head')
         self.draw_text('<body>')
-        self.renderSongHeader()
+        self.render_song_header()
         for section in self.song.sections:
             self.draw_text(self.render_section(section))
         self.draw_text('</body>')
