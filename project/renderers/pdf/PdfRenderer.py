@@ -29,15 +29,12 @@ class PdfRenderer(BaseRenderer):
         """
         self.create_pdf()
         self.add_page_with_title()
-
-        self.sections = len(self.song.sections)
         for self.section in range(0, len(self.song.sections)):
             if self.song.sections[self.section].sectionType == "new_page":
                 self.add_page_with_title()
                 continue
 
             self.render_section(self.song.sections[self.section])
-
         return self.pdf.output('', 'S').encode("latin1")
     
     def create_pdf(self):
@@ -134,6 +131,9 @@ class PdfRenderer(BaseRenderer):
         self.render_metadata()
         self.y = self.calculate_start_y()
 
+    def max_y(self):
+        return 200
+
 
     def render_section(self, section: Section):
         """
@@ -157,11 +157,12 @@ class PdfRenderer(BaseRenderer):
             line = section.lines[n]
             self.log('Line[{}]: [{}]'.format(n, line.linePosition))
             self.render_section_line(line)
+
             # too many lines - wrap to next column
-            if self.y > 200:
+            if self.y > self.max_y():
                 self.y = self.calculate_start_y()
                 self.next_column()
-                self.handlePossibleOverflow()
+                self.handle_possible_overflow()
 
         self.log('----------------------')
 
@@ -193,7 +194,7 @@ class PdfRenderer(BaseRenderer):
         do owerflow
         """
         self.row = self.max_rows() + 1
-        self.handlePossibleOverflow()
+        self.handle_possible_overflow()
 
 
     def next_column(self):
@@ -202,7 +203,7 @@ class PdfRenderer(BaseRenderer):
         """
         self.col = self.col + 1
         self.row = 0
-        self.handlePossibleOverflow()
+        self.handle_possible_overflow()
 
 
     def render_section_line(self, sectionLine : SectionLine):
@@ -252,11 +253,11 @@ class PdfRenderer(BaseRenderer):
         renderedRows = (isChordRendered + isLyricsRendered)
         self.y = self.y + self.rowHeight*renderedRows + (self.rowHeight * 0.6)
         self.row = self.row + renderedRows
-        self.handlePossibleOverflow()
+        self.handle_possible_overflow()
 
 
 
-    def handlePossibleOverflow(self):
+    def handle_possible_overflow(self):
         """
         flow of [rows - cols - pages]
         """
@@ -270,12 +271,15 @@ class PdfRenderer(BaseRenderer):
         if self.col >= self.style.columns:
             # owerflow column
             self.y = self.calculate_start_y()
-            # if(self.section < self.sections):
-            #     self.warn('!!!!!!!!!!' + str(self.section))
-            #     return
+
+            if self.section + 1 == len(self.song.sections):
+                return
 
             self.add_page_with_title()
             self.log("+PAGE {}".format(self.pdf.page_no()))
+            # if self.section < len(self.song.sections):
+            # else:
+            #     self.warn("OKOKOKOK????")
 
 
     def add_page_with_title(self):

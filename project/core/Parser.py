@@ -132,7 +132,7 @@ class Parser:
                 
             # analyzed as block... add or reuse
             # special non-paired sections
-            if key == 'new_page':
+            if key == 'new_page' or key == 'column_break':
                 song.open_new_section(key, value)
                 return
                         

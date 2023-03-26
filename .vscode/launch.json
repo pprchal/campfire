@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/campfire.py",
-            "args": [ "--format=pdf", "/home/pavels/krabice/github/zpevnik/RED1.cho" ],
+            "args": [ "--format=pdf", "/home/pavels/krabice/github/zpevnik/KAB1.cho" ],
             "console": "integratedTerminal",
         },
         // {
