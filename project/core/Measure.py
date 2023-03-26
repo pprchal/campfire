@@ -1,12 +1,12 @@
 class Measure:
-    def __init__(self, lyrics: str, chord: str):
+    def __init__(self, lyrics: str, chord: str, repeated_chord):
         self.lyrics = lyrics
         self.chord = chord
-        self.repeatedChord = False
+        self.repeated_chord = repeated_chord
 
     def __eq__(self, other):
         return (self.lyrics == other.lyrics) and (self.chord == other.chord)
 
     @classmethod
-    def createEmpty(cls):
-        return Measure('', '')
+    def create_empty(cls):
+        return Measure('', '', False)

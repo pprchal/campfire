@@ -36,11 +36,13 @@ class Song:
         return None
 
 
-    def openNewSection(self, sectionType: str, name: str):
+    def open_new_section(self, sectionType: str, name: str):
         """
         open new section -- more work needs to be done to achieve reusing (verse: A) {A}
         """
-        self.sections.append(Section(sectionType, name, self.getNumberForSectionType(sectionType)))
+        section = Section(sectionType, name, self.getNumberForSectionType(sectionType))
+        self.sections.append(section)
+        return section
 
 
     def getNumberForSectionType(self, sectionType: str):

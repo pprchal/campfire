@@ -2,7 +2,7 @@ from project.core.SectionLine import SectionLine
 
 class Section:
     def __init__(self, sectionType: str, name: str, n: int):
-        self.lines = [] # type: List[SectionLine]
+        self.lines = [] 
         self.sectionType = sectionType
         self.name = name
         self.n = n

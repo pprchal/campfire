@@ -8,14 +8,14 @@ from project.core.Song import Song
 
 class Parser:
     def __init__(self, choStream, config: Config):
+        self.section_to_close = None
         self.config = config
         self.choStream = choStream
         self.sectionRE = re.compile('{([\\w\\d]+)(:\\s?[\\w\\d\\s/%,-]+)?}', re.UNICODE)
         self.chordRE = re.compile('(\\[[A-Za-z0-9\\+\\-/\\s#]*\\])', re.UNICODE)
         self.unsupported_keys = {
-            'new_song', 
-            'ns',
-            'new_physical_page',
+            'new_song', 'ns',
+            'new_physical_page', 'npp'
             'comment',
             'comment_italic',
             'comment_box',
@@ -56,13 +56,15 @@ class Parser:
                 chord = token[1:len(token) - 1].strip()
                 if chord == '':
                     # repeat
+                    sectionLine.measures.append(Measure('', chord, True))
                     chord = '⦁'
+                else:
+                    sectionLine.measures.append(Measure('', chord, False))
 
-                sectionLine.measures.append(Measure('', chord))
                 n = len(sectionLine.measures) - 1 
             else:
                 if n == -1:
-                    sectionLine.measures.append(Measure.createEmpty())
+                    sectionLine.measures.append(Measure.create_empty())
                     n = 0
 
                 lyrics = token
@@ -91,14 +93,14 @@ class Parser:
         # handle {key: value} lines
         x = 0
         for x, match in enumerate(self.sectionRE.finditer(line), start=1):
-            self.processMatch(match, song, n)
+            self.process_match(match, song, n)
 
         # line within section
         if x == 0: 
             song.addLineToCurrentSection(self.parseSectionLine(line, n))
 
 
-    def processMatch(self, match, song: Song, n:int):
+    def process_match(self, match, song: Song, n:int):
         """
         process match within line
         """
@@ -121,9 +123,16 @@ class Parser:
         # value can be None
         isBlock, createSection, sectionType = self.analyzeBlockAction(key)
         if isBlock:
+            if self.section_to_close is not None:
+                if sectionType == self.section_to_close.sectionType:
+                    self.section_to_close = None
+                    return
+                else:
+                    raise('Not closed section {} at line: {}'.format(self.section_to_close.sectionType, n))
+                
             # analyzed as block... add or reuse
             if createSection:
-                song.openNewSection(sectionType, value)
+                self.section_to_close = song.open_new_section(sectionType, value)
         else:
             # this is metadata
             song.addMeta(key, value)
