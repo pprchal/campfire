@@ -16,11 +16,12 @@ class ParserFullTests(BaseTest):
             "title" : "Černá kára",
             "artist" :"Josef Kainar",
             "time": "4/4",
-            "tempo": "120"
+            "tempo": "120",
+            "columns": "3"
         }, song.metadata))
 
         self.assertFalse('end_of_verse' in song.metadata.keys())
-        self.assertEqual(5, len(song.sections))
+        self.assertEqual(3, len(song.sections))
         self.assertEqual(18, song.sections[0].getRenderableLinesCount())
 
 

@@ -60,9 +60,9 @@ class Song:
 
     def addLineToCurrentSection(self, line: str):
         if self.getCurrentSection() == None:
-            self.openNewSection('verse', '')
+            self.open_new_section('verse', '')
         elif self.getCurrentSection().sectionType == 'new_page':
-            self.openNewSection('verse', '')
+            self.open_new_section('verse', '')
 
         self.getCurrentSection().lines.append(line)
 
