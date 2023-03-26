@@ -23,6 +23,7 @@ class PdfRenderer(BaseRenderer):
         self.xSpace = 0
         self.rowHeight = 0
 
+
     def render_song(self):
         """
         render song in one reusable html block 
@@ -36,6 +37,7 @@ class PdfRenderer(BaseRenderer):
 
             self.render_section(self.song.sections[self.section])
         return self.pdf.output('', 'S').encode("latin1")
+    
     
     def create_pdf(self):
         """
@@ -131,6 +133,7 @@ class PdfRenderer(BaseRenderer):
         self.render_metadata()
         self.y = self.calculate_start_y()
 
+
     def max_y(self):
         return 200
 
@@ -158,15 +161,16 @@ class PdfRenderer(BaseRenderer):
             self.log('Line[{}]: [{}]'.format(n, line.linePosition))
             self.render_section_line(line)
 
-            # too many lines - wrap to next column
+
             if self.y > self.max_y():
+                # too many lines - wrap to next column
+                if self.section + 1 == len(self.song.sections):
+                    return
                 self.y = self.calculate_start_y()
                 self.next_column()
                 self.handle_possible_overflow()
 
-        self.log('----------------------')
 
-    
     def render_section_title(self, section: Section):
         """
         render section title
@@ -175,10 +179,12 @@ class PdfRenderer(BaseRenderer):
         self.y = self.y + self.rowHeight
         self.row = self.row + 1
 
+
     def max_rows(self):
         # todo: compute by page & font
         # step 1 - refactored out from config
         return 24
+
 
     def is_widow(self, section : Section):
         """
@@ -256,7 +262,6 @@ class PdfRenderer(BaseRenderer):
         self.handle_possible_overflow()
 
 
-
     def handle_possible_overflow(self):
         """
         flow of [rows - cols - pages]
@@ -271,15 +276,8 @@ class PdfRenderer(BaseRenderer):
         if self.col >= self.style.columns:
             # owerflow column
             self.y = self.calculate_start_y()
-
-            if self.section + 1 == len(self.song.sections):
-                return
-
             self.add_page_with_title()
             self.log("+PAGE {}".format(self.pdf.page_no()))
-            # if self.section < len(self.song.sections):
-            # else:
-            #     self.warn("OKOKOKOK????")
 
 
     def add_page_with_title(self):
