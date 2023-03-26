@@ -131,8 +131,14 @@ class Parser:
                     raise('Not closed section {} at line: {}'.format(self.section_to_close.sectionType, n))
                 
             # analyzed as block... add or reuse
+            # special non-paired sections
+            if key == 'new_page':
+                song.open_new_section(key, value)
+                return
+                        
             if createSection:
                 self.section_to_close = song.open_new_section(sectionType, value)
+                return
         else:
             # this is metadata
             song.addMeta(key, value)

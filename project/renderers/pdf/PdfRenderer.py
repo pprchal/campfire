@@ -325,5 +325,10 @@ class PdfRenderer(BaseRenderer):
 
         self.sections = len(self.song.sections)
         for self.section in range(0, len(self.song.sections)):
+            if self.song.sections[self.section].sectionType == "new_page":
+                self.add_page_with_title()
+                continue
+
             self.render_section(self.song.sections[self.section])
+
         return self.pdf.output('', 'S').encode("latin1")
