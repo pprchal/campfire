@@ -2,7 +2,7 @@
 
 * Simple songbook ,,typesetting'' system based on format chodpro
 * Gets `.cho` file and renders `.pdf` output.
-* ChordPro to `PDF`, `HTML` and `TXT`
+* ChordPro to `PDF` and `HTML`
 
 ## Recommended ussage:
 1) Run `python main.py mysong.cho` transforms to `mysong.pdf `
@@ -18,7 +18,7 @@ positional arguments:
 
 optional arguments:
   -h, --help       show this help message and exit
-  --format FORMAT  [pdf] html txt
+  --format FORMAT  [pdf] html
 ```
 
 ## Features:
@@ -27,12 +27,11 @@ optional arguments:
 * Keeping great support for KISS principe - just look for example `cho` file
 * Multiplatform - using only python libraries without any native dependencies
 * Great extensibility and modularity - write your own renderer
-* PDF, HTML and TXT formats are supported
+* PDF and HTML formats are supported
 * Ligatures ;)
 
 ### Supported renderers
 * PDF - Primary renderer
-* TXT - Simple, but usefull in some emergency cases
 * HTML - Aspiring to be primary renderer, but there is long way to go(page wrapping)
 
 ## Why another system?
@@ -51,6 +50,8 @@ pip install -r requirements.txt
 ## Planned features
 * Transition to `html` 
 * Enable batch generation
+* Keep it really simple
+* Support for {style:A4L} and {style:A4} lanscape and normal A4
 * ~~Compiled to js - enable run within browser also~~
 
 ## Notes

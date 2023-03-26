@@ -23,7 +23,23 @@ class PdfRenderer(BaseRenderer):
         self.xSpace = 0
         self.rowHeight = 0
 
+    def render_song(self):
+        """
+        render song in one reusable html block 
+        """
+        self.create_pdf()
+        self.add_page_with_title()
 
+        self.sections = len(self.song.sections)
+        for self.section in range(0, len(self.song.sections)):
+            if self.song.sections[self.section].sectionType == "new_page":
+                self.add_page_with_title()
+                continue
+
+            self.render_section(self.song.sections[self.section])
+
+        return self.pdf.output('', 'S').encode("latin1")
+    
     def create_pdf(self):
         """
         create new PDF file
@@ -42,12 +58,6 @@ class PdfRenderer(BaseRenderer):
         self.pdf.set_line_width(self.style.lineWidth)
         self.xSpace = self.pdf.get_string_width('X')
         self.rowHeight = self.getFontByStyle(FontStyles.LYRICS).Height / self.pdf.k
-        self.addPdfMetadata()
-
-    def addPdfMetadata(self):
-        # self.pdf.set_xmp_metadata()
-        # title = self.song.getMeta('title')
-        pass
 
     def load_ttf_font(self, fontName: str):
         """
@@ -316,19 +326,4 @@ class PdfRenderer(BaseRenderer):
         self.setColor(self.style.black)
 
 
-    def render_song(self):
-        """
-        render song in one reusable html block 
-        """
-        self.create_pdf()
-        self.add_page_with_title()
 
-        self.sections = len(self.song.sections)
-        for self.section in range(0, len(self.song.sections)):
-            if self.song.sections[self.section].sectionType == "new_page":
-                self.add_page_with_title()
-                continue
-
-            self.render_section(self.song.sections[self.section])
-
-        return self.pdf.output('', 'S').encode("latin1")

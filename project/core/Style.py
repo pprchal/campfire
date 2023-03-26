@@ -1,7 +1,5 @@
-import yaml
 from project.core.Song import Song
 from project.core.Config import Config
-
 
 class Style:
     def __init__(self, config : Config):
@@ -9,6 +7,7 @@ class Style:
         defaults
         """
         self.config = config
+        self.style_name = "style"
 
     @property
     def lineWidth(self):
@@ -28,7 +27,7 @@ class Style:
     
     @property
     def columns(self):
-        return int(self.config.getProperty('style.columns'))
+        return int(self.config.getProperty(f'{self.style_name}.columns'))
 
     @columns.setter
     def columns(self, value : int):
@@ -74,7 +73,6 @@ class Style:
         render_metadata_keys = song.getMeta('render_metadata_keys')
         if not render_metadata_keys == None:
             self.config.setProperty('style.renderMetadataKeys', render_metadata_keys.split(','))
-
 
     @classmethod
     def buildFrom(cls, config : Config, song : Song):
