@@ -1,8 +1,9 @@
 # Campfire - chordpro python
 
-* Simple songbook ,,typesetting'' system based on format chodpro
-* Gets `.cho` file and renders `.pdf` output.
-* ChordPro to `PDF` and `HTML`
+Simple songbook ,,typesetting'' ,,system'' rendering  chodpro files
+> `python campfire.py ~/MySong.cho`
+
+![](Screenshot_20230329_184859.png)
 
 ## Recommended ussage:
 1) Run `python main.py mysong.cho` transforms to `mysong.pdf `
@@ -27,18 +28,18 @@ optional arguments:
 * Keeping great support for KISS principe - just look for example `cho` file
 * Multiplatform - using only python libraries without any native dependencies
 * Great extensibility and modularity - write your own renderer
-* PDF and HTML formats are supported
+* **PDF** and HTML formats are supported
 * Ligatures ;)
 
 ### Supported renderers
 * PDF - Primary renderer
-* HTML - Aspiring to be primary renderer, but there is long way to go(page wrapping)
+* HTML - ~~Aspiring to be primary renderer, but there is long way to go(page wrapping)~~ maybe for multiple songs
 
 ## Why another system?
 * `lilypond` - perfect typesetting but doesn't work well simple songs
-* `chordpro` is old and weird. Update: I'm not able to run version 6 on manjaro.
+* `chordpro` is old and ... perl. Update: I'm not able to run version 6 on manjaro.
 * `musescore` - typesetting is perfect, MIDI support is perfect, ... use this if you want more features
-* `tex - packages` - overhelming complexity for single sheet with poor UTF8 support 
+* `tex - packages` - overhelming complexity for single sheet with ~~poor~~ lack of UTF8 support 
 
 # Developing & hacking
 
@@ -48,13 +49,10 @@ pip install -r requirements.txt
 ```
 
 ## Planned features
-* Transition to `html` 
-* Enable batch generation
 * Keep it really simple
 * Support for {style:A4L} and {style:A4} lanscape and normal A4
-* ~~Compiled to js - enable run within browser also~~
 
-## Notes
+## Tests
 ```
 python -m unittest discover -s tests
 ```
