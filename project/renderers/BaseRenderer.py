@@ -21,7 +21,7 @@ class BaseRenderer:
         """
         merged style from config and song
         """
-        if self._style == None:
+        if self._style is None:
             self._style = Style.buildFrom(self.config, self.song)
         return self._style
 
